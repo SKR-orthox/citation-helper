@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>PubMed 인용 도우미</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 10px;
+
+      width: 320px;
+      max-width: 320px;
+
+      max-height: 1000vh;
+      box-sizing: border-box;
+    }
+
+    #container {
+      border: 2px solid #000;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    #generateBtn, #copyBtn {
+      width: 100%;
+      padding: 6px 0;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+
+    #styleRow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .style-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    #citationBox {
+      border: 2px solid #000;
+      padding: 6px;
+      font-size: 12px;
+      white-space: pre-wrap;
+
+      height: 40vh;
+      max-height: 40vh;
+
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      word-break: break-word;
+
+      margin-bottom: 6px;
+      box-sizing: border-box;
+    }
+
+    #status {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <button id="generateBtn">인용 불러오기</button>
+
+    <div id="styleRow">
+      <span>형식:</span>
+      <label class="style-option">
+        <input type="radio" name="style" id="styleVancouver" value="vancouver" checked>
+        <span>Vancouver</span>
+      </label>
+      <label class="style-option">
+        <input type="radio" name="style" id="styleReport" value="report">
+        <span>보고서 형식</span>
+      </label>
+    </div>
+
+    <div id="citationBox">요 안에 참고문헌 형식으로 표시</div>
+    <div id="status"></div>
+    <button id="copyBtn">복사하기</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

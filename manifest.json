@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "PubMed Citation Helper",
+  "version": "1.0",
+  "description": "PubMed 논문에서 깔끔한 참고문헌 인용을 만들어 복사합니다.",
+  "browser_action": {
+    "default_title": "논문 인용 만들기",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "clipboardWrite"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://pubmed.ncbi.nlm.nih.gov/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
