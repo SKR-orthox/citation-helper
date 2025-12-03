@@ -9,11 +9,22 @@
   },
   "permissions": [
     "activeTab",
-    "clipboardWrite"
+    "clipboardWrite",
+    "*://pubmed.ncbi.nlm.nih.gov/*",
+    "*://scholar.google.com/*",
+    "*://www.webofscience.com/*",
+    "*://www.scopus.com/*",
+    "*://www.nature.com/*"
   ],
   "content_scripts": [
     {
-      "matches": ["*://pubmed.ncbi.nlm.nih.gov/*"],
+      "matches": [
+        "*://pubmed.ncbi.nlm.nih.gov/*",
+        "*://scholar.google.com/*",
+        "*://www.webofscience.com/*",
+        "*://www.scopus.com/*",
+        "*://www.nature.com/*"
+      ],
       "js": ["content-script.js"],
       "run_at": "document_end"
     }
