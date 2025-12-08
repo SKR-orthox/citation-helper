@@ -120,33 +120,34 @@ function renderCitation() {
   setCitation(formatted, true);
 }
 
-async function requestCitation() {
-  try {
-    const tabs = await api.tabs.query({ active: true, currentWindow: true });
-    const tab = tabs[0];
+function requestCitation() {
+  api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const tab = tabs && tabs[0];
     if (!tab) {
       setCitation("논문 감지 불가", false);
       return;
     }
 
-    const response = await api.tabs.sendMessage(tab.id, {
-      type: "GET_CITATION_DATA"
+    api.tabs.sendMessage(tab.id, { type: "GET_CITATION_DATA" }, (response) => {
+      // 크롬에서 content-script가 없거나 에러일 때를 대비
+      if (api.runtime && api.runtime.lastError) {
+        console.error("[PCH popup] sendMessage error:", api.runtime.lastError);
+        currentData = null;
+        setCitation("논문 감지 불가", false);
+        return;
+      }
+
+      console.log("[PCH popup] response:", response);
+
+      if (response && response.ok && response.data) {
+        currentData = response.data;
+        renderCitation();
+      } else {
+        currentData = null;
+        setCitation("논문 감지 불가", false);
+      }
     });
-
-    console.log("[PCH popup] response:", response);
-
-    if (response && response.ok && response.data) {
-      currentData = response.data;
-      renderCitation();
-    } else {
-      currentData = null;
-      setCitation("논문 감지 불가", false);
-    }
-  } catch (e) {
-    console.error("[PCH popup] sendMessage error:", e);
-    currentData = null;
-    setCitation("논문 감지 불가", false);
-  }
+  });
 }
 
 generateBtn.addEventListener("click", () => {
@@ -155,9 +156,14 @@ generateBtn.addEventListener("click", () => {
 
 copyBtn.addEventListener("click", () => {
   if (!canCopy || !currentCitation) return;
-  navigator.clipboard.writeText(currentCitation).catch(err => {
-    console.error("[PCH popup] clipboard error:", err);
-  });
+  navigator.clipboard.writeText(currentCitation)
+    .then(() => {
+      statusEl.textContent = "클립보드로 복사됨";
+    })
+    .catch(err => {
+      console.error("[PCH popup] clipboard error:", err);
+      statusEl.textContent = "복사에 실패했습니다";
+    });
 });
 
 styleVancouver.addEventListener("change", () => {
