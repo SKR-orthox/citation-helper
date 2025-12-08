@@ -3,36 +3,54 @@
   "name": "PubMed Citation Helper",
   "version": "1.0",
   "description": "PubMed 논문에서 깔끔한 참고문헌 인용을 만들어 복사합니다.",
+
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "128": "icon128.png"
+  },
+
   "browser_action": {
     "default_title": "논문 인용 만들기",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "128": "icon128.png"
+    }
   },
+
   "permissions": [
-  "activeTab",
-  "clipboardWrite",
-  "*://pubmed.ncbi.nlm.nih.gov/*",
-  "*://scholar.google.com/*",
-  "*://www.webofscience.com/*",
-  "*://www.scopus.com/*",
-  "*://www.nature.com/*",
-  "*://www.sciencedirect.com/*",
-  "*://www.cell.com/*",
-  "*://www.thelancet.com/*"
-],
-"content_scripts": [
-  {
-    "matches": [
-      "*://pubmed.ncbi.nlm.nih.gov/*",
-      "*://scholar.google.com/*",
-      "*://www.webofscience.com/*",
-      "*://www.scopus.com/*",
-      "*://www.nature.com/*",
-      "*://www.sciencedirect.com/*",
-      "*://www.cell.com/*",
-      "*://www.thelancet.com/*"
-    ],
-    "js": ["content-script.js"],
-    "run_at": "document_end"
-  }
+    "activeTab",
+    "clipboardWrite",
+    "*://pubmed.ncbi.nlm.nih.gov/*",
+    "*://scholar.google.com/*",
+    "*://www.webofscience.com/*",
+    "*://www.scopus.com/*",
+    "*://www.nature.com/*",
+    "*://www.sciencedirect.com/*",
+    "*://www.cell.com/*",
+    "*://www.thelancet.com/*",
+    "*://link.springer.com/*",
+    "*://*.wiley.com/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://pubmed.ncbi.nlm.nih.gov/*",
+        "*://scholar.google.com/*",
+        "*://www.webofscience.com/*",
+        "*://www.scopus.com/*",
+        "*://www.nature.com/*",
+        "*://www.sciencedirect.com/*",
+        "*://www.cell.com/*",
+        "*://www.thelancet.com/*",
+        "*://link.springer.com/*",
+        "*://*.wiley.com/*"
+      ],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
   ]
 }

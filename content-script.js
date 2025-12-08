@@ -65,17 +65,26 @@ function cleanAuthorName(raw) {
 
   let name = raw.replace(/\s+/g, " ").trim();
 
-  // 1) 아예 버려야 할 것들 (Google Scholar 같은 링크 텍스트)
   const lower = name.toLowerCase();
-  if (lower.includes("google scholar") || lower.includes("mendeley")) {
+  // 메뉴/서비스 텍스트들 걸러내기
+  const bannedFragments = [
+    "google scholar",
+    "mendeley",
+    "publish with us",
+    "publish your research",
+    "reprints and permissions",
+    "author information",
+    "language editing",
+    "search for more papers"
+  ];
+  if (bannedFragments.some(k => lower.includes(k))) {
     return "";
   }
 
-  // 2) 숫자나 특수기호(각주, 메일 아이콘 등)가 나오기 전까지만 사용
-  //    예: "Felipe Opazo 4 5 6 8 @" -> "Felipe Opazo"
+  // 숫자/각주/메일 아이콘 같은 것 나오기 전까지만 사용
   name = name.split(/[\d*@†‡]/)[0].trim();
 
-  // 3) 끝에 붙은 ,. 등 정리
+  // 끝에 붙은 . , ; : 정리
   name = name.replace(/[.,;:]+$/g, "").trim();
 
   return name;
@@ -154,197 +163,230 @@ function extractFromNature(doc) {
 // 4. WOS, Scopus, Google Scholar, ScienceDirect 등 공용 추출 함수
 // ----------------------------------------------------
 function extractGeneral(doc) {
-    // 1) JSON-LD 우선
-    let { title: jsonLdTitle, authors: jsonLdAuthors } = extractFromJSONLD(doc);
+  const hostname = location.hostname || "";
+  const isWiley = hostname.includes("wiley.com");
 
-    // 2) 메타 태그 기반 저자들
-    const metaAuthors       = getMetas(doc, "citation_author");
-    const dcAuthorsUpper    = getMetas(doc, "DC.Creator");
-    const dcAuthorsLower1   = getMetas(doc, "dc.Creator");
-    const dcAuthorsLower2   = getMetas(doc, "dc.creator");
-    const simpleMetaAuthor  = getMeta(doc, "author"); // 일부 사이트에서 한 명만 넣는 경우
+  // 1) JSON-LD ...
+  let { title: jsonLdTitle, authors: jsonLdAuthors } = extractFromJSONLD(doc);
 
-    // 3) DOM에서 저자 텍스트를 한 번 더 시도 (ScienceDirect 포함)
-    let domAuthors = [];
+  // 2) 메타 태그들
+  const metaAuthors       = getMetas(doc, "citation_author");
+  const dcAuthorsUpper    = getMetas(doc, "DC.Creator");
+  const dcAuthorsLower1   = getMetas(doc, "dc.Creator");
+  const dcAuthorsLower2   = getMetas(doc, "dc.creator");
+  const simpleMetaAuthor  = getMeta(doc, "author");
+
+  // 3) DOM 저자: Wiley는 제외
+  let domAuthors = [];
+  if (!isWiley) {
     const authorSelectors = [
-        'a[data-aa-name="author-name"]',
-        'a.author',
-        'span.authorName',
-        // ScienceDirect 계열: 상단 저자 링크들 전체를 포괄
-        'a[href*="/science/article/pii/"][aria-label*="author"]',
-        'a[href*="author"]'
+      'a[data-aa-name="author-name"]',
+      'a.author',
+      'span.authorName',
+      'a[href*="/science/article/pii/"][aria-label*="author"]',
+      'a[href*="author"]'
     ];
-
     for (const sel of authorSelectors) {
-        const els = Array.from(doc.querySelectorAll(sel));
-        if (els.length > 0) {
-            domAuthors = els.map(el => el.textContent.trim()).filter(Boolean);
-            if (domAuthors.length > 0) break;
-        }
+      const els = Array.from(doc.querySelectorAll(sel));
+      if (els.length > 0) {
+        domAuthors = els.map(el => el.textContent.trim()).filter(Boolean);
+        if (domAuthors.length > 0) break;
+      }
     }
+  }
 
-    // 최종 저자 목록: JSON-LD + 다양한 meta + DOM 추출 결과 합치기
-    const finalAuthors = [
-        ...new Set([
-            ...jsonLdAuthors,
-            ...metaAuthors,
-            ...dcAuthorsUpper,
-            ...dcAuthorsLower1,
-            ...dcAuthorsLower2,
-            ...(simpleMetaAuthor ? [simpleMetaAuthor] : []),
-            ...domAuthors
-        ])
-    ].filter(Boolean);
+  const finalAuthors = [
+    ...new Set([
+      ...jsonLdAuthors,
+      ...metaAuthors,
+      ...dcAuthorsUpper,
+      ...dcAuthorsLower1,
+      ...dcAuthorsLower2,
+      ...(simpleMetaAuthor ? [simpleMetaAuthor] : []),
+      ...domAuthors
+    ])
+  ].filter(Boolean);
 
-    // 저자 이름 클린업 (숫자, 아이콘, Google Scholar 등 제거)
-    const cleanedAuthors = [
+  const cleanedAuthors = [
     ...new Set(
-        finalAuthors
+      finalAuthors
         .map(cleanAuthorName)
         .filter(Boolean)
     )
-    ];
+  ];
 
-    // 4) 제목
-    const metaTitle = getMeta(doc, "citation_title");
-    const dcTitle   = getMeta(doc, "DC.title");
-    const domTitle  =
-        doc.querySelector("h1")?.textContent.trim() ||
-        doc.querySelector("h2")?.textContent.trim() ||
-        "";
+  // 4) 제목
+  const metaTitle = getMeta(doc, "citation_title");
+  const dcTitle   = getMeta(doc, "DC.title");
+  const domTitle  =
+    doc.querySelector("h1")?.textContent.trim() ||
+    doc.querySelector("h2")?.textContent.trim() ||
+    "";
 
-    const title = jsonLdTitle || metaTitle || dcTitle || domTitle;
+  const title = jsonLdTitle || metaTitle || dcTitle || domTitle;
 
-    // 5) 저널명
-    const journalFull =
-        getMeta(doc, "citation_journal_title") ||
-        getMeta(doc, "PRISM.publicationName") ||
-        "";
-    const journalAbbrev = getMeta(doc, "citation_journal_abbrev");
+  // 5) 저널명
+  const journalFull =
+    getMeta(doc, "citation_journal_title") ||
+    getMeta(doc, "PRISM.publicationName") ||
+    getMeta(doc, "prism.publicationName") ||
+    "";
+  const journalAbbrev = getMeta(doc, "citation_journal_abbrev");
 
-    // 6) 연도 (ScienceDirect에서 자주 쓰는 패턴들을 다 시도 + 마지막에 본문에서 숫자 뽑기)
-    const year =
-        getMeta(doc, "citation_year") ||
-        (getMeta(doc, "citation_date") || "").substring(0, 4) ||
-        (getMeta(doc, "citation_publication_date") || "").substring(0, 4) ||
-        (getMeta(doc, "citation_online_date") || "").substring(0, 4) ||
-        (getMeta(doc, "DC.Date") || "").substring(0, 4) ||
-        (getMeta(doc, "dc.date") || "").substring(0, 4) ||
-        // 마지막 수단: 본문에서 19xx 또는 20xx를 하나 찾아서 사용
-        ((doc.body.textContent.match(/\b(19|20)\d{2}\b/) || [])[0] || "");
+  // 6) 연도 (Springer/Wiley 메타까지 포함)
+  const year =
+    getMeta(doc, "citation_year") ||
+    (getMeta(doc, "citation_date") || "").substring(0, 4) ||
+    (getMeta(doc, "citation_publication_date") || "").substring(0, 4) ||
+    (getMeta(doc, "citation_online_date") || "").substring(0, 4) ||
+    (getMeta(doc, "prism.publicationDate") || "").substring(0, 4) ||
+    (getMeta(doc, "DC.Date") || "").substring(0, 4) ||
+    (getMeta(doc, "dc.date") || "").substring(0, 4) ||
+    ((doc.body.textContent.match(/\b(19|20)\d{2}\b/) || [])[0] || "");
 
-    // 7) 페이지 / 권 / 호
-    const firstPage = getMeta(doc, "citation_firstpage");
-    const lastPage  = getMeta(doc, "citation_lastpage");
-    const pages =
-        firstPage && lastPage
-            ? `${firstPage}-${lastPage}`
-            : (firstPage || "");
+  // 7) 페이지 / 권 / 호
+  const firstPageMeta = getMeta(doc, "citation_firstpage");
+  const lastPageMeta  = getMeta(doc, "citation_lastpage");
+  const prismStart    = getMeta(doc, "prism.startingPage");
+  const prismEnd      = getMeta(doc, "prism.endingPage");
 
-    const volume = getMeta(doc, "citation_volume");
-    const issue  = getMeta(doc, "citation_issue");
+  const firstPage = firstPageMeta || prismStart || "";
+  const lastPage  = lastPageMeta || prismEnd || "";
 
-    return {
-        authors: cleanedAuthors,
-        title,
-        journalFull,
-        journalAbbrev,
-        year,
-        volume,
-        issue,
-        pages,
-        pmid: getMeta(doc, "citation_pmid")
-    };
+  const pages =
+    firstPage && lastPage ? `${firstPage}-${lastPage}` :
+    firstPage || "";
+
+  const volume = getMeta(doc, "citation_volume") || getMeta(doc, "prism.volume");
+  const issue  = getMeta(doc, "citation_issue")  || getMeta(doc, "prism.number");
+
+  // 🔹 여기서 반드시 객체를 반환해야 함
+  return {
+    authors: cleanedAuthors,
+    title,
+    journalFull,
+    journalAbbrev,
+    year,
+    volume,
+    issue,
+    pages,
+    pmid: getMeta(doc, "citation_pmid")
+  };
 }
-
 
 // ----------------------------------------------------
 // 5. 메인 데이터 구축 로직 (도메인 분기)
 // ----------------------------------------------------
 
 function buildCitationData() {
-    const doc = document;
-    let data;
-    const hostname = location.hostname;
+  const doc = document;
+  let data;
+  const hostname = location.hostname;
+  let errorCode = null;
 
-    if (hostname.includes("pubmed.ncbi.nlm.nih.gov")) {
-        data = extractFromPubMed(doc);
-    } else if (hostname.includes("nature.com")) {
-        data = extractFromNature(doc);
-    } else if (
-        hostname.includes("scholar.google.com") ||
-        hostname.includes("webofscience.com") ||
-        hostname.includes("scopus.com") ||
-        hostname.includes("sciencedirect.com") ||   // Elsevier
-        hostname.includes("cell.com") ||            // Cell Press
-        hostname.includes("thelancet.com")          // The Lancet
-    ) {
-        data = extractGeneral(doc);
-    } else {
-        return null;
-    }
+  if (hostname.includes("pubmed.ncbi.nlm.nih.gov")) {
+    data = extractFromPubMed(doc);
+  } else if (hostname.includes("nature.com")) {
+    data = extractFromNature(doc);
+  } else if (
+    hostname.includes("scholar.google.com") ||
+    hostname.includes("webofscience.com") ||
+    hostname.includes("scopus.com") ||
+    hostname.includes("sciencedirect.com") ||     // Elsevier
+    hostname.includes("cell.com") ||              // Cell Press
+    hostname.includes("thelancet.com") ||         // The Lancet
+    hostname.includes("link.springer.com") ||     // SpringerLink
+    hostname.includes("wiley.com")  // Wiley
+  ) {
+    data = extractGeneral(doc);
+  } else {
+    // 아예 지원하지 않는 사이트
+    errorCode = "UNSUPPORTED_SITE";
+    return { errorCode };
+  }
 
-    // ---------- 여기부터 추가 / 수정 ----------
     const isScienceDirect = hostname.includes("sciencedirect.com");
 
-    // 디버그용 로그 (한 번 찍어보기)
     console.log("[PCH] Raw citation data:", hostname, data);
 
-    // 필수 필드 체크 (도메인별 기준 분리)
+    // 타이틀이 없으면 거의 논문이 아닌 페이지로 판단
     if (!data || !data.title) {
         console.warn("[PCH] No title, giving up.", hostname, data);
-        return null;
+        errorCode = "NO_ARTICLE";
+        return { errorCode };
     }
 
-    // ScienceDirect 말고는 기존 기준 그대로
+    // ScienceDirect만 예외, 나머지는 저자+연도 필수
     if (!isScienceDirect) {
         if (!data.authors || data.authors.length === 0 || !data.year) {
-            console.warn("[PCH] Final check failed (non-ScienceDirect).", hostname, data);
-            return null;
+        console.warn("[PCH] Final check failed (non-ScienceDirect).", hostname, data);
+
+        // 동적 로딩/로그인 의존 사이트는 따로 표시
+        if (
+            hostname.includes("webofscience.com") ||
+            hostname.includes("scopus.com") ||
+            hostname.includes("scholar.google.com")
+        ) {
+            errorCode = "DYNAMIC_SITE";
+        } else {
+            errorCode = "NO_ARTICLE";
+        }
+
+        return { errorCode };
         }
     }
-    // ScienceDirect는 일단 제목만 있으면 통과시킴
-    // (저자/연도는 있으면 쓰고, 없으면 빈 값인 채로 넘어감)
 
-    // 최종 데이터 객체 구성 (누락 필드는 빈 문자열로)
-    const pagesStr = (data.pages || "").toString();
-    const [fp = "", lp = ""] = pagesStr.split("-");
+  const pagesStr = (data.pages || "").toString();
+  const [fp = "", lp = ""] = pagesStr.split("-");
 
-    return {
-        authors: data.authors || [],
-        title: data.title || "",
-        journalFull: data.journalFull || "",
-        journalAbbrev: data.journalAbbrev || "",
-        year: data.year || "",
-        volume: data.volume || "",
-        issue: data.issue || "",
-        firstPage: fp,
-        lastPage: lp,
-        pmid: data.pmid || ""
-    };
+  return {
+    authors: data.authors || [],
+    title: data.title || "",
+    journalFull: data.journalFull || "",
+    journalAbbrev: data.journalAbbrev || "",
+    year: data.year || "",
+    volume: data.volume || "",
+    issue: data.issue || "",
+    firstPage: fp,
+    lastPage: lp,
+    pmid: data.pmid || "",
+    errorCode: null
+  };
 }
 
 // ----------------------------------------------------
 // 6. 메시지 리스너와 재시도 로직 (유지)
 // ----------------------------------------------------
 
-function sendData(data, sendResponse) {
-    sendResponse(data ? { ok: true, data } : { ok: false });
+function sendData(result, sendResponse) {
+  if (result && !result.errorCode) {
+    // 정상적으로 citation 데이터를 얻은 경우
+    sendResponse({ ok: true, data: result });
+  } else {
+    // 실패한 경우 (UNSUPPORTED_SITE, NO_ARTICLE, DYNAMIC_SITE 등)
+    sendResponse({
+      ok: false,
+      errorCode: result && result.errorCode ? result.errorCode : "UNKNOWN_ERROR"
+    });
+  }
 }
 
 api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg?.type === "GET_CITATION_DATA") {
     let data = buildCitationData();
-    
+    const hostname = location.hostname;
+
     // 재시도 로직: 1초 후 재시도
     if (
-      !data &&
+      (!data || data.errorCode === "NO_ARTICLE") &&   // 논문 감지를 못했을 때만 재시도
       (
-        location.hostname.includes("webofscience.com") ||
-        location.hostname.includes("scopus.com") ||
-        location.hostname.includes("scholar.google.com") ||
-        location.hostname.includes("nature.com") ||
-        location.hostname.includes("sciencedirect.com")   // ← 여기만 추가
+        hostname.includes("webofscience.com") ||
+        hostname.includes("scopus.com") ||
+        hostname.includes("scholar.google.com") ||
+        hostname.includes("nature.com") ||
+        hostname.includes("sciencedirect.com") ||
+        hostname.includes("link.springer.com") ||
+        hostname.includes("onlinelibrary.wiley.com")
       )
     ) {
       setTimeout(() => {
@@ -352,9 +394,9 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         data = buildCitationData();
         sendData(data, sendResponse);
       }, 1000);
-      return true; 
+      return true;
     }
-    
+
     sendData(data, sendResponse);
     return true; 
   }
