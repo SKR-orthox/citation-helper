@@ -29,12 +29,26 @@
       cursor: pointer;
     }
 
+    #topRow {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
     #styleRow {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
       font-size: 12px;
-      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .style-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
@@ -43,6 +57,16 @@
       align-items: center;
       gap: 4px;
       cursor: pointer;
+    }
+
+    .lang-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    #langSelect {
+      font-size: 12px;
     }
 
     #citationBox {
@@ -72,18 +96,30 @@
 </head>
 <body>
   <div id="container">
-    <button id="generateBtn">인용 불러오기</button>
+    <div id="topRow">
+      <div id="styleRow">
+        <div class="style-group">
+          <span id="styleLabel">형식:</span>
+          <label class="style-option">
+            <input type="radio" name="style" id="styleVancouver" value="vancouver" checked>
+            <span id="labelVancouver">Vancouver</span>
+          </label>
+          <label class="style-option">
+            <input type="radio" name="style" id="styleReport" value="report">
+            <span id="labelReport">보고서 형식</span>
+          </label>
+        </div>
+        <div class="lang-group">
+          <span id="langLabel">언어:</span>
+          <select id="langSelect">
+            <option value="ko" selected>한국어</option>
+            <option value="ja">日本語</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
 
-    <div id="styleRow">
-      <span>형식:</span>
-      <label class="style-option">
-        <input type="radio" name="style" id="styleVancouver" value="vancouver" checked>
-        <span>Vancouver</span>
-      </label>
-      <label class="style-option">
-        <input type="radio" name="style" id="styleReport" value="report">
-        <span>보고서 형식</span>
-      </label>
+      <button id="generateBtn">인용 불러오기</button>
     </div>
 
     <div id="citationBox">요 안에 참고문헌 형식으로 표시</div>
