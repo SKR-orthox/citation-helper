@@ -21,6 +21,7 @@
   },
 
   "permissions": [
+    "storage",
     "activeTab",
     "clipboardWrite",
     "*://pubmed.ncbi.nlm.nih.gov/*",

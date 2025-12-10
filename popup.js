@@ -1,6 +1,7 @@
 // popup.js
 
 const api = typeof browser !== "undefined" ? browser : chrome;
+console.log("[PCH] popup loaded");
 
 const citationBox   = document.getElementById("citationBox");
 const generateBtn   = document.getElementById("generateBtn");
@@ -363,6 +364,8 @@ styleReport.addEventListener("change", () => {
 
 langSelect.addEventListener("change", () => {
   currentLang = langSelect.value || "en";
+  api.storage.local.set({ uiLanguage: currentLang });
+
   applyLanguage();
   // 인용이 이미 있다면, 형식은 같지만 언어에 맞춰 메시지만 자연스럽게 유지
   if (currentData && canCopy && currentCitation) {
@@ -372,7 +375,16 @@ langSelect.addEventListener("change", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   currentStyleKey = styleVancouver.checked ? "vancouver" : "report";
-  currentLang = langSelect.value || "en";
-  applyLanguage();
-  requestCitation();
+
+  // 🔹 저장된 언어 불러오기
+  api.storage.local.get("uiLanguage", (data) => {
+    // 저장된 값이 있으면 그걸 쓰고, 없으면 기존 select 값이나 en 사용
+    const savedLang = data.uiLanguage || langSelect.value || "en";
+
+    currentLang = savedLang;
+    langSelect.value = savedLang;
+
+    applyLanguage();
+    requestCitation();
+  });
 });
