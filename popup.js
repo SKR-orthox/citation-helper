@@ -33,7 +33,7 @@ const messages = {
     labelStyle:  "형식:",
     labelVancouver: "Vancouver",
     labelReport: "보고서 형식",
-    labelLang: "언어:",
+    labelLang: "Language:",
     btnCopy: "복사하기",
     placeholder: "이곳에 참고문헌 형식으로 표시됩니다",
 
@@ -101,7 +101,7 @@ const messages = {
     labelStyle:  "形式:",
     labelVancouver: "Vancouver",
     labelReport: "レポート形式",
-    labelLang: "言語:",
+    labelLang: "Language:",
     btnCopy: "コピー",
     placeholder: "ここに参考文献形式で表示されます",
 
