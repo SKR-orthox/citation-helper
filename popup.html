@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>PubMed 인용 도우미</title>
+  <title>Multi-Site Citation Helper</title>
   <style>
     * {
       box-sizing: border-box;
@@ -219,7 +219,7 @@
       <img src="icon32.png" alt="Citation Helper Icon">
       <div>
         <div id="header-title">Citation Helper</div>
-        <div id="header-subtitle">PubMed · Nature · Springer 등에서 자동 인용 생성</div>
+        <div id="header-subtitle">Generate citations from PubMed, Nature, Springer, and more</div>
       </div>
     </div>
 
@@ -240,19 +240,19 @@
         <div class="lang-group">
           <span id="langLabel">언어:</span>
           <select id="langSelect">
-            <option value="ko" selected>한국어</option>
+            <option value="en" selected>English</option>
+            <option value="ko">한국어</option>
             <option value="ja">日本語</option>
-            <option value="en">English</option>
           </select>
         </div>
       </div>
 
-      <button id="generateBtn">인용 불러오기</button>
+      <button id="generateBtn">Fetch citation</button>
     </div>
 
-    <div id="citationBox">여기에 참고문헌이 표시됩니다.</div>
+    <div id="citationBox">Citation will be shown here.</div>
     <div id="status"></div>
-    <button id="copyBtn">복사하기</button>
+    <button id="copyBtn">Copy</button>
   </div>
 
   <script src="popup.js"></script>

@@ -21,7 +21,7 @@ let currentCitation = "";
 let currentData = null;
 
 let currentStyleKey = "vancouver";
-let currentLang = "ko";
+let currentLang = "en";
 
 // ------------------------------------------
 // 다국어 메시지
@@ -362,7 +362,7 @@ styleReport.addEventListener("change", () => {
 });
 
 langSelect.addEventListener("change", () => {
-  currentLang = langSelect.value || "ko";
+  currentLang = langSelect.value || "en";
   applyLanguage();
   // 인용이 이미 있다면, 형식은 같지만 언어에 맞춰 메시지만 자연스럽게 유지
   if (currentData && canCopy && currentCitation) {
@@ -372,7 +372,7 @@ langSelect.addEventListener("change", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   currentStyleKey = styleVancouver.checked ? "vancouver" : "report";
-  currentLang = langSelect.value || "ko";
+  currentLang = langSelect.value || "en";
   applyLanguage();
   requestCitation();
 });
