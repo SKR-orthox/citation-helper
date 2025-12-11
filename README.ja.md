@@ -3,7 +3,7 @@
 🌐 利用可能な言語:  
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-PubMed、Google Scholar、Nature、ScienceDirect、Cell Press、The Lancet、SpringerLink、  
+PubMed、Google Scholar、Nature、ScienceDirect、SpringerLink、  
 Wiley Online Library、Web of Science、Scopus などの主要な学術サイトから  
 論文情報を自動で抽出し、引用形式を生成する Firefox 拡張機能です。
 
@@ -28,8 +28,6 @@ UI は **英語 / 韓国語 / 日本語** に対応しています。
 - Google Scholar  
 - Nature  
 - ScienceDirect (Elsevier)  
-- Cell Press  
-- The Lancet  
 - SpringerLink  
 - Wiley Online Library  
 - Web of Science（一部制限あり）  

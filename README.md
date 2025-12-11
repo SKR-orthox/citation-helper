@@ -3,7 +3,7 @@
 🌐 Available Languages:  
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-A Firefox extension that automatically extracts citation information from major academic websites including PubMed, Google Scholar, Nature, ScienceDirect, Cell Press, The Lancet, SpringerLink, Wiley Online Library, Web of Science, and Scopus.
+A Firefox extension that automatically extracts citation information from major academic websites including PubMed, Google Scholar, Nature, ScienceDirect, SpringerLink, Wiley Online Library, Web of Science, and Scopus.
 
 The extension can generate clean citation output in **Vancouver style** or a **report-friendly format**, and supports **English, Korean, and Japanese** UI.
 
@@ -25,8 +25,6 @@ The extension can generate clean citation output in **Vancouver style** or a **r
 - Google Scholar  
 - Nature  
 - ScienceDirect (Elsevier)  
-- Cell Press  
-- The Lancet  
 - SpringerLink  
 - Wiley Online Library  
 - Web of Science (partial support)  

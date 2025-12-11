@@ -30,8 +30,6 @@
     "*://www.scopus.com/*",
     "*://www.nature.com/*",
     "*://www.sciencedirect.com/*",
-    "*://www.cell.com/*",
-    "*://www.thelancet.com/*",
     "*://link.springer.com/*",
     "*://*.wiley.com/*"
   ],
@@ -45,12 +43,17 @@
         "*://www.scopus.com/*",
         "*://www.nature.com/*",
         "*://www.sciencedirect.com/*",
-        "*://www.cell.com/*",
-        "*://www.thelancet.com/*",
-        "*://link.springer.com/*",
         "*://*.wiley.com/*"
       ],
-      "js": ["content-script.js"],
+      "js": [
+        "content-common.js",
+        "content-pubmed.js",
+        "content-nature.js",
+        "content-lancet.js",
+        "content-cell.js",
+        "content-general.js",
+        "content-router.js"
+      ],
       "run_at": "document_end"
     }
   ]
