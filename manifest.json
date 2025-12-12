@@ -5,9 +5,9 @@
   "description": "Automatically generates citations from PubMed, Nature, ScienceDirect, Springer, Wiley, and more.",
 
   "icons": {
-    "16": "icon16.png",
-    "32": "icon32.png",
-    "128": "icon128.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "128": "icons/icon128.png"
   },
 
   "browser_action": {
@@ -46,13 +46,11 @@
         "*://*.wiley.com/*"
       ],
       "js": [
-        "content-common.js",
-        "content-pubmed.js",
-        "content-nature.js",
-        "content-lancet.js",
-        "content-cell.js",
-        "content-general.js",
-        "content-router.js"
+        "content/content-common.js",
+        "content/content-pubmed.js",
+        "content/content-nature.js",
+        "content/content-general.js",
+        "content/content-router.js"
       ],
       "run_at": "document_end"
     }
