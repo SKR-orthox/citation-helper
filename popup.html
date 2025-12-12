@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Multi-Site Citation Helper</title>
+  <title>Citation Helper</title>
   <style>
     * {
       box-sizing: border-box;
@@ -75,26 +75,24 @@
 
     #styleRow {
       display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      font-size: 12px;
-      gap: 4px;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
     }
 
-
     .style-group {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
+      flex: 1;
+      min-width: 0;
+      gap: 4px;
     }
 
     .style-option {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       cursor: pointer;
-      padding: 2px 6px;
+      padding: 2px 5px;
       border-radius: 999px;
       border: 1px solid transparent;
       transition: background 0.15s ease, border-color 0.15s ease;
@@ -110,10 +108,9 @@
     }
 
     .lang-group {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      align-self: flex-end;
+      flex: 0 0 auto;
+      align-self: flex-start;
+      margin-left: 8px;
     }
 
     #styleLabel,
@@ -123,6 +120,14 @@
     }
 
     #langSelect {
+      font-size: 12px;
+      padding: 2px 4px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+    }
+
+    #styleSelect {
       font-size: 12px;
       padding: 2px 4px;
       border-radius: 6px;
@@ -189,17 +194,11 @@
       padding: 8px;
       font-size: 12px;
       white-space: pre-wrap;
-
       height: 360px;
       max-height: 360px;
-
       overflow-y: auto;
       overflow-x: hidden;
       word-break: break-word;
-    }
-
-    #citationBox::placeholder {
-      color: #9ca3af;
     }
 
     /* 상태 메시지 */
@@ -215,11 +214,10 @@
 <body>
   <div id="container">
     <div id="header">
-      <!-- 아이콘 경로는 확장 프로그램 루트 기준 -->
       <img src="icons/icon32.png" alt="Citation Helper Icon">
       <div>
         <div id="header-title">Citation Helper</div>
-        <div id="header-subtitle">Generate citations from PubMed, Nature, Springer, and more</div>
+        <div id="header-subtitle">Generate citations from PubMed (MVP)</div>
       </div>
     </div>
 
@@ -227,14 +225,12 @@
       <div id="styleRow">
         <div class="style-group">
           <span id="styleLabel">형식:</span>
-          <label class="style-option">
-            <input type="radio" name="style" id="styleVancouver" value="vancouver" checked>
-            <span id="labelVancouver">Vancouver</span>
-          </label>
-          <label class="style-option">
-            <input type="radio" name="style" id="styleReport" value="report">
-            <span id="labelReport">보고서 형식</span>
-          </label>
+          <select id="styleSelect">
+            <option value="vancouver" selected>Vancouver</option>
+            <option value="apa7">APA 7th</option>
+            <option value="ieee">IEEE</option>
+            <option value="bibtex">BibTeX</option>
+          </select>
         </div>
 
         <div class="lang-group">
@@ -255,6 +251,11 @@
     <button id="copyBtn">Copy</button>
   </div>
 
+  <script src="formatters/common.js"></script>
+  <script src="formatters/vancouver.js"></script>
+  <script src="formatters/apa7.js"></script>
+  <script src="formatters/ieee.js"></script>
+  <script src="formatters/bibtex.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

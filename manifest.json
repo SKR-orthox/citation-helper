@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Multi-Site Citation Helper",
-  "version": "1.0",
-  "description": "Automatically generates citations from PubMed, Nature, ScienceDirect, Springer, Wiley, and more.",
+  "version": "0.5.0",
+  "description": "Generate citations from PubMed (MVP).",
 
   "icons": {
     "16": "icons/icon16.png",
@@ -24,63 +24,19 @@
     "storage",
     "activeTab",
     "clipboardWrite",
-
-    "*://pubmed.ncbi.nlm.nih.gov/*",
-    "*://scholar.google.com/*",
-    "*://www.webofscience.com/*",
-    "*://www.scopus.com/*",
-    "*://www.nature.com/*",
-    "*://www.sciencedirect.com/*",
-    "*://link.springer.com/*",
-    "*://*.wiley.com/*",
-
-    "*://*.tandfonline.com/*",
-    "*://*.taylorandfrancis.com/*",
-    "*://academic.oup.com/*",
-    "*://*.cambridge.org/*",
-    "*://journals.plos.org/*",
-    "*://*.plos.org/*",
-    "*://koreascience.or.kr/*",
-    "*://www.koreascience.or.kr/*",
-    "*://jstage.jst.go.jp/*",
-    "*://www.jstage.jst.go.jp/*",
-
-    "https://api.crossref.org/*"
+    "*://pubmed.ncbi.nlm.nih.gov/*"
   ],
-    "background": {
-  "scripts": ["background.js"]
+
+  "background": {
+    "scripts": ["background.js"]
   },
 
   "content_scripts": [
     {
-      "matches": [
-        "*://pubmed.ncbi.nlm.nih.gov/*",
-        "*://scholar.google.com/*",
-        "*://www.webofscience.com/*",
-        "*://www.scopus.com/*",
-        "*://www.nature.com/*",
-        "*://www.sciencedirect.com/*",
-        "*://link.springer.com/*",
-        "*://*.wiley.com/*",
-
-        "*://*.tandfonline.com/*",
-        "*://*.taylorandfrancis.com/*",
-        "*://academic.oup.com/*",
-        "*://*.cambridge.org/*",
-        "*://journals.plos.org/*",
-        "*://*.plos.org/*",
-        "*://koreascience.or.kr/*",
-        "*://www.koreascience.or.kr/*",
-        "*://jstage.jst.go.jp/*",
-        "*://www.jstage.jst.go.jp/*"
-      ],
+      "matches": ["*://pubmed.ncbi.nlm.nih.gov/*"],
       "js": [
         "content/content-common.js",
         "content/content-pubmed.js",
-        "content/content-nature.js",
-        "content/content-general.js",
-        "content/content-plos.js",
-        "content/content-tandfonline.js",
         "content/content-router.js"
       ],
       "run_at": "document_end"

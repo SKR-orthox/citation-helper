@@ -1,21 +1,18 @@
-// popup.js
+// popup.js (PubMed MVP)
 
 const api = typeof browser !== "undefined" ? browser : chrome;
 console.log("[PCH] popup loaded");
 
-const citationBox   = document.getElementById("citationBox");
-const generateBtn   = document.getElementById("generateBtn");
-const copyBtn       = document.getElementById("copyBtn");
-const statusEl      = document.getElementById("status");
+const citationBox = document.getElementById("citationBox");
+const generateBtn = document.getElementById("generateBtn");
+const copyBtn = document.getElementById("copyBtn");
+const statusEl = document.getElementById("status");
 
-const styleVancouver = document.getElementById("styleVancouver");
-const styleReport    = document.getElementById("styleReport");
+const styleSelect = document.getElementById("styleSelect");
+const styleLabel = document.getElementById("styleLabel");
 
-const styleLabel      = document.getElementById("styleLabel");
-const labelVancouver  = document.getElementById("labelVancouver");
-const labelReport     = document.getElementById("labelReport");
-const langLabel       = document.getElementById("langLabel");
-const langSelect      = document.getElementById("langSelect");
+const langLabel = document.getElementById("langLabel");
+const langSelect = document.getElementById("langSelect");
 
 let canCopy = false;
 let currentCitation = "";
@@ -27,36 +24,30 @@ let currentLang = "en";
 // ------------------------------------------
 // 다국어 메시지
 // ------------------------------------------
-
 const messages = {
   ko: {
     btnGenerate: "인용 불러오기",
-    labelStyle:  "형식:",
-    labelVancouver: "Vancouver",
-    labelReport: "보고서 형식",
-    labelLang: "Language:",
+    labelStyle: "형식:",
+    labelLang: "언어:",
     btnCopy: "복사하기",
     placeholder: "이곳에 참고문헌 형식으로 표시됩니다",
-
     notDetectedTitle: "논문 감지 불가",
+
+    // style option labels
+    styleVancouver: "Vancouver",
+    styleApa7: "APA 7th",
+    styleIeee: "IEEE",
+    styleBibtex: "BibTeX",
 
     errNoActiveTab: "활성 탭을 찾을 수 없습니다.",
     errExtensionNotActive:
-      "이 탭에서는 확장 프로그램이 동작하지 않습니다.\n논문 상세 페이지인지 확인해 주세요.",
+      "이 탭에서는 확장 프로그램이 동작하지 않습니다.\nPubMed 논문 상세 페이지인지 확인해 주세요.",
     errUnsupported:
-      "지원하지 않는 사이트입니다.\n" +
-      "PubMed, SpringerLink, New Phytologist, Cell, The Lancet 등\n" +
-      "일반적인 저널 사이트에서 사용 가능합니다.",
+      "현재는 PubMed만 지원합니다.\nPubMed 논문 상세 페이지에서 사용해 주세요.",
     errNoArticle:
-      "이 페이지에서 논문 정보를 찾을 수 없습니다.\n" +
-      "논문 상세 페이지인지, 혹은 인용 정보가 보이는 화면인지 확인해 주세요.",
-    errDynamic:
-      "이 사이트는 로그인 또는 동적 로딩에 크게 의존해서\n" +
-      "자동 인용 추출이 어렵습니다.\n" +
-      "해당 사이트 자체의 'Cite' / '인용' 버튼을 이용해 주세요.",
+      "이 페이지에서 논문 정보를 찾을 수 없습니다.\nPubMed 논문 상세 페이지인지 확인해 주세요.",
     errUnknown:
-      "인용 정보를 가져오는 중 알 수 없는 오류가 발생했습니다.\n" +
-      "페이지를 새로고침한 뒤 다시 시도해 보세요.",
+      "인용 정보를 가져오는 중 알 수 없는 오류가 발생했습니다.\n페이지를 새로고침한 뒤 다시 시도해 보세요.",
 
     statusCopied: "클립보드로 복사됨",
     statusCopyFailed: "복사에 실패했습니다"
@@ -64,34 +55,26 @@ const messages = {
 
   en: {
     btnGenerate: "Fetch citation",
-    labelStyle:  "Style:",
-    labelVancouver: "Vancouver",
-    labelReport: "Report style",
+    labelStyle: "Style:",
     labelLang: "Language:",
     btnCopy: "Copy",
     placeholder: "Citation will be shown here.",
-
     notDetectedTitle: "No article detected",
+
+    styleVancouver: "Vancouver",
+    styleApa7: "APA 7th",
+    styleIeee: "IEEE",
+    styleBibtex: "BibTeX",
 
     errNoActiveTab: "Could not find the active tab.",
     errExtensionNotActive:
-      "This extension does not run on this tab.\n" +
-      "Please make sure this is a paper detail page.",
+      "This extension does not run on this tab.\nPlease open a PubMed article detail page.",
     errUnsupported:
-      "This site is not supported.\n" +
-      "You can use this extension on common journal sites such as\n" +
-      "PubMed, SpringerLink, New Phytologist, Cell, and The Lancet.",
+      "Currently, only PubMed is supported.\nPlease use this on a PubMed article detail page.",
     errNoArticle:
-      "Could not find article information on this page.\n" +
-      "Please check that this is a full article page\n" +
-      "or a page where citation information is visible.",
-    errDynamic:
-      "This site heavily relies on login or dynamic loading,\n" +
-      "so automatic citation extraction is difficult.\n" +
-      "Please use the site's own \"Cite\" / \"Export citation\" feature.",
+      "Could not find article information on this page.\nPlease open a PubMed article detail page.",
     errUnknown:
-      "An unknown error occurred while fetching citation information.\n" +
-      "Please reload the page and try again.",
+      "An unknown error occurred while fetching citation information.\nPlease reload the page and try again.",
 
     statusCopied: "Copied to clipboard",
     statusCopyFailed: "Failed to copy"
@@ -99,33 +82,26 @@ const messages = {
 
   ja: {
     btnGenerate: "引用を取得",
-    labelStyle:  "形式:",
-    labelVancouver: "Vancouver",
-    labelReport: "レポート形式",
-    labelLang: "Language:",
+    labelStyle: "形式:",
+    labelLang: "言語:",
     btnCopy: "コピー",
     placeholder: "ここに参考文献形式で表示されます",
-
     notDetectedTitle: "論文を検出できません",
+
+    styleVancouver: "Vancouver",
+    styleApa7: "APA第7版",
+    styleIeee: "IEEE",
+    styleBibtex: "BibTeX",
 
     errNoActiveTab: "アクティブなタブを見つけられませんでした。",
     errExtensionNotActive:
-      "このタブでは拡張機能が動作していません。\n" +
-      "論文の詳細ページかどうか確認してください。",
+      "このタブでは拡張機能が動作していません。\nPubMedの論文詳細ページを開いてください。",
     errUnsupported:
-      "対応していないサイトです。\n" +
-      "PubMed, SpringerLink, New Phytologist, Cell, The Lancet など\n" +
-      "一般的なジャーナルサイトで利用できます。",
+      "現在はPubMedのみ対応しています。\nPubMedの論文詳細ページで利用してください。",
     errNoArticle:
-      "このページから論文情報を取得できませんでした。\n" +
-      "論文の本文ページか、引用情報が表示されている画面か確認してください。",
-    errDynamic:
-      "このサイトはログインや動的読み込みへの依存度が高く、\n" +
-      "自動での引用情報取得が困難です。\n" +
-      "サイト内の「Cite」「引用」ボタンを利用してください。",
+      "このページから論文情報を取得できませんでした。\nPubMedの論文詳細ページか確認してください。",
     errUnknown:
-      "引用情報を取得中に原因不明のエラーが発生しました。\n" +
-      "ページを再読み込みしてから再度お試しください。",
+      "引用情報の取得中に不明なエラーが発生しました。\nページを再読み込みしてから再度お試しください。",
 
     statusCopied: "クリップボードにコピーしました",
     statusCopyFailed: "コピーに失敗しました"
@@ -135,118 +111,211 @@ const messages = {
 // ------------------------------------------
 // 공통 유틸
 // ------------------------------------------
+function safeText(v) {
+  if (!v) return "";
+  return String(v).replace(/\s+/g, " ").trim();
+}
 
 function tidyString(str) {
   if (!str) return str;
-  return str
+  return String(str)
     .replace(/\s+/g, " ")
     .replace(/\s*:\s*/g, ": ")
     .replace(/\s*,\s*/g, ", ")
     .replace(/\s*\.\s*/g, ". ")
-    .replace(/\s+PMID/, " PMID")
     .trim()
     .replace(/\.\s*\./g, ".");
 }
 
+function joinAuthors(authors) {
+  if (!Array.isArray(authors)) return "";
+  const cleaned = authors.map(a => safeText(a)).filter(Boolean);
+  return cleaned.join(", ");
+}
+
+function firstAuthorEtAl(authors) {
+  if (!Array.isArray(authors) || authors.length === 0) return "";
+  const first = safeText(authors[0]);
+  if (!first) return "";
+  return authors.length > 1 ? `${first} et al.` : first;
+}
+
 function makePages(data) {
-  const { firstPage, lastPage } = data;
+  // PubMed extractor might provide: firstPage/lastPage OR pages/eLocator
+  const firstPage = safeText(data.firstPage || "");
+  const lastPage = safeText(data.lastPage || "");
+  const pages = safeText(data.pages || "");
+  const eloc = safeText(data.elocationId || data.eLocator || "");
+
+  if (pages) return pages;
   if (firstPage && lastPage) return `${firstPage}-${lastPage}`;
   if (firstPage) return firstPage;
+  if (eloc) return eloc;
   return "";
 }
 
-// ------------------------------------------
-// 인용 포맷팅
-// ------------------------------------------
+function getJournal(data) {
+  return safeText(data.journalAbbrev || data.journalFull || data.journal || "");
+}
 
+function getYear(data) {
+  // prefer explicit year, else try parse from date
+  const y = safeText(data.year || "");
+  if (y) return y;
+  const date = safeText(data.publishedDate || data.date || "");
+  const m = date.match(/^(\d{4})/);
+  return m ? m[1] : "";
+}
+
+function getDoi(data) {
+  const doi = safeText(data.doi || "");
+  return doi.replace(/^doi:\s*/i, "");
+}
+
+function getUrl(data) {
+  return safeText(data.url || "");
+}
+
+// ------------------------------------------
+// 포맷터들
+// ------------------------------------------
 function formatVancouver(data) {
-  const authorsPart = data.authors.join(", ");
-  const journal = data.journalAbbrev || data.journalFull || "";
+  const authorsPart = joinAuthors(data.authors);
+  const title = safeText(data.title);
+  const journal = getJournal(data);
+  const year = getYear(data);
+  const volume = safeText(data.volume || "");
+  const issue = safeText(data.issue || "");
   const pages = makePages(data);
+  const pmid = safeText(data.pmid || "");
 
-  let out = `${authorsPart}. ${data.title}. ${journal}. ${data.year}`;
-  if (data.volume) {
-    out += `;${data.volume}`;
-    if (data.issue) out += `(${data.issue})`;
+  let out = `${authorsPart}. ${title}. ${journal}. ${year}`;
+  if (volume) {
+    out += `;${volume}`;
+    if (issue) out += `(${issue})`;
   }
   if (pages) out += `:${pages}`;
   out += ".";
-  if (data.pmid) out += ` PMID: ${data.pmid}.`;
+  if (pmid) out += ` PMID: ${pmid}.`;
 
   return tidyString(out);
 }
 
-function formatReport(data) {
-  const firstAuthorRaw = data.authors[0] || "";
-  const hasMoreAuthors = data.authors.length > 1;
+function formatAPA7(data) {
+  // Minimal APA 7th for journal article
+  // Authors. (Year). Title. Journal, volume(issue), pages. https://doi.org/...
+  const authorPart = joinAuthors(data.authors); // (이미 "성 이니셜" 형태라면 그대로 사용)
+  const year = getYear(data);
+  const title = safeText(data.title);
+  const journal = getJournal(data);
 
-  const firstAuthor = firstAuthorRaw.replace(/\s+$/, "");
-  const authorPart = hasMoreAuthors ? `${firstAuthor} et al.` : firstAuthor;
-
-  const journal = data.journalAbbrev || data.journalFull || "";
+  const volume = safeText(data.volume || "");
+  const issue = safeText(data.issue || "");
   const pages = makePages(data);
 
-  let out = `${authorPart}. ${data.title}. ${journal}`;
+  const doi = getDoi(data);
+  const url = getUrl(data);
 
-  if (data.volume) {
-    out += ` ${data.volume}`;
-    if (data.issue) {
-      out += `(${data.issue})`;
-    }
+  let out = `${authorPart}. (${year}). ${title}. ${journal}`;
+  if (volume) {
+    out += `, ${volume}`;
+    if (issue) out += `(${issue})`;
   }
-  if (pages) {
-    if (data.volume) {
-      out += `:${pages}`;
-    } else {
-      out += ` ${pages}`;
-    }
-  }
+  if (pages) out += `, ${pages}`;
+  out += ".";
 
-  if (data.year) {
-    out += `. ${data.year}.`;
-  } else {
-    out += ".";
-  }
+  if (doi) out += ` https://doi.org/${doi}`;
+  else if (url) out += ` ${url}`;
 
   return tidyString(out);
+}
+
+function formatIEEE(data) {
+  // Minimal IEEE for journal article
+  // A. Author, "Title," Journal, vol. X, no. Y, pp. Z, Year, doi:...
+  const authorsPart = joinAuthors(data.authors);
+  const title = safeText(data.title);
+  const journal = getJournal(data);
+
+  const volume = safeText(data.volume || "");
+  const issue = safeText(data.issue || "");
+  const pages = makePages(data);
+  const year = getYear(data);
+
+  const doi = getDoi(data);
+  const url = getUrl(data);
+
+  let out = `${authorsPart}, "${title}," ${journal}`;
+  if (volume) out += `, vol. ${volume}`;
+  if (issue) out += `, no. ${issue}`;
+  if (pages) out += `, pp. ${pages}`;
+  if (year) out += `, ${year}`;
+  if (doi) out += `, doi:${doi}`;
+  else if (url) out += `, ${url}`;
+  out += ".";
+
+  return tidyString(out);
+}
+
+function formatBibTeX(data) {
+  // Minimal BibTeX @article
+  const authors = Array.isArray(data.authors) ? data.authors.map(safeText).filter(Boolean) : [];
+  const title = safeText(data.title);
+  const journal = getJournal(data);
+  const year = getYear(data);
+
+  const volume = safeText(data.volume || "");
+  const number = safeText(data.issue || "");
+  const pages = makePages(data);
+
+  const doi = getDoi(data);
+  const url = getUrl(data);
+  const pmid = safeText(data.pmid || "");
+
+  // key: firstAuthorYearJournal (simple)
+  const keyBase =
+    (authors[0] ? authors[0].split(/\s+/).slice(-1)[0] : "article") +
+    (year ? year : "") +
+    (journal ? journal.replace(/\W+/g, "").slice(0, 16) : "");
+  const key = keyBase || "article";
+
+  const lines = [];
+  lines.push(`@article{${key},`);
+  if (authors.length) lines.push(`  author = {${authors.join(" and ")}},`);
+  if (title) lines.push(`  title = {${title}},`);
+  if (journal) lines.push(`  journal = {${journal}},`);
+  if (year) lines.push(`  year = {${year}},`);
+  if (volume) lines.push(`  volume = {${volume}},`);
+  if (number) lines.push(`  number = {${number}},`);
+  if (pages) lines.push(`  pages = {${pages}},`);
+  if (doi) lines.push(`  doi = {${doi}},`);
+  if (url) lines.push(`  url = {${url}},`);
+  if (pmid) lines.push(`  note = {PMID: ${pmid}},`);
+
+  // remove trailing comma on last field
+  if (lines.length > 1) {
+    const last = lines[lines.length - 1];
+    lines[lines.length - 1] = last.replace(/,\s*$/, "");
+  }
+  lines.push("}");
+
+  return lines.join("\n");
 }
 
 function formatByStyle(style, data) {
   if (!data) return "";
-  switch (style) {
-    case "vancouver":
-      return formatVancouver(data);
-    case "report":
-      return formatReport(data);
-    default:
-      return formatVancouver(data);
-  }
+
+  const P = window.PCH;
+  const f =
+    (P && P.formatters && P.formatters[style]) ||
+    (P && P.formatters && P.formatters.vancouver);
+
+  return f ? f(data) : "";
 }
 
 // ------------------------------------------
 // UI / 언어 관련
 // ------------------------------------------
-
-function applyLanguage() {
-  const m = messages[currentLang];
-
-  generateBtn.textContent = m.btnGenerate;
-  styleLabel.textContent = m.labelStyle;
-  labelVancouver.textContent = m.labelVancouver;
-  labelReport.textContent = m.labelReport;
-  langLabel.textContent = m.labelLang;
-  copyBtn.textContent = m.btnCopy;
-
-  // 아직 인용이 없고 에러도 아닌 초기 상태라면 플레이스홀더 갱신
-  if (!currentData && !currentCitation && !canCopy) {
-    citationBox.textContent = m.placeholder;
-    statusEl.textContent = "";
-  }
-}
-
-/**
- * 텍스트/복사 가능 여부/상태 메시지를 동시에 설정
- */
 function setCitation(text, copiable, statusMessage) {
   citationBox.textContent = text;
   canCopy = copiable;
@@ -254,55 +323,48 @@ function setCitation(text, copiable, statusMessage) {
   statusEl.textContent = statusMessage || "";
 }
 
+function applyLanguage() {
+  const m = messages[currentLang] || messages.en;
+
+  generateBtn.textContent = m.btnGenerate;
+  styleLabel.textContent = m.labelStyle;
+  langLabel.textContent = m.labelLang;
+  copyBtn.textContent = m.btnCopy;
+
+  // styleSelect 옵션 텍스트 갱신
+  if (styleSelect) {
+    for (const opt of styleSelect.options) {
+      if (opt.value === "vancouver") opt.textContent = m.styleVancouver || "Vancouver";
+      if (opt.value === "apa7") opt.textContent = m.styleApa7 || "APA 7th";
+      if (opt.value === "ieee") opt.textContent = m.styleIeee || "IEEE";
+      if (opt.value === "bibtex") opt.textContent = m.styleBibtex || "BibTeX";
+    }
+  }
+
+  // 초기 상태면 placeholder 갱신
+  if (!currentData && !currentCitation && !canCopy) {
+    citationBox.textContent = m.placeholder;
+    statusEl.textContent = "";
+  }
+}
+
 function renderCitation() {
-  const m = messages[currentLang];
+  const m = messages[currentLang] || messages.en;
 
   if (!currentData) {
     setCitation(m.notDetectedTitle, false, m.errNoArticle);
     return;
   }
+
   const formatted = formatByStyle(currentStyleKey, currentData);
   setCitation(formatted, true, "");
 }
 
 // ------------------------------------------
-// content-script 에 인용 데이터 요청
+// content-script 에 인용 데이터 요청 (폴백 없음)
 // ------------------------------------------
-
 function requestCitation() {
-  const m = messages[currentLang];
-
-  // ✅ content script가 등록되지 않은 사이트에서도 "클릭한 탭에서만" 동작하게 하는 폴백 주입
-  function injectFallbackContentScripts(tabId, done) {
-    // manifest.json의 content_scripts js 경로와 동일하게 맞추세요.
-    const files = [
-      "content/content-common.js",
-      "content/content-pubmed.js",
-      "content/content-nature.js",
-      "content/content-general.js",
-      "content/content-plos.js",
-      "content/content-tandfonline.js",
-      "content/content-router.js"
-    ];
-
-    const execNext = (i) => {
-      if (i >= files.length) {
-        done(true);
-        return;
-      }
-
-      api.tabs.executeScript(tabId, { file: files[i], runAt: "document_end" }, () => {
-        if (api.runtime && api.runtime.lastError) {
-          console.error("[PCH popup] executeScript error:", api.runtime.lastError);
-          done(false);
-          return;
-        }
-        execNext(i + 1);
-      });
-    };
-
-    execNext(0);
-  }
+  const m = messages[currentLang] || messages.en;
 
   function sendCitationRequest(tabId, cb) {
     api.tabs.sendMessage(tabId, { type: "GET_CITATION_DATA" }, (response) => {
@@ -314,79 +376,25 @@ function requestCitation() {
   api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs && tabs[0];
     if (!tab) {
+      currentData = null;
       setCitation(m.notDetectedTitle, false, m.errNoActiveTab);
       return;
     }
 
-    // 1차 시도: 기존처럼 sendMessage
     sendCitationRequest(tab.id, (response, lastErr) => {
-      // ✅ content script 미로딩(= receiver 없음)일 때만 폴백 주입 후 재시도
       if (lastErr) {
-        console.warn("[PCH popup] sendMessage error (fallback inject):", lastErr);
-
-        injectFallbackContentScripts(tab.id, (ok) => {
-          if (!ok) {
-            currentData = null;
-            setCitation(m.notDetectedTitle, false, m.errExtensionNotActive);
-            return;
-          }
-
-          // 2차 시도: 주입 성공 후 재요청
-          sendCitationRequest(tab.id, (retryResp, retryErr) => {
-            if (retryErr) {
-              console.error("[PCH popup] retry sendMessage error:", retryErr);
-              currentData = null;
-              setCitation(m.notDetectedTitle, false, m.errExtensionNotActive);
-              return;
-            }
-
-            console.log("[PCH popup] response (after inject):", retryResp);
-
-            // 성공 케이스
-            if (retryResp && retryResp.ok && retryResp.data) {
-              currentData = retryResp.data;
-              renderCitation();
-              return;
-            }
-
-            // 실패 케이스
-            currentData = null;
-
-            const errorCode = retryResp && retryResp.errorCode;
-            let msg = "";
-            switch (errorCode) {
-              case "UNSUPPORTED_SITE":
-                msg = messages[currentLang].errUnsupported;
-                break;
-              case "NO_ARTICLE":
-                msg = messages[currentLang].errNoArticle;
-                break;
-              case "DYNAMIC_SITE":
-                msg = messages[currentLang].errDynamic;
-                break;
-              case "UNKNOWN_ERROR":
-              default:
-                msg = messages[currentLang].errUnknown;
-                break;
-            }
-
-            setCitation(messages[currentLang].notDetectedTitle, false, msg);
-          });
-        });
-
+        console.warn("[PCH popup] sendMessage error:", lastErr);
+        currentData = null;
+        setCitation(m.notDetectedTitle, false, m.errExtensionNotActive);
         return;
       }
 
-      console.log("[PCH popup] response:", response);
-
-      // 성공 케이스
       if (response && response.ok && response.data) {
         currentData = response.data;
         renderCitation();
         return;
       }
 
-      // 실패 케이스
       currentData = null;
 
       const errorCode = response && response.errorCode;
@@ -394,21 +402,17 @@ function requestCitation() {
 
       switch (errorCode) {
         case "UNSUPPORTED_SITE":
-          msg = messages[currentLang].errUnsupported;
+          msg = m.errUnsupported;
           break;
         case "NO_ARTICLE":
-          msg = messages[currentLang].errNoArticle;
+          msg = m.errNoArticle;
           break;
-        case "DYNAMIC_SITE":
-          msg = messages[currentLang].errDynamic;
-          break;
-        case "UNKNOWN_ERROR":
         default:
-          msg = messages[currentLang].errUnknown;
+          msg = m.errUnknown;
           break;
       }
 
-      setCitation(messages[currentLang].notDetectedTitle, false, msg);
+      setCitation(m.notDetectedTitle, false, msg);
     });
   });
 }
@@ -416,7 +420,6 @@ function requestCitation() {
 // ------------------------------------------
 // 이벤트 등록
 // ------------------------------------------
-
 generateBtn.addEventListener("click", () => {
   requestCitation();
 });
@@ -425,49 +428,33 @@ copyBtn.addEventListener("click", () => {
   if (!canCopy || !currentCitation) return;
   navigator.clipboard.writeText(currentCitation)
     .then(() => {
-      statusEl.textContent = messages[currentLang].statusCopied;
+      statusEl.textContent = (messages[currentLang] || messages.en).statusCopied;
     })
     .catch(err => {
       console.error("[PCH popup] clipboard error:", err);
-      statusEl.textContent = messages[currentLang].statusCopyFailed;
+      statusEl.textContent = (messages[currentLang] || messages.en).statusCopyFailed;
     });
 });
 
-styleVancouver.addEventListener("change", () => {
-  if (styleVancouver.checked) {
-    currentStyleKey = "vancouver";
-    if (currentData) renderCitation();
-  }
-});
-
-styleReport.addEventListener("change", () => {
-  if (styleReport.checked) {
-    currentStyleKey = "report";
-    if (currentData) renderCitation();
-  }
+styleSelect.addEventListener("change", () => {
+  currentStyleKey = styleSelect.value || "vancouver";
+  if (currentData) renderCitation();
 });
 
 langSelect.addEventListener("change", () => {
   currentLang = langSelect.value || "en";
   api.storage.local.set({ uiLanguage: currentLang });
-
   applyLanguage();
-  // 인용이 이미 있다면, 형식은 같지만 언어에 맞춰 메시지만 자연스럽게 유지
-  if (currentData && canCopy && currentCitation) {
-    renderCitation();
-  }
+  if (currentData) renderCitation();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  currentStyleKey = styleVancouver.checked ? "vancouver" : "report";
+  currentStyleKey = (styleSelect && styleSelect.value) || "vancouver";
 
-  // 🔹 저장된 언어 불러오기
   api.storage.local.get("uiLanguage", (data) => {
-    // 저장된 값이 있으면 그걸 쓰고, 없으면 기존 select 값이나 en 사용
-    const savedLang = data.uiLanguage || langSelect.value || "en";
-
+    const savedLang = data.uiLanguage || (langSelect && langSelect.value) || "en";
     currentLang = savedLang;
-    langSelect.value = savedLang;
+    if (langSelect) langSelect.value = savedLang;
 
     applyLanguage();
     requestCitation();
