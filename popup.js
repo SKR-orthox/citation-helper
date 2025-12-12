@@ -272,6 +272,45 @@ function renderCitation() {
 function requestCitation() {
   const m = messages[currentLang];
 
+  // ✅ content script가 등록되지 않은 사이트에서도 "클릭한 탭에서만" 동작하게 하는 폴백 주입
+  function injectFallbackContentScripts(tabId, done) {
+    // manifest.json의 content_scripts js 경로와 동일하게 맞추세요.
+    const files = [
+      "content/content-common.js",
+      "content/content-pubmed.js",
+      "content/content-nature.js",
+      "content/content-general.js",
+      "content/content-plos.js",
+      "content/content-tandfonline.js",
+      "content/content-router.js"
+    ];
+
+    const execNext = (i) => {
+      if (i >= files.length) {
+        done(true);
+        return;
+      }
+
+      api.tabs.executeScript(tabId, { file: files[i], runAt: "document_end" }, () => {
+        if (api.runtime && api.runtime.lastError) {
+          console.error("[PCH popup] executeScript error:", api.runtime.lastError);
+          done(false);
+          return;
+        }
+        execNext(i + 1);
+      });
+    };
+
+    execNext(0);
+  }
+
+  function sendCitationRequest(tabId, cb) {
+    api.tabs.sendMessage(tabId, { type: "GET_CITATION_DATA" }, (response) => {
+      const lastErr = api.runtime && api.runtime.lastError;
+      cb(response, lastErr);
+    });
+  }
+
   api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs && tabs[0];
     if (!tab) {
@@ -279,16 +318,62 @@ function requestCitation() {
       return;
     }
 
-    api.tabs.sendMessage(tab.id, { type: "GET_CITATION_DATA" }, (response) => {
-      // content-script 미로딩 / 에러 대비
-      if (api.runtime && api.runtime.lastError) {
-        console.error("[PCH popup] sendMessage error:", api.runtime.lastError);
-        currentData = null;
-        setCitation(
-          m.notDetectedTitle,
-          false,
-          m.errExtensionNotActive
-        );
+    // 1차 시도: 기존처럼 sendMessage
+    sendCitationRequest(tab.id, (response, lastErr) => {
+      // ✅ content script 미로딩(= receiver 없음)일 때만 폴백 주입 후 재시도
+      if (lastErr) {
+        console.warn("[PCH popup] sendMessage error (fallback inject):", lastErr);
+
+        injectFallbackContentScripts(tab.id, (ok) => {
+          if (!ok) {
+            currentData = null;
+            setCitation(m.notDetectedTitle, false, m.errExtensionNotActive);
+            return;
+          }
+
+          // 2차 시도: 주입 성공 후 재요청
+          sendCitationRequest(tab.id, (retryResp, retryErr) => {
+            if (retryErr) {
+              console.error("[PCH popup] retry sendMessage error:", retryErr);
+              currentData = null;
+              setCitation(m.notDetectedTitle, false, m.errExtensionNotActive);
+              return;
+            }
+
+            console.log("[PCH popup] response (after inject):", retryResp);
+
+            // 성공 케이스
+            if (retryResp && retryResp.ok && retryResp.data) {
+              currentData = retryResp.data;
+              renderCitation();
+              return;
+            }
+
+            // 실패 케이스
+            currentData = null;
+
+            const errorCode = retryResp && retryResp.errorCode;
+            let msg = "";
+            switch (errorCode) {
+              case "UNSUPPORTED_SITE":
+                msg = messages[currentLang].errUnsupported;
+                break;
+              case "NO_ARTICLE":
+                msg = messages[currentLang].errNoArticle;
+                break;
+              case "DYNAMIC_SITE":
+                msg = messages[currentLang].errDynamic;
+                break;
+              case "UNKNOWN_ERROR":
+              default:
+                msg = messages[currentLang].errUnknown;
+                break;
+            }
+
+            setCitation(messages[currentLang].notDetectedTitle, false, msg);
+          });
+        });
+
         return;
       }
 

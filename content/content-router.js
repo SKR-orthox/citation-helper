@@ -36,11 +36,12 @@ async function buildCitationData() {
     data = extractGeneral(doc);
   }
   else {
-    // 아예 지원하지 않는 사이트
-    errorCode = "UNSUPPORTED_SITE";
-    return { errorCode };
+    // ✅ 사이트별 하드코딩이 없는 사이트도 최대한 동작하도록
+    // 1) 일반 메타태그/JSON-LD 기반으로 1차 추출
+    // 2) 부족하면 DOI → Crossref로 복구
+    // (DOI도 없고 메타도 없으면 아래에서 NO_ARTICLE 처리됨)
+    data = extractGeneral(doc);
   }
-
 
     console.log("[PCH] Raw citation data:", hostname, data);
 
