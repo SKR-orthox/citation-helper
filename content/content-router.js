@@ -7,18 +7,31 @@ function buildCitationData() {
 
   if (hostname.includes("pubmed.ncbi.nlm.nih.gov")) {
     data = extractFromPubMed(doc);
-  } else if (hostname.includes("nature.com")) {
-    data = extractFromNature(doc);
-    } else if (
+  } else if (
+    hostname.includes("journals.plos.org") ||
+    hostname.includes("plos.org")
+  ) {
+    data = extractFromPLOS(doc);
+
+  } else if (
+    hostname.includes("tandfonline.com") ||
+    hostname.includes("taylorandfrancis.com")
+  ) {
+    data = extractFromTandF(doc);
+
+  } else if (
     hostname.includes("scholar.google.com") ||
     hostname.includes("webofscience.com") ||
     hostname.includes("scopus.com") ||
     hostname.includes("sciencedirect.com") ||
     hostname.includes("link.springer.com") ||
-    hostname.includes("wiley.com")
-) {
+    hostname.includes("wiley.com") ||
+    hostname.includes("academic.oup.com") ||
+    hostname.includes("cambridge.org")
+  ) {
     data = extractGeneral(doc);
-  } else {
+  }
+  else {
     // 아예 지원하지 않는 사이트
     errorCode = "UNSUPPORTED_SITE";
     return { errorCode };
@@ -105,7 +118,17 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         hostname.includes("nature.com") ||
         hostname.includes("sciencedirect.com") ||
         hostname.includes("link.springer.com") ||
-        hostname.includes("onlinelibrary.wiley.com")
+        hostname.includes("onlinelibrary.wiley.com") ||
+        hostname.includes("tandfonline.com") ||
+        hostname.includes("taylorandfrancis.com") ||
+        hostname.includes("journals.plos.org") ||
+        hostname.includes("plos.org") ||
+        hostname.includes("tandfonline.com") ||
+        hostname.includes("taylorandfrancis.com") ||
+        hostname.includes("journals.plos.org") ||
+        hostname.includes("plos.org") ||
+        hostname.includes("academic.oup.com") ||
+        hostname.includes("cambridge.org")
       )
     ) {
       setTimeout(() => {

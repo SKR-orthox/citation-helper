@@ -5,12 +5,12 @@ const api = typeof browser !== "undefined" ? browser : chrome;
 console.log("[PCH] content script loaded:", location.href);
 
 function getMeta(doc, name) {
-  const el = doc.querySelector(`meta[name="${name}"]`);
+  const el = doc.querySelector(`meta[name="${name}"], meta[property="${name}"]`);
   return el ? el.content.trim() : "";
 }
 
 function getMetas(doc, name) {
-  const els = doc.querySelectorAll(`meta[name="${name}"]`);
+  const els = doc.querySelectorAll(`meta[name="${name}"], meta[property="${name}"]`);
   return Array.from(els).map(el => el.content.trim()).filter(Boolean);
 }
 

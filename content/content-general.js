@@ -116,6 +116,8 @@ function getYearFromMeta(doc) {
   if (year) return year;
 
   let date =
+    getMeta(doc, "citation_date") ||
+    getMeta(doc, "citation_online_date") ||
     getMeta(doc, "dc.date") ||
     getMeta(doc, "prism.publicationDate") ||
     getMeta(doc, "citation_publication_date");
@@ -290,7 +292,8 @@ function extractGeneral(doc) {
   const result = {
     title: title || "",
     authors: authors || [],
-    journal: journal || "",
+    journalFull: journal || "",
+    journalAbbrev: "",
     year: year || "",
     volume: volume || "",
     issue: issue || "",

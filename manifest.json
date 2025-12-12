@@ -14,9 +14,9 @@
     "default_title": "Generate citation",
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon16.png",
-      "32": "icon32.png",
-      "128": "icon128.png"
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "128": "icons/icon128.png"
     }
   },
 
@@ -24,6 +24,7 @@
     "storage",
     "activeTab",
     "clipboardWrite",
+
     "*://pubmed.ncbi.nlm.nih.gov/*",
     "*://scholar.google.com/*",
     "*://www.webofscience.com/*",
@@ -31,7 +32,14 @@
     "*://www.nature.com/*",
     "*://www.sciencedirect.com/*",
     "*://link.springer.com/*",
-    "*://*.wiley.com/*"
+    "*://*.wiley.com/*",
+
+    "*://*.tandfonline.com/*",
+    "*://*.taylorandfrancis.com/*",
+    "*://academic.oup.com/*",
+    "*://*.cambridge.org/*",
+    "*://journals.plos.org/*",
+    "*://*.plos.org/*"
   ],
 
   "content_scripts": [
@@ -43,13 +51,23 @@
         "*://www.scopus.com/*",
         "*://www.nature.com/*",
         "*://www.sciencedirect.com/*",
-        "*://*.wiley.com/*"
+        "*://link.springer.com/*",
+        "*://*.wiley.com/*",
+
+        "*://*.tandfonline.com/*",
+        "*://*.taylorandfrancis.com/*",
+        "*://academic.oup.com/*",
+        "*://*.cambridge.org/*",
+        "*://journals.plos.org/*",
+        "*://*.plos.org/*"
       ],
       "js": [
         "content/content-common.js",
         "content/content-pubmed.js",
         "content/content-nature.js",
         "content/content-general.js",
+        "content/content-plos.js",
+        "content/content-tandfonline.js",
         "content/content-router.js"
       ],
       "run_at": "document_end"

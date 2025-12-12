@@ -3,7 +3,7 @@
 🌐 사용 가능한 언어:  
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-PubMed, Google Scholar, Nature, ScienceDirect, Cell Press, The Lancet, SpringerLink,  
+PubMed, Google Scholar, Nature, ScienceDirect, SpringerLink,  
 Wiley Online Library, Web of Science, Scopus 등 주요 학술 사이트에서  
 논문 정보를 자동으로 추출하여 참고문헌을 생성해주는 Firefox 확장 프로그램입니다.
 
@@ -28,8 +28,6 @@ UI 언어는 **영어 / 한국어 / 일본어**를 제공합니다.
 - Google Scholar  
 - Nature  
 - ScienceDirect (Elsevier)  
-- Cell Press  
-- The Lancet  
 - SpringerLink  
 - Wiley Online Library  
 - Web of Science (일부 제한)  
