@@ -227,18 +227,27 @@ function getAuthorsGeneral(doc) {
   const jsonld = extractFromJSONLD(doc);
   let authors = [];
 
-  // 1) JSON-LD
+  // 1) JSON-LD (content-common.js에서 {authors, author} 둘 다 주도록 했음)
   if (jsonld) {
-    if (Array.isArray(jsonld.authors)) {
-      authors = authors.concat(jsonld.authors);
-    } else if (Array.isArray(jsonld.author)) {
-      // ScienceDirect 등: author: [{ "@type":"Person", "name":"..." }]
-      authors = authors.concat(
-        jsonld.author
-          .map(a => (typeof a === "string" ? a : a && a.name))
-          .filter(Boolean)
-      );
-    }
+    const ldArr =
+      (Array.isArray(jsonld.authors) && jsonld.authors) ||
+      (Array.isArray(jsonld.author) && jsonld.author) ||
+      [];
+
+    authors = authors.concat(
+      ldArr
+        .map(a => {
+          if (!a) return "";
+          if (typeof a === "string") return a.trim();
+          if (a.name) return String(a.name).trim();
+
+          // given/family 형태 대응 (ScienceDirect에서 자주 나옴)
+          const given = (a.givenName || a.given || "").toString().trim();
+          const family = (a.familyName || a.family || "").toString().trim();
+          return `${given} ${family}`.trim();
+        })
+        .filter(Boolean)
+    );
   }
 
   // 2) meta
@@ -286,7 +295,7 @@ function extractGeneral(doc) {
 
   const { pages, firstPage, lastPage } = getPagesFromMeta(doc);
 
-  const doi = getDoiFromMeta(doc);
+  const doi = extractDOI(doc) || getDoiFromMeta(doc);
   const pmid = getPmidFromMeta(doc);
 
   const result = {

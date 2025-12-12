@@ -39,8 +39,17 @@
     "*://academic.oup.com/*",
     "*://*.cambridge.org/*",
     "*://journals.plos.org/*",
-    "*://*.plos.org/*"
+    "*://*.plos.org/*",
+    "*://koreascience.or.kr/*",
+    "*://www.koreascience.or.kr/*",
+    "*://jstage.jst.go.jp/*",
+    "*://www.jstage.jst.go.jp/*",
+
+    "https://api.crossref.org/*"
   ],
+    "background": {
+  "scripts": ["background.js"]
+  },
 
   "content_scripts": [
     {
@@ -59,7 +68,11 @@
         "*://academic.oup.com/*",
         "*://*.cambridge.org/*",
         "*://journals.plos.org/*",
-        "*://*.plos.org/*"
+        "*://*.plos.org/*",
+        "*://koreascience.or.kr/*",
+        "*://www.koreascience.or.kr/*",
+        "*://jstage.jst.go.jp/*",
+        "*://www.jstage.jst.go.jp/*"
       ],
       "js": [
         "content/content-common.js",
