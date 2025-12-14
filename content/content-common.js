@@ -1,7 +1,5 @@
 // content-script.js - Stability Improvement Update (Nature.com DOM Fix)
 
-const api = typeof browser !== "undefined" ? browser : chrome;
-
 console.log("[PCH] content script loaded:", location.href);
 
 function getMeta(doc, name) {

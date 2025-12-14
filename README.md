@@ -1,75 +1,91 @@
-# Multi-Site Citation Helper
+# Citation Helper (PubMed MVP)
 
-🌐 Available Languages:  
+🌐 Languages:  
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-A Firefox extension that automatically extracts citation information from major academic websites including PubMed, Google Scholar, Nature, ScienceDirect, SpringerLink, Wiley Online Library, Web of Science, and Scopus.
+A lightweight Firefox extension that extracts citation data from **PubMed**
+and generates clean, publication-ready references.
 
-The extension can generate clean citation output in **Vancouver style** or a **report-friendly format**, and supports **English, Korean, and Japanese** UI.
+This project focuses on **accuracy of citation formatting**, not broad site coverage.
 
 ---
 
 ## Features
 
-- Automatic extraction of citation data from multiple academic platforms  
-- Vancouver style or report-style formatting  
-- Multi-language UI (EN / KO / JA)  
-- One-click copy to clipboard  
-- Clean and compact popup interface
+- Automatic citation extraction from **PubMed article pages**
+- Supported citation styles:
+  - Vancouver
+  - APA 7th
+  - IEEE
+  - BibTeX
+- Proper handling of:
+  - Author truncation (`et al.`)
+  - APA 7 rules for 21+ authors
+  - DOI / PMID
+- Multi-language UI:
+  - English
+  - Korean
+  - Japanese
+- One-click copy to clipboard
+- Clean, minimal popup UI
 
 ---
 
-## Supported Sites
+## Supported Site
 
 - PubMed  
-- Google Scholar  
-- Nature  
-- ScienceDirect (Elsevier)  
-- SpringerLink  
-- Wiley Online Library  
-- Web of Science (partial support)  
-- Scopus (partial support)
+  https://pubmed.ncbi.nlm.nih.gov/
 
-*Some sites that require login or heavy dynamic rendering may limit automatic extraction.*
+*Only PubMed is officially supported in this MVP version.*
 
 ---
 
 ## How to Use
 
-1. Install the extension in Firefox.  
-2. Open a paper’s detail page on any supported site.  
-3. Click the extension icon.  
-4. Select the citation style and UI language.  
-5. Click **Fetch citation**.  
-6. Press **Copy** to copy the generated citation.
+1. Install the extension in Firefox.
+2. Open a PubMed article detail page.
+3. Click the Citation Helper icon.
+4. Select citation style and UI language.
+5. Click **Fetch citation**.
+6. Click **Copy** to copy the generated reference.
 
 ---
 
 ## Icons
 
-All icons in this project were originally created using AI tools specifically for this extension.  
-Icons are provided as transparent PNG files in:
+Icons were **originally designed for this project using AI tools**  
+and are provided as transparent PNG files:
 
-- 16×16  
-- 32×32  
-- 128×128  
+- 16×16
+- 32×32
+- 128×128
+
+---
+
+## Project Status
+
+This is an **MVP (Minimum Viable Product)** focused on:
+
+- correctness of citation output
+- clear formatting rules
+- stable PubMed extraction
 
 ---
 
 ## Roadmap
 
-- DOI auto-detection and insertion  
-- BibTeX / EndNote export  
-- User-defined citation templates  
-- Migration to Manifest V3  
+- DOI-based cross-site expansion
+- User-configurable author limits
+- CSL / EndNote export
+- Migration to Manifest V3
 
 ---
 
 ## Tech Stack
 
-- Firefox WebExtension (Manifest V2)  
-- JavaScript (Vanilla)  
-- HTML / CSS  
+- Firefox WebExtension (Manifest V2)
+- Vanilla JavaScript
+- HTML / CSS
 
 ---
 

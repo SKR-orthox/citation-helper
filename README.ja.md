@@ -1,79 +1,76 @@
-# Multi-Site Citation Helper
+# Citation Helper (PubMed MVP)
 
-🌐 利用可能な言語:  
+🌐 言語:  
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-PubMed、Google Scholar、Nature、ScienceDirect、SpringerLink、  
-Wiley Online Library、Web of Science、Scopus などの主要な学術サイトから  
-論文情報を自動で抽出し、引用形式を生成する Firefox 拡張機能です。
+PubMed の論文詳細ページから  
+参考文献情報を正確に抽出し、  
+標準的な引用形式で生成する Firefox 拡張機能です。
 
-Vancouver スタイルとレポート向け形式をサポートし、  
-UI は **英語 / 韓国語 / 日本語** に対応しています。
+本プロジェクトは  
+**対応サイト数より引用形式の正確さ**を重視しています。
 
 ---
 
-## 特徴
+## 主な機能
 
-- 複数の学術サイトからの自動データ抽出  
-- Vancouver スタイル / レポート形式に対応  
-- 英語 / 韓国語 / 日本語の UI  
-- ワンクリックでクリップボードにコピー  
-- シンプルで使いやすいポップアップ UI
+- PubMed 論文の自動引用抽出
+- 対応スタイル
+  - Vancouver
+  - APA 第7版
+  - IEEE
+  - BibTeX
+- 著者数ルールを正確に処理
+  - Vancouver: 6名超で et al.
+  - APA 7: 21名以上で省略表記
+- DOI / PMID 自動取得
+- UI 多言語対応
+  - 英語 / 韓国語 / 日本語
+- ワンクリックコピー
+- シンプルなポップアップ UI
 
 ---
 
 ## 対応サイト
 
 - PubMed  
-- Google Scholar  
-- Nature  
-- ScienceDirect (Elsevier)  
-- SpringerLink  
-- Wiley Online Library  
-- Web of Science（一部制限あり）  
-- Scopus（一部制限あり）
+  https://pubmed.ncbi.nlm.nih.gov/
 
-*ログインが必要なサイトや動的レンダリングが強いサイトでは、  
-自動抽出が正常に行われない場合があります。*
+*MVP 版では PubMed のみ対応しています。*
 
 ---
 
 ## 使い方
 
-1. Firefox に拡張機能をインストールします。  
-2. 対応サイトの論文詳細ページを開きます。  
-3. 拡張アイコンをクリックします。  
-4. 引用形式と言語を選択します。  
-5. **引用を取得** を押します。  
+1. Firefox に拡張機能をインストールします。
+2. PubMed の論文詳細ページを開きます。
+3. 拡張アイコンをクリックします。
+4. 引用形式と言語を選択します。
+5. **引用を取得** をクリックします。
 6. **コピー** ボタンで引用文をコピーします。
 
 ---
 
-## アイコンについて
+## アイコン
 
-本プロジェクトのために AI ツールを用いて独自にデザインしたアイコンを使用しています。  
-以下のサイズの透過 PNG を同梱しています。
+本拡張機能のアイコンは  
+AI ツールを用いて本プロジェクトのために  
+独自にデザインしたものです。
 
-- 16×16  
-- 32×32  
-- 128×128  
-
----
-
-## 今後の改善予定
-
-- DOI の自動検出と挿入  
-- BibTeX / EndNote 形式の出力  
-- カスタム引用テンプレート  
-- Manifest V3 への移行  
+- 16×16
+- 32×32
+- 128×128
 
 ---
 
-## 技術スタック
+## プロジェクト状況
 
-- Firefox WebExtension (Manifest V2)  
-- JavaScript (バニラ)  
-- HTML / CSS  
+本プロジェクトは **MVP 段階**であり、  
+以下を重視しています。
+
+- 引用形式の正確性
+- PubMed 構造への安定対応
+- シンプルな UI
 
 ---
 

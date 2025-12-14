@@ -1,33 +1,25 @@
-// formatters/common.js
-window.PCH = window.PCH || {};
-PCH.util = PCH.util || {};
+(() => {
+  if (!window.PCH) window.PCH = {};
+  if (!window.PCH.formatters) window.PCH.formatters = {};
 
-PCH.util.safeText = function (v) {
-  if (!v) return "";
-  return String(v).replace(/\s+/g, " ").trim();
-};
+  window.PCH.util = {
+    safeText(v) {
+      if (!v) return "";
+      return String(v).replace(/\s+/g, " ").trim();
+    },
+    joinAuthors(authors) {
+      if (!Array.isArray(authors)) return "";
+      return authors.map(a => this.safeText(a)).filter(Boolean).join(", ");
+    },
+    yearOf(data) {
+      const candidates = [
+        this.safeText(data.year || ""),
+        this.safeText(data.date || ""),
+        this.safeText(data.publishedDate || "")
+      ].filter(Boolean).join(" ");
 
-PCH.util.tidyString = function (str) {
-  if (!str) return str;
-  return String(str)
-    .replace(/\s+/g, " ")
-    .replace(/\s*:\s*/g, ": ")
-    .replace(/\s*,\s*/g, ", ")
-    .replace(/\s*\.\s*/g, ". ")
-    .trim()
-    .replace(/\.\s*\./g, ".");
-};
-
-PCH.util.makePages = function (data) {
-  const safe = PCH.util.safeText;
-  const first = safe(data.firstPage || "");
-  const last = safe(data.lastPage || "");
-  const pages = safe(data.pages || "");
-  const eloc = safe(data.elocationId || data.eLocator || "");
-
-  if (pages) return pages;
-  if (first && last) return `${first}-${last}`;
-  if (first) return first;
-  if (eloc) return eloc;
-  return "";
-};
+      const m = candidates.match(/\b(19\d{2}|20\d{2}|21\d{2})\b/);
+      return m ? m[1] : "";
+    }
+  };
+})();

@@ -1,29 +1,36 @@
-// formatters/ieee.js
-window.PCH = window.PCH || {};
-PCH.formatters = PCH.formatters || {};
+(() => {
+  const U = window.PCH && window.PCH.util;
+  if (!U) return;
 
-PCH.formatters.ieee = function (data) {
-  const U = PCH.util;
-  const authors = Array.isArray(data.authors)
-    ? data.authors.map(U.safeText).filter(Boolean).join(", ")
-    : "";
-  const title = U.safeText(data.title);
-  const journal = U.safeText(data.journalAbbrev || data.journalFull || data.journal || "");
-  const year = U.safeText(data.year || "");
-  const volume = U.safeText(data.volume || "");
-  const issue = U.safeText(data.issue || "");
-  const pages = U.makePages(data);
-  const doi = U.safeText(data.doi || "").replace(/^doi:\s*/i, "");
-  const url = U.safeText(data.url || "");
+  function stripDoiPrefix(doi) {
+    const v = U.safeText(doi);
+    return v.replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").replace(/^doi:\s*/i, "");
+  }
 
-  let out = `${authors}, "${title}," ${journal}`;
-  if (volume) out += `, vol. ${volume}`;
-  if (issue) out += `, no. ${issue}`;
-  if (pages) out += `, pp. ${pages}`;
-  if (year) out += `, ${year}`;
-  if (doi) out += `, doi:${doi}`;
-  else if (url) out += `, ${url}`;
-  out += ".";
+  window.PCH.formatters.ieee = (data) => {
+    // Authors, "Title," Journal, vol. X, no. Y, pp. Z, Year, doi:...
+    const authors = U.joinAuthors(data.authors);
+    const title = U.safeText(data.title);
+    const journal = U.safeText(data.journalAbbrev || data.journalFull || "");
+    const volume = U.safeText(data.volume || "");
+    const issue = U.safeText(data.issue || "");
+    const pages = U.safeText(data.pages || "");
+    const year = U.safeText(data.year || U.yearOf(data));
+    const doi = stripDoiPrefix(data.doi || "");
+    const url = U.safeText(data.url || "");
 
-  return U.tidyString(out);
-};
+    let out = "";
+    if (authors) out += `${authors}, `;
+    out += `"${title}," ${journal}`;
+
+    if (volume) out += `, vol. ${volume}`;
+    if (issue) out += `, no. ${issue}`;
+    if (pages) out += `, pp. ${pages}`;
+    if (year) out += `, ${year}`;
+    if (doi) out += `, doi:${doi}`;
+    else if (url) out += `, ${url}`;
+    out += ".";
+
+    return out.replace(/\s+/g, " ").trim();
+  };
+})();

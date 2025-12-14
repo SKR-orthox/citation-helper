@@ -1,44 +1,27 @@
 {
   "manifest_version": 2,
-  "name": "Multi-Site Citation Helper",
+  "name": "Citation Helper (PubMed MVP)",
   "version": "0.5.0",
-  "description": "Generate citations from PubMed (MVP).",
-
-  "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "128": "icons/icon128.png"
-  },
-
+  "description": "Generate citations from PubMed.",
   "browser_action": {
-    "default_title": "Generate citation",
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "128": "icons/icon128.png"
-    }
+    "default_title": "Citation Helper",
+    "default_popup": "popup.html"
   },
-
+  "icons": {
+  "16": "icons/icon16.png",
+  "32": "icons/icon32.png",
+  "128": "icons/icon128.png"
+  },
   "permissions": [
-    "storage",
     "activeTab",
+    "storage",
     "clipboardWrite",
     "*://pubmed.ncbi.nlm.nih.gov/*"
   ],
-
-  "background": {
-    "scripts": ["background.js"]
-  },
-
   "content_scripts": [
     {
       "matches": ["*://pubmed.ncbi.nlm.nih.gov/*"],
-      "js": [
-        "content/content-common.js",
-        "content/content-pubmed.js",
-        "content/content-router.js"
-      ],
+      "js": ["content/content-pubmed.js"],
       "run_at": "document_end"
     }
   ]
