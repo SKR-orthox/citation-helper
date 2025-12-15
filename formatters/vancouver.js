@@ -27,7 +27,7 @@
   }
 
   window.PCH.formatters.vancouver = (data) => {
-    const authors = vancouverAuthors(data.authors);
+    const authors = vancouverAuthors(data.authorsVancouver || data.authors);;
     const title = U.safeText(data.title);
     const journal = U.safeText(data.journalAbbrev || data.journalFull || "");
     const year = U.safeText(data.year || U.yearOf(data));

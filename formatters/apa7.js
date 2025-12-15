@@ -28,7 +28,7 @@
 
   window.PCH.formatters.apa7 = (data) => {
     // Authors. (Year). Title. Journal, volume(issue), pages. https://doi.org/...
-    const authors = apaAuthors(data.authors);
+    const authors = apaAuthors(data.authorsAPA || data.authors);
     const year = U.safeText(data.year || U.yearOf(data));
     const title = U.safeText(data.title);
     const journal = U.safeText(data.journalFull || data.journalAbbrev || "");
@@ -39,14 +39,19 @@
     const url = U.safeText(data.url || "");
 
     let out = "";
-    if (authors) out += `${authors}. `;
+    if (authors) {
+      const a = U.safeText(authors);
+      out += a.endsWith(".") ? `${a} ` : `${a}. `;
+    }
+
     if (year) out += `(${year}). `;
     out += `${title}. ${journal}`;
-
+    
     if (volume) {
       out += `, ${volume}`;
       if (issue) out += `(${issue})`;
     }
+    
     if (pages) out += `, ${pages}`;
     out += ".";
 

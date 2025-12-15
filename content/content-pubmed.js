@@ -132,9 +132,23 @@
         return;
       }
 
+      // URL-based hint: PubMed article detail is usually /<PMID>/
+      const urlLooksLikeArticle = /^\/\d+\/?$/.test(location.pathname);
+
       const data = extract();
+
+      // 최소 필수: title 또는 authors가 있어야 "논문 페이지"로 간주
+      const hasCore = !!data.title || (Array.isArray(data.authors) && data.authors.length > 0);
+      if (!hasCore) {
+        // PubMed 내이긴 한데, 논문 상세가 아닌 경우(검색/목록/기타 페이지)
+        // 단, URL이 논문 상세처럼 보이면 구조 변경 가능성으로 분류
+        sendResponse({ ok: false, errorCode: urlLooksLikeArticle ? "SITE_CHANGED" : "NO_ARTICLE" });
+        return;
+      }
+
+      // title이 비어있으면 인용 생성이 어렵다
       if (!data.title) {
-        sendResponse({ ok: false, errorCode: "NO_ARTICLE" });
+        sendResponse({ ok: false, errorCode: "PARSE_FAILED" });
         return;
       }
 

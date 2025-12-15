@@ -9,7 +9,7 @@
 
   window.PCH.formatters.ieee = (data) => {
     // Authors, "Title," Journal, vol. X, no. Y, pp. Z, Year, doi:...
-    const authors = U.joinAuthors(data.authors);
+    const authors = U.joinAuthors(data.authorsIEEE || data.authors);
     const title = U.safeText(data.title);
     const journal = U.safeText(data.journalAbbrev || data.journalFull || "");
     const volume = U.safeText(data.volume || "");
