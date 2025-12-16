@@ -1,60 +1,54 @@
-# Citation Helper
+# Citation Helper (Firefox) - v0.7.0
 
-Languages:
-- English (README.md)
-- 한국어 (README.ko.md)
-- 日本語 (README.ja.md)
+A Firefox extension that generates clean citations from supported paper pages and lets you copy them.
 
-Citation Helper is a lightweight Firefox extension that extracts citation metadata from supported article pages and generates formatted references.
+## Supported sites
+- PubMed - https://pubmed.ncbi.nlm.nih.gov/<PMID>/
+- Nature.com - https://www.nature.com/articles/<ARTICLE_ID>
 
-This project prioritizes formatting accuracy and stability over broad site coverage.
+## Citation styles
+- Vancouver
+- APA 7th
+- IEEE
+- BibTeX
 
-## Features
-
-- Extract citation data from supported article pages
-- Citation styles:
-  - Vancouver
-  - APA 7th
-  - IEEE
-  - BibTeX
-- Author rules:
-  - Vancouver truncation (et al.)
-  - APA 7 rule for 21+ authors
-- Handles DOI, PMID, pages and eLocators when available
-- Multi-language UI: English, Korean, Japanese
-- One-click copy to clipboard
-
-## Supported Sites
-
-- PubMed
-  - https://pubmed.ncbi.nlm.nih.gov/
-- Nature (nature.com)
-  - https://www.nature.com/ (article pages)
-
-Support is intentionally limited. New sites are added only after a small test set passes, to avoid regressions.
-
-## How to Use
-
-1. Open a supported article page.
+## How to use
+1. Open a supported article page (PubMed or Nature).
 2. Click the extension icon.
-3. Choose citation style and UI language.
-4. Click Fetch citation.
-5. Click Copy.
+3. Select a style, then generate.
+4. Click Copy.
 
-## Privacy
+## Debug mode (for fixtures)
+When debug mode is enabled, the last extracted CitationData is saved to browser storage.
+This is used to build JSON fixtures for regression tests.
 
-- Citation data is processed locally in your browser.
-- No analytics.
-- No page content is sent to external servers.
-- Clipboard is used only when you press Copy.
+Enable:
+- Open the extension popup DevTools console and run:
+  browser.storage.local.set({ debugMode: true })
 
-## Development Install (Firefox)
+Read back:
+- browser.storage.local.get(["lastCitationUrl","lastCitationData","lastCitationAt"]).then(console.log)
 
-1. Open about:debugging
-2. This Firefox
-3. Load Temporary Add-on…
-4. Select manifest.json
+## Tests (snapshot-based)
+This repo includes JSON fixtures and snapshot tests to prevent regressions when adding sites.
 
-## License
+Run:
+- npm test
 
-MIT License
+Update snapshots:
+- npm test -- --update
+
+## Design principle
+- Formatters are site-agnostic and should remain stable.
+- Site-specific differences are handled in extractors + normalization.
+- All extractors output a common CitationData schema.
+
+## CitationData schema (core fields)
+- authors: string[]
+- title: string
+- journalFull: string
+- journalAbbrev: string (optional)
+- year, volume, issue, pages
+- pmid (PubMed only)
+- doi (optional)
+- url
