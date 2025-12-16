@@ -23,7 +23,7 @@
     // 21명 이상: 앞 19명 + … + 마지막 저자
     const first19 = cleaned.slice(0, 19);
     const last = cleaned[cleaned.length - 1];
-    return `${first19.join(", ")}, …, ${last}`;
+    return `${first19.join(", ")}, … ${last}`;
   }
 
   window.PCH.formatters.apa7 = (data) => {

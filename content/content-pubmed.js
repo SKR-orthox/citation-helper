@@ -99,8 +99,15 @@
 
     if (!pages) {
       const cit = safeText(document.querySelector(".cit")?.textContent || "");
-      const pm = cit.match(/:(\d+\s*-\s*\d+)\b/);
-      if (pm) pages = pm[1].replace(/\s+/g, "");
+
+      // A) 일반적인 PubMed 포맷: ;15(1):43663 / ;109(5):e1389-e1399
+      const m1 = cit.match(/;\s*\d+(?:\([^)]*\))?\s*:\s*([A-Za-z]?\d+(?:\s*-\s*[A-Za-z]?\d+)?)\b/);
+
+      // B) eLife 같은 포맷: 2025 Aug 1:14:e104918  (day:volume:elocator)
+      const m2 = cit.match(/:\s*\d+\s*:\s*([A-Za-z]?\d+(?:\s*-\s*[A-Za-z]?\d+)?)\b/);
+
+      const hit = m1 || m2;
+      if (hit) pages = hit[1].replace(/\s+/g, "");
     }
 
     // PMID

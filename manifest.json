@@ -23,7 +23,7 @@
   "content_scripts": [
     {
       "matches": ["*://pubmed.ncbi.nlm.nih.gov/*"],
-      "js": ["content-pubmed.js"],
+      "js": ["content/content-pubmed.js"],
       "run_at": "document_end"
     },
     {
