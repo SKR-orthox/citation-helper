@@ -1,0 +1,6 @@
+{
+  "vancouver": "Baker N, Mitchinson A, Klopper A. Behind the scenes of Nature News & Views in 2024. Nature. 2024. doi:10.1038/d41586-024-04246-9.",
+  "apa7": "Baker, N., Mitchinson, A., Klopper, A. (2024). Behind the scenes of Nature News & Views in 2024. Nature. https://doi.org/10.1038/d41586-024-04246-9",
+  "ieee": "N. Baker, A. Mitchinson, A. Klopper, \"Behind the scenes of Nature News & Views in 2024,\" Nature, 2024, doi:10.1038/d41586-024-04246-9.",
+  "bibtex": "@article{Noah2024Nature,\n  author = {Baker, Noah and Mitchinson, Andrew and Klopper, Abigail},\n  title = {Behind the scenes of Nature News & Views in 2024},\n  journal = {Nature},\n  year = {2024},\n  doi = {10.1038/d41586-024-04246-9},\n  url = {https://www.nature.com/articles/d41586-024-04246-9}\n}"
+}

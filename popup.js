@@ -14,7 +14,7 @@
   let currentData = null;
   let currentCitation = "";
   let canCopy = false;
-  let debugMode = false;
+  let debugMode = true;
 
   const messages = {
     en: {
@@ -176,9 +176,27 @@
 
         if (resp && resp.ok && resp.data) {
           currentData = resp.data;
+          if (debugMode) {
+            try {
+              api.storage.local.set({
+                lastCitationData: JSON.parse(JSON.stringify(currentData)),
+                lastCitationUrl: tab.url || "",
+                lastCitationAt: Date.now()
+             });
+          } catch (e) {
+            console.warn("[PCH debug] failed to store lastCitationData", e);
+          }
+        }
           render();
           setStatus("", "OK");
           return;
+        }
+
+        if (debugMode) {
+          window.PCH = window.PCH || {};
+          // deep clone: 혹시 모를 참조 문제 방지
+          window.PCH.lastCitationData = JSON.parse(JSON.stringify(currentData));
+          console.log("[PCH debug] lastCitationData ready");
         }
 
         const code = resp && resp.errorCode ? String(resp.errorCode) : "NO_ARTICLE";
@@ -207,7 +225,7 @@
   });
 
   document.addEventListener("DOMContentLoaded", () => {
-    api.storage.local.get("uiLanguage", (d) => {
+    api.storage.local.get(["uiLanguage", "debugMode"], (d) => {
       debugMode = !!d.debugMode;
       const saved = d.uiLanguage || "en";
       langSelect.value = saved;

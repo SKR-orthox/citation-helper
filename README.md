@@ -1,93 +1,59 @@
-# Citation Helper (PubMed MVP)
+# Citation Helper
 
-🌐 Languages:  
-[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
+Languages:
+- English (README.md)
+- 한국어 (README.ko.md)
+- 日本語 (README.ja.md)
 
-A lightweight Firefox extension that extracts citation data from **PubMed**
-and generates clean, publication-ready references.
+Citation Helper is a lightweight Firefox extension that extracts citation metadata from supported article pages and generates formatted references.
 
-This project focuses on **accuracy of citation formatting**, not broad site coverage.
-
----
+This project prioritizes formatting accuracy and stability over broad site coverage.
 
 ## Features
 
-- Automatic citation extraction from **PubMed article pages**
-- Supported citation styles:
+- Extract citation data from supported article pages
+- Citation styles:
   - Vancouver
   - APA 7th
   - IEEE
   - BibTeX
-- Proper handling of:
-  - Author truncation (`et al.`)
-  - APA 7 rules for 21+ authors
-  - DOI / PMID
-- Multi-language UI:
-  - English
-  - Korean
-  - Japanese
+- Author rules:
+  - Vancouver truncation (et al.)
+  - APA 7 rule for 21+ authors
+- Handles DOI, PMID, pages and eLocators when available
+- Multi-language UI: English, Korean, Japanese
 - One-click copy to clipboard
-- Clean, minimal popup UI
 
----
+## Supported Sites
 
-## Supported Site
+- PubMed
+  - https://pubmed.ncbi.nlm.nih.gov/
+- Nature (nature.com)
+  - https://www.nature.com/ (article pages)
 
-- PubMed  
-  https://pubmed.ncbi.nlm.nih.gov/
-
-*Only PubMed is officially supported in this MVP version.*
-
----
+Support is intentionally limited. New sites are added only after a small test set passes, to avoid regressions.
 
 ## How to Use
 
-1. Install the extension in Firefox.
-2. Open a PubMed article detail page.
-3. Click the Citation Helper icon.
-4. Select citation style and UI language.
-5. Click **Fetch citation**.
-6. Click **Copy** to copy the generated reference.
+1. Open a supported article page.
+2. Click the extension icon.
+3. Choose citation style and UI language.
+4. Click Fetch citation.
+5. Click Copy.
 
----
+## Privacy
 
-## Icons
+- Citation data is processed locally in your browser.
+- No analytics.
+- No page content is sent to external servers.
+- Clipboard is used only when you press Copy.
 
-Icons were **originally designed for this project using AI tools**  
-and are provided as transparent PNG files:
+## Development Install (Firefox)
 
-- 16×16
-- 32×32
-- 128×128
-
----
-
-## Project Status
-
-This is an **MVP (Minimum Viable Product)** focused on:
-
-- correctness of citation output
-- clear formatting rules
-- stable PubMed extraction
-
----
-
-## Roadmap
-
-- DOI-based cross-site expansion
-- User-configurable author limits
-- CSL / EndNote export
-- Migration to Manifest V3
-
----
-
-## Tech Stack
-
-- Firefox WebExtension (Manifest V2)
-- Vanilla JavaScript
-- HTML / CSS
-
----
+1. Open about:debugging
+2. This Firefox
+3. Load Temporary Add-on…
+4. Select manifest.json
 
 ## License
 

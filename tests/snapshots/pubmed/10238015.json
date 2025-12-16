@@ -1,0 +1,6 @@
+{
+  "vancouver": "J C Green, H G Gillespie. Group rounds. Journal - National Association of Private Psychiatric Hospitals. 1975;7(1):20-2. PMID: 10238015.",
+  "apa7": "J C Green, H G Gillespie. (1975). Group rounds. Journal - National Association of Private Psychiatric Hospitals, 7(1), 20-2. https://pubmed.ncbi.nlm.nih.gov/10238015/",
+  "ieee": "J C Green, H G Gillespie, \"Group rounds,\" Journal - National Association of Private Psychiatric Hospitals, vol. 7, no. 1, pp. 20-2, 1975, https://pubmed.ncbi.nlm.nih.gov/10238015/.",
+  "bibtex": "@article{Green1975JournalNationalA,\n  author = {J C Green and H G Gillespie},\n  title = {Group rounds},\n  journal = {Journal - National Association of Private Psychiatric Hospitals},\n  year = {1975},\n  volume = {7},\n  number = {1},\n  pages = {20-2},\n  url = {https://pubmed.ncbi.nlm.nih.gov/10238015/},\n  note = {PMID: 10238015}\n}"
+}

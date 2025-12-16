@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Citation Helper (PubMed MVP)",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Generate citations from PubMed.",
   "browser_action": {
     "default_title": "Citation Helper",

@@ -1,0 +1,6 @@
+{
+  "vancouver": "Despite all the negatives, 2025 showcased the power, resilience and universality of science. Nature. 2025. doi:10.1038/d41586-025-04049-6.",
+  "apa7": "(2025). Despite all the negatives, 2025 showcased the power, resilience and universality of science. Nature. https://doi.org/10.1038/d41586-025-04049-6",
+  "ieee": "\"Despite all the negatives, 2025 showcased the power, resilience and universality of science,\" Nature, 2025, doi:10.1038/d41586-025-04049-6.",
+  "bibtex": "@article{article2025Nature,\n  title = {Despite all the negatives, 2025 showcased the power, resilience and universality of science},\n  journal = {Nature},\n  year = {2025},\n  doi = {10.1038/d41586-025-04049-6},\n  url = {https://www.nature.com/articles/d41586-025-04049-6}\n}"
+}
