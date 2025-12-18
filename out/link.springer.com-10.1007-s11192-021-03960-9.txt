@@ -1,0 +1,24 @@
+# 4. https://link.springer.com/article/10.1007/s11192-021-03960-9
+
+[Vancouver]
+Teixeira da Silva JA, Vuong QH. The right to refuse unwanted citations: rethinking the culture of science around the citation. Scientometrics. 2021;126(6):5355-5360. doi:10.1007/s11192-021-03960-9.
+
+[APA7]
+Teixeira da Silva, J. A., Vuong, Q. H. (2021). The right to refuse unwanted citations: rethinking the culture of science around the citation. Scientometrics, 126(6), 5355-5360. https://doi.org/10.1007/s11192-021-03960-9
+
+[IEEE]
+J. A. Teixeira da Silva, Q. H. Vuong, "The right to refuse unwanted citations: rethinking the culture of science around the citation," Scientometrics, vol. 126, no. 6, pp. 5355-5360, 2021, doi:10.1007/s11192-021-03960-9.
+
+[BibTeX]
+@article{A.2021Scientometrics,
+  author = {Teixeira da Silva, Jaime A. and Vuong, Quan-Hoang},
+  title = {The right to refuse unwanted citations: rethinking the culture of science around the citation},
+  journal = {Scientometrics},
+  year = {2021},
+  volume = {126},
+  number = {6},
+  pages = {5355-5360},
+  doi = {10.1007/s11192-021-03960-9},
+  url = {https://link.springer.com/article/10.1007/s11192-021-03960-9}
+}
+

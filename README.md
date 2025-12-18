@@ -1,54 +1,58 @@
-# Citation Helper (Firefox) - v0.7.0
+# README.md (English)
 
-A Firefox extension that generates clean citations from supported paper pages and lets you copy them.
+[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-## Supported sites
-- PubMed - https://pubmed.ncbi.nlm.nih.gov/<PMID>/
-- Nature.com - https://www.nature.com/articles/<ARTICLE_ID>
+# Citation Helper
 
-## Citation styles
+Citation Helper is a Firefox extension that extracts citation metadata from supported article pages and generates formatted references you can copy.
+
+Supported sites
+- PubMed (pubmed.ncbi.nlm.nih.gov)
+- Nature (nature.com)
+- SpringerLink (link.springer.com) including /article/ and /chapter/
+
+Supported formats
 - Vancouver
 - APA 7th
 - IEEE
 - BibTeX
+  - SpringerLink chapters are exported as @incollection with booktitle.
 
-## How to use
-1. Open a supported article page (PubMed or Nature).
-2. Click the extension icon.
-3. Select a style, then generate.
-4. Click Copy.
+How to use
+- Open a supported article page
+- Click the extension icon
+- Click Fetch citation
+- Choose a style and click Copy
 
-## Debug mode (for fixtures)
-When debug mode is enabled, the last extracted CitationData is saved to browser storage.
-This is used to build JSON fixtures for regression tests.
+Local processing
+- The extension extracts metadata from the current page (meta tags etc.) and formats it locally.
 
-Enable:
-- Open the extension popup DevTools console and run:
-  browser.storage.local.set({ debugMode: true })
+Development setup
+- Node.js is required for formatter snapshot tests.
+- Install dependencies:
+  - npm install
 
-Read back:
-- browser.storage.local.get(["lastCitationUrl","lastCitationData","lastCitationAt"]).then(console.log)
-
-## Tests (snapshot-based)
-This repo includes JSON fixtures and snapshot tests to prevent regressions when adding sites.
-
-Run:
+Run tests
 - npm test
 
-Update snapshots:
-- npm test -- --update
+Update snapshots (when formatter output changes intentionally)
+- node ./run-formatters.cjs --update
+  - Tip: add this to package.json scripts:
+    - "test:update": "node ./run-formatters.cjs --update"
 
-## Design principle
-- Formatters are site-agnostic and should remain stable.
-- Site-specific differences are handled in extractors + normalization.
-- All extractors output a common CitationData schema.
+Debugging (save last extracted CitationData)
+- Enable debug mode in an extension DevTools console:
+  - about:debugging#/runtime/this-firefox
+  - Find the extension, click Inspect
+  - Run:
+    - browser.storage.local.set({ debugMode: true })
+- After running Fetch citation on a supported page, read the latest data:
+  - browser.storage.local.get(["lastCitationUrl","lastCitationAt","lastCitationData"]).then(console.log)
 
-## CitationData schema (core fields)
-- authors: string[]
-- title: string
-- journalFull: string
-- journalAbbrev: string (optional)
-- year, volume, issue, pages
-- pmid (PubMed only)
-- doi (optional)
-- url
+Project versioning policy
+- v0.8.x: add features and improve exports while keeping store beta separate
+- v0.9.0-beta: store beta testing / packaging / store QA stabilization
+- v1.0.0: first stable release
+
+License
+- TBD

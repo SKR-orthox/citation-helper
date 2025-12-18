@@ -1,0 +1,36 @@
+{
+  "authors": [
+    "James, Gareth",
+    "Witten, Daniela",
+    "Hastie, Trevor",
+    "Tibshirani, Robert"
+  ],
+  "authorsVancouver": [
+    "James G",
+    "Witten D",
+    "Hastie T",
+    "Tibshirani R"
+  ],
+  "authorsAPA": [
+    "James, G.",
+    "Witten, D.",
+    "Hastie, T.",
+    "Tibshirani, R."
+  ],
+  "authorsIEEE": [
+    "G. James",
+    "D. Witten",
+    "T. Hastie",
+    "R. Tibshirani"
+  ],
+  "title": "Statistical Learning",
+  "journalFull": "An Introduction to Statistical Learning",
+  "journalAbbrev": "",
+  "year": "2021",
+  "volume": "",
+  "issue": "",
+  "pages": "15-57",
+  "pmid": "",
+  "doi": "10.1007/978-1-0716-1418-1_2",
+  "url": "https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2"
+}

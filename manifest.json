@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Citation Helper (PubMed MVP)",
-  "version": "0.7.0",
-  "description": "Generate citations from PubMed.",
+  "name": "Citation Helper",
+  "version": "0.8.0",
+  "description": "Generate citations from PubMed and Nature.",
   "browser_action": {
     "default_title": "Citation Helper",
     "default_popup": "popup.html"
@@ -18,7 +18,8 @@
     "clipboardWrite",
     "*://pubmed.ncbi.nlm.nih.gov/*",
     "*://www.nature.com/*",
-    "*://nature.com/*"
+    "*://nature.com/*",
+    "*://link.springer.com/*"
   ],
   "content_scripts": [
     {
@@ -34,6 +35,14 @@
         "*://nature.com/*/articles/*"
       ],
       "js": ["content/content-nature.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "*://link.springer.com/article/*",
+        "*://link.springer.com/chapter/*"
+      ],
+      "js": ["content/content-springer.js"],
       "run_at": "document_end"
     }
   ]

@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node ./run-formatters.cjs"
+    "test": "node ./run-formatters.cjs",
+    "test:update": "node ./run-formatters.cjs --update"    
   }
 }

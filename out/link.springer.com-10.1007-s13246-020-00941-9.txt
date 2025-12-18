@@ -1,0 +1,24 @@
+# 2. https://link.springer.com/article/10.1007/s13246-020-00941-9
+
+[Vancouver]
+Caon M, Trapp J, Baldock C. Citations are a good way to determine the quality of research. Physical and Engineering Sciences in Medicine. 2020;43(4):1145-1148. doi:10.1007/s13246-020-00941-9.
+
+[APA7]
+Caon, M., Trapp, J., Baldock, C. (2020). Citations are a good way to determine the quality of research. Physical and Engineering Sciences in Medicine, 43(4), 1145-1148. https://doi.org/10.1007/s13246-020-00941-9
+
+[IEEE]
+M. Caon, J. Trapp, C. Baldock, "Citations are a good way to determine the quality of research," Physical and Engineering Sciences in Medicine, vol. 43, no. 4, pp. 1145-1148, 2020, doi:10.1007/s13246-020-00941-9.
+
+[BibTeX]
+@article{Martin2020PhysicalandEngin,
+  author = {Caon, Martin and Trapp, Jamie and Baldock, Clive},
+  title = {Citations are a good way to determine the quality of research},
+  journal = {Physical and Engineering Sciences in Medicine},
+  year = {2020},
+  volume = {43},
+  number = {4},
+  pages = {1145-1148},
+  doi = {10.1007/s13246-020-00941-9},
+  url = {https://link.springer.com/article/10.1007/s13246-020-00941-9}
+}
+

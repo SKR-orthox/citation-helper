@@ -1,0 +1,23 @@
+# 7. https://link.springer.com/chapter/10.1007/978-3-319-24574-4_28
+
+[Vancouver]
+Ronneberger O, Fischer P, Brox T. U-Net: Convolutional Networks for Biomedical Image Segmentation. Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015. 2015:234-241. doi:10.1007/978-3-319-24574-4_28.
+
+[APA7]
+Ronneberger, O., Fischer, P., Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation. Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015, 234-241. https://doi.org/10.1007/978-3-319-24574-4_28
+
+[IEEE]
+O. Ronneberger, P. Fischer, T. Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation," Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015, pp. 234-241, 2015, doi:10.1007/978-3-319-24574-4_28.
+
+[BibTeX]
+@incollection{Olaf2015MedicalImageComp,
+  author = {Ronneberger, Olaf and Fischer, Philipp and Brox, Thomas},
+  title = {U-Net: Convolutional Networks for Biomedical Image Segmentation},
+  booktitle = {Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015},
+  publisher = {Springer, Cham},
+  year = {2015},
+  pages = {234-241},
+  doi = {10.1007/978-3-319-24574-4_28},
+  url = {https://link.springer.com/chapter/10.1007/978-3-319-24574-4_28}
+}
+

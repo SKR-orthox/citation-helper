@@ -1,0 +1,32 @@
+{
+  "authors": [
+    "Caon, Martin",
+    "Trapp, Jamie",
+    "Baldock, Clive"
+  ],
+  "authorsVancouver": [
+    "Caon M",
+    "Trapp J",
+    "Baldock C"
+  ],
+  "authorsAPA": [
+    "Caon, M.",
+    "Trapp, J.",
+    "Baldock, C."
+  ],
+  "authorsIEEE": [
+    "M. Caon",
+    "J. Trapp",
+    "C. Baldock"
+  ],
+  "title": "Citations are a good way to determine the quality of research",
+  "journalFull": "Physical and Engineering Sciences in Medicine",
+  "journalAbbrev": "Phys Eng Sci Med",
+  "year": "2020",
+  "volume": "43",
+  "issue": "4",
+  "pages": "1145-1148",
+  "pmid": "",
+  "doi": "10.1007/s13246-020-00941-9",
+  "url": "https://link.springer.com/article/10.1007/s13246-020-00941-9"
+}

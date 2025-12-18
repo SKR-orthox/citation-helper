@@ -1,0 +1,23 @@
+# 6. https://link.springer.com/chapter/10.1007/978-981-10-4720-6_16
+
+[Vancouver]
+Barreto SG. Open Access for Publication – Can It Be Chosen?. Writing and Publishing a Scientific Research Paper. 2017:167-175. doi:10.1007/978-981-10-4720-6_16.
+
+[APA7]
+Barreto, S. G. (2017). Open Access for Publication – Can It Be Chosen?. Writing and Publishing a Scientific Research Paper, 167-175. https://doi.org/10.1007/978-981-10-4720-6_16
+
+[IEEE]
+S. G. Barreto, "Open Access for Publication – Can It Be Chosen?," Writing and Publishing a Scientific Research Paper, pp. 167-175, 2017, doi:10.1007/978-981-10-4720-6_16.
+
+[BibTeX]
+@incollection{George2017WritingandPublis,
+  author = {Barreto, Savio George},
+  title = {Open Access for Publication – Can It Be Chosen?},
+  booktitle = {Writing and Publishing a Scientific Research Paper},
+  publisher = {Springer, Singapore},
+  year = {2017},
+  pages = {167-175},
+  doi = {10.1007/978-981-10-4720-6_16},
+  url = {https://link.springer.com/chapter/10.1007/978-981-10-4720-6_16}
+}
+

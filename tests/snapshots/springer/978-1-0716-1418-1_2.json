@@ -1,0 +1,6 @@
+{
+  "vancouver": "James G, Witten D, Hastie T, Tibshirani R. Statistical Learning. An Introduction to Statistical Learning. 2021:15-57. doi:10.1007/978-1-0716-1418-1_2.",
+  "apa7": "James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). Statistical Learning. An Introduction to Statistical Learning, 15-57. https://doi.org/10.1007/978-1-0716-1418-1_2",
+  "ieee": "G. James, D. Witten, T. Hastie, R. Tibshirani, \"Statistical Learning,\" An Introduction to Statistical Learning, pp. 15-57, 2021, doi:10.1007/978-1-0716-1418-1_2.",
+  "bibtex": "@incollection{Gareth2021AnIntroductionto,\n  author = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},\n  title = {Statistical Learning},\n  booktitle = {An Introduction to Statistical Learning},\n  year = {2021},\n  pages = {15-57},\n  doi = {10.1007/978-1-0716-1418-1_2},\n  url = {https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2}\n}"
+}

@@ -1,0 +1,48 @@
+{
+  "authors": [
+    "Dragoni, Nicola",
+    "Giallorenzo, Saverio",
+    "Lafuente, Alberto Lluch",
+    "Mazzara, Manuel",
+    "Montesi, Fabrizio",
+    "Mustafin, Ruslan",
+    "Safina, Larisa"
+  ],
+  "authorsVancouver": [
+    "Dragoni N",
+    "Giallorenzo S",
+    "Lafuente AL",
+    "Mazzara M",
+    "Montesi F",
+    "Mustafin R",
+    "Safina L"
+  ],
+  "authorsAPA": [
+    "Dragoni, N.",
+    "Giallorenzo, S.",
+    "Lafuente, A. L.",
+    "Mazzara, M.",
+    "Montesi, F.",
+    "Mustafin, R.",
+    "Safina, L."
+  ],
+  "authorsIEEE": [
+    "N. Dragoni",
+    "S. Giallorenzo",
+    "A. L. Lafuente",
+    "M. Mazzara",
+    "F. Montesi",
+    "R. Mustafin",
+    "L. Safina"
+  ],
+  "title": "Microservices: Yesterday, Today, and Tomorrow",
+  "journalFull": "Present and Ulterior Software Engineering",
+  "journalAbbrev": "",
+  "year": "2017",
+  "volume": "",
+  "issue": "",
+  "pages": "195-216",
+  "pmid": "",
+  "doi": "10.1007/978-3-319-67425-4_12",
+  "url": "https://link.springer.com/chapter/10.1007/978-3-319-67425-4_12"
+}

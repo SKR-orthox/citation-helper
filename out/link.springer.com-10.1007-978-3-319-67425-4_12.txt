@@ -1,0 +1,23 @@
+# 9. https://link.springer.com/chapter/10.1007/978-3-319-67425-4_12
+
+[Vancouver]
+Dragoni N, Giallorenzo S, Lafuente AL, Mazzara M, Montesi F, Mustafin R, et al. Microservices: Yesterday, Today, and Tomorrow. Present and Ulterior Software Engineering. 2017:195-216. doi:10.1007/978-3-319-67425-4_12.
+
+[APA7]
+Dragoni, N., Giallorenzo, S., Lafuente, A. L., Mazzara, M., Montesi, F., Mustafin, R., Safina, L. (2017). Microservices: Yesterday, Today, and Tomorrow. Present and Ulterior Software Engineering, 195-216. https://doi.org/10.1007/978-3-319-67425-4_12
+
+[IEEE]
+N. Dragoni, S. Giallorenzo, A. L. Lafuente, M. Mazzara, F. Montesi, R. Mustafin, L. Safina, "Microservices: Yesterday, Today, and Tomorrow," Present and Ulterior Software Engineering, pp. 195-216, 2017, doi:10.1007/978-3-319-67425-4_12.
+
+[BibTeX]
+@incollection{Nicola2017PresentandUlteri,
+  author = {Dragoni, Nicola and Giallorenzo, Saverio and Lafuente, Alberto Lluch and Mazzara, Manuel and Montesi, Fabrizio and Mustafin, Ruslan and Safina, Larisa},
+  title = {Microservices: Yesterday, Today, and Tomorrow},
+  booktitle = {Present and Ulterior Software Engineering},
+  publisher = {Springer, Cham},
+  year = {2017},
+  pages = {195-216},
+  doi = {10.1007/978-3-319-67425-4_12},
+  url = {https://link.springer.com/chapter/10.1007/978-3-319-67425-4_12}
+}
+

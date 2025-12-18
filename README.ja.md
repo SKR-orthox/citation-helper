@@ -1,54 +1,55 @@
-# Citation Helper (Firefox) - v0.7.0
+# README.ja.md (日本語)
 
-対応している論文ページから参考文献の形式を生成し、コピーできるFirefox拡張です。
+Citation Helper は、対応している論文/章ページからメタデータを抽出し、参考文献形式に整形してコピーできる Firefox 拡張機能です。
 
-## 対応サイト
-- PubMed - https://pubmed.ncbi.nlm.nih.gov/<PMID>/
-- Nature.com - https://www.nature.com/articles/<ARTICLE_ID>
+対応サイト
+- PubMed (pubmed.ncbi.nlm.nih.gov)
+- Nature (nature.com)
+- SpringerLink (link.springer.com)
+  - /article/ と /chapter/ に対応
 
-## 対応スタイル
+対応フォーマット
 - Vancouver
-- APA第7版
+- APA 第7版
 - IEEE
 - BibTeX
+  - SpringerLink の chapter は @incollection と booktitle で出力されます。
 
-## 使い方
-1. 対応している論文ページ(PubMedまたはNature)を開きます。
-2. 拡張アイコンからポップアップを開きます。
-3. スタイルを選んで生成します。
-4. Copyでクリップボードにコピーします。
+使い方
+- 対応している論文ページを開きます
+- 拡張機能アイコンを押します
+- Fetch citation を押します
+- 形式を選び、Copy でコピーします
 
-## デバッグモード(テスト用JSON)
-デバッグモードを有効にすると、最後に抽出したCitationDataをブラウザの保存領域に保存します。
-回帰テスト用のfixture(JSON)作成に使います。
+ローカル処理
+- 現在ページの meta タグ等から抽出し、整形処理はローカルで行います。
 
-有効化:
-- 拡張ポップアップのDevToolsコンソールで実行
-  browser.storage.local.set({ debugMode: true })
+開発/テスト
+- Node.js が必要です。
+- 依存関係のインストール:
+  - npm install
 
-確認:
-- browser.storage.local.get(["lastCitationUrl","lastCitationData","lastCitationAt"]).then(console.log)
-
-## テスト(スナップショット)
-サイト追加やextractor修正時に、既存サイトが壊れないようにfixtures + snapshotテストを使います。
-
-実行:
+テスト
 - npm test
 
-スナップショット作成/更新:
-- npm test -- --update
+スナップショット更新(出力変更が意図的な場合)
+- node ./run-formatters.cjs --update
+  - package.json scripts に追加すると便利です
+    - "test:update": "node ./run-formatters.cjs --update"
 
-## 設計方針
-- formattersはサイト非依存として安定維持します。
-- サイト差分はextractorと正規化層で吸収します。
-- extractorの出力は共通のCitationDataスキーマに統一します。
+デバッグ lastCitationData の保存
+- 拡張の DevTools コンソールで debugMode を有効化します
+  - about:debugging#/runtime/this-firefox
+  - 拡張機能の Inspect をクリック
+  - 実行:
+    - browser.storage.local.set({ debugMode: true })
+- 対応ページで Fetch citation を実行後、以下で確認できます
+  - browser.storage.local.get(["lastCitationUrl","lastCitationAt","lastCitationData"]).then(console.log)
 
-## CitationDataスキーマ(主要フィールド)
-- authors: string[]
-- title: string
-- journalFull: string
-- journalAbbrev: string(任意)
-- year, volume, issue, pages
-- pmid(PubMedのみ)
-- doi(任意)
-- url
+バージョン方針
+- v0.8.x: 機能追加と export 拡張(ストアベータと分離)
+- v0.9.0-beta: ストアベータ、パッケージング、ストアQA安定化
+- v1.0.0: 最初の正式版
+
+ライセンス
+- 後で決定

@@ -1,0 +1,6 @@
+{
+  "vancouver": "Huang CK, Neylon C, Montgomery L, Hosking R, Diprose JP, Handcock RN, et al. Open access research outputs receive more diverse citations. Scientometrics. 2024;129(2):825-845. doi:10.1007/s11192-023-04894-0.",
+  "apa7": "Huang, C. K., Neylon, C., Montgomery, L., Hosking, R., Diprose, J. P., Handcock, R. N., Wilson, K. (2024). Open access research outputs receive more diverse citations. Scientometrics, 129(2), 825-845. https://doi.org/10.1007/s11192-023-04894-0",
+  "ieee": "C. K. Huang, C. Neylon, L. Montgomery, R. Hosking, J. P. Diprose, R. N. Handcock, K. Wilson, \"Open access research outputs receive more diverse citations,\" Scientometrics, vol. 129, no. 2, pp. 825-845, 2024, doi:10.1007/s11192-023-04894-0.",
+  "bibtex": "@article{Chun-Kai2024Scientometrics,\n  author = {Huang, Chun-Kai and Neylon, Cameron and Montgomery, Lucy and Hosking, Richard and Diprose, James P. and Handcock, Rebecca N. and Wilson, Katie},\n  title = {Open access research outputs receive more diverse citations},\n  journal = {Scientometrics},\n  year = {2024},\n  volume = {129},\n  number = {2},\n  pages = {825-845},\n  doi = {10.1007/s11192-023-04894-0},\n  url = {https://link.springer.com/article/10.1007/s11192-023-04894-0}\n}"
+}

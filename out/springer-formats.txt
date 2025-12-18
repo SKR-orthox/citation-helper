@@ -1,0 +1,255 @@
+# 1. https://link.springer.com/article/10.1007/s11192-024-05163-4
+
+[Vancouver]
+Yang P, Shoaib A, West R, Colavizza G. Open access improves the dissemination of science: insights from Wikipedia. Scientometrics. 2024;129(11):7083-7106. doi:10.1007/s11192-024-05163-4.
+
+[APA7]
+Yang, P., Shoaib, A., West, R., Colavizza, G. (2024). Open access improves the dissemination of science: insights from Wikipedia. Scientometrics, 129(11), 7083-7106. https://doi.org/10.1007/s11192-024-05163-4
+
+[IEEE]
+P. Yang, A. Shoaib, R. West, G. Colavizza, "Open access improves the dissemination of science: insights from Wikipedia," Scientometrics, vol. 129, no. 11, pp. 7083-7106, 2024, doi:10.1007/s11192-024-05163-4.
+
+[BibTeX]
+@article{Puyu2024Scientometrics,
+  author = {Yang, Puyu and Shoaib, Ahad and West, Robert and Colavizza, Giovanni},
+  title = {Open access improves the dissemination of science: insights from Wikipedia},
+  journal = {Scientometrics},
+  year = {2024},
+  volume = {129},
+  number = {11},
+  pages = {7083-7106},
+  doi = {10.1007/s11192-024-05163-4},
+  url = {https://link.springer.com/article/10.1007/s11192-024-05163-4}
+}
+
+---
+
+# 2. https://link.springer.com/article/10.1007/s13246-020-00941-9
+
+[Vancouver]
+Caon M, Trapp J, Baldock C. Citations are a good way to determine the quality of research. Physical and Engineering Sciences in Medicine. 2020;43(4):1145-1148. doi:10.1007/s13246-020-00941-9.
+
+[APA7]
+Caon, M., Trapp, J., Baldock, C. (2020). Citations are a good way to determine the quality of research. Physical and Engineering Sciences in Medicine, 43(4), 1145-1148. https://doi.org/10.1007/s13246-020-00941-9
+
+[IEEE]
+M. Caon, J. Trapp, C. Baldock, "Citations are a good way to determine the quality of research," Physical and Engineering Sciences in Medicine, vol. 43, no. 4, pp. 1145-1148, 2020, doi:10.1007/s13246-020-00941-9.
+
+[BibTeX]
+@article{Martin2020PhysicalandEngin,
+  author = {Caon, Martin and Trapp, Jamie and Baldock, Clive},
+  title = {Citations are a good way to determine the quality of research},
+  journal = {Physical and Engineering Sciences in Medicine},
+  year = {2020},
+  volume = {43},
+  number = {4},
+  pages = {1145-1148},
+  doi = {10.1007/s13246-020-00941-9},
+  url = {https://link.springer.com/article/10.1007/s13246-020-00941-9}
+}
+
+---
+
+# 3. https://link.springer.com/article/10.1007/s11192-023-04894-0
+
+[Vancouver]
+Huang CK, Neylon C, Montgomery L, Hosking R, Diprose JP, Handcock RN, et al. Open access research outputs receive more diverse citations. Scientometrics. 2024;129(2):825-845. doi:10.1007/s11192-023-04894-0.
+
+[APA7]
+Huang, C. K., Neylon, C., Montgomery, L., Hosking, R., Diprose, J. P., Handcock, R. N., Wilson, K. (2024). Open access research outputs receive more diverse citations. Scientometrics, 129(2), 825-845. https://doi.org/10.1007/s11192-023-04894-0
+
+[IEEE]
+C. K. Huang, C. Neylon, L. Montgomery, R. Hosking, J. P. Diprose, R. N. Handcock, K. Wilson, "Open access research outputs receive more diverse citations," Scientometrics, vol. 129, no. 2, pp. 825-845, 2024, doi:10.1007/s11192-023-04894-0.
+
+[BibTeX]
+@article{Chun-Kai2024Scientometrics,
+  author = {Huang, Chun-Kai and Neylon, Cameron and Montgomery, Lucy and Hosking, Richard and Diprose, James P. and Handcock, Rebecca N. and Wilson, Katie},
+  title = {Open access research outputs receive more diverse citations},
+  journal = {Scientometrics},
+  year = {2024},
+  volume = {129},
+  number = {2},
+  pages = {825-845},
+  doi = {10.1007/s11192-023-04894-0},
+  url = {https://link.springer.com/article/10.1007/s11192-023-04894-0}
+}
+
+---
+
+# 4. https://link.springer.com/article/10.1007/s11192-021-03960-9
+
+[Vancouver]
+Teixeira da Silva JA, Vuong QH. The right to refuse unwanted citations: rethinking the culture of science around the citation. Scientometrics. 2021;126(6):5355-5360. doi:10.1007/s11192-021-03960-9.
+
+[APA7]
+Teixeira da Silva, J. A., Vuong, Q. H. (2021). The right to refuse unwanted citations: rethinking the culture of science around the citation. Scientometrics, 126(6), 5355-5360. https://doi.org/10.1007/s11192-021-03960-9
+
+[IEEE]
+J. A. Teixeira da Silva, Q. H. Vuong, "The right to refuse unwanted citations: rethinking the culture of science around the citation," Scientometrics, vol. 126, no. 6, pp. 5355-5360, 2021, doi:10.1007/s11192-021-03960-9.
+
+[BibTeX]
+@article{A.2021Scientometrics,
+  author = {Teixeira da Silva, Jaime A. and Vuong, Quan-Hoang},
+  title = {The right to refuse unwanted citations: rethinking the culture of science around the citation},
+  journal = {Scientometrics},
+  year = {2021},
+  volume = {126},
+  number = {6},
+  pages = {5355-5360},
+  doi = {10.1007/s11192-021-03960-9},
+  url = {https://link.springer.com/article/10.1007/s11192-021-03960-9}
+}
+
+---
+
+# 5. https://link.springer.com/article/10.1007/s10805-025-09631-1
+
+[Vancouver]
+Plevris V. From Integrity to Inflation: Ethical and Unethical Citation Practices in Academic Publishing. Journal of Academic Ethics. 2025;23(4):1847-1877. doi:10.1007/s10805-025-09631-1.
+
+[APA7]
+Plevris, V. (2025). From Integrity to Inflation: Ethical and Unethical Citation Practices in Academic Publishing. Journal of Academic Ethics, 23(4), 1847-1877. https://doi.org/10.1007/s10805-025-09631-1
+
+[IEEE]
+V. Plevris, "From Integrity to Inflation: Ethical and Unethical Citation Practices in Academic Publishing," Journal of Academic Ethics, vol. 23, no. 4, pp. 1847-1877, 2025, doi:10.1007/s10805-025-09631-1.
+
+[BibTeX]
+@article{Vagelis2025JournalofAcademi,
+  author = {Plevris, Vagelis},
+  title = {From Integrity to Inflation: Ethical and Unethical Citation Practices in Academic Publishing},
+  journal = {Journal of Academic Ethics},
+  year = {2025},
+  volume = {23},
+  number = {4},
+  pages = {1847-1877},
+  doi = {10.1007/s10805-025-09631-1},
+  url = {https://link.springer.com/article/10.1007/s10805-025-09631-1}
+}
+
+---
+
+# 6. https://link.springer.com/chapter/10.1007/978-981-10-4720-6_16
+
+[Vancouver]
+Barreto SG. Open Access for Publication – Can It Be Chosen?. Writing and Publishing a Scientific Research Paper. 2017:167-175. doi:10.1007/978-981-10-4720-6_16.
+
+[APA7]
+Barreto, S. G. (2017). Open Access for Publication – Can It Be Chosen?. Writing and Publishing a Scientific Research Paper, 167-175. https://doi.org/10.1007/978-981-10-4720-6_16
+
+[IEEE]
+S. G. Barreto, "Open Access for Publication – Can It Be Chosen?," Writing and Publishing a Scientific Research Paper, pp. 167-175, 2017, doi:10.1007/978-981-10-4720-6_16.
+
+[BibTeX]
+@incollection{George2017WritingandPublis,
+  author = {Barreto, Savio George},
+  title = {Open Access for Publication – Can It Be Chosen?},
+  booktitle = {Writing and Publishing a Scientific Research Paper},
+  publisher = {Springer, Singapore},
+  year = {2017},
+  pages = {167-175},
+  doi = {10.1007/978-981-10-4720-6_16},
+  url = {https://link.springer.com/chapter/10.1007/978-981-10-4720-6_16}
+}
+
+---
+
+# 7. https://link.springer.com/chapter/10.1007/978-3-319-24574-4_28
+
+[Vancouver]
+Ronneberger O, Fischer P, Brox T. U-Net: Convolutional Networks for Biomedical Image Segmentation. Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015. 2015:234-241. doi:10.1007/978-3-319-24574-4_28.
+
+[APA7]
+Ronneberger, O., Fischer, P., Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation. Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015, 234-241. https://doi.org/10.1007/978-3-319-24574-4_28
+
+[IEEE]
+O. Ronneberger, P. Fischer, T. Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation," Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015, pp. 234-241, 2015, doi:10.1007/978-3-319-24574-4_28.
+
+[BibTeX]
+@incollection{Olaf2015MedicalImageComp,
+  author = {Ronneberger, Olaf and Fischer, Philipp and Brox, Thomas},
+  title = {U-Net: Convolutional Networks for Biomedical Image Segmentation},
+  booktitle = {Medical Image Computing and Computer-Assisted Intervention – MICCAI 2015},
+  publisher = {Springer, Cham},
+  year = {2015},
+  pages = {234-241},
+  doi = {10.1007/978-3-319-24574-4_28},
+  url = {https://link.springer.com/chapter/10.1007/978-3-319-24574-4_28}
+}
+
+---
+
+# 8. https://link.springer.com/chapter/10.1007/978-3-031-69933-7_18
+
+[Vancouver]
+Giudice GF. Publisher Correction to: Unveiling the Mysteries of the Big Bang. Before the Big Bang. 2024:C1-C2. doi:10.1007/978-3-031-69933-7_18.
+
+[APA7]
+Giudice, G. F. (2024). Publisher Correction to: Unveiling the Mysteries of the Big Bang. Before the Big Bang, C1-C2. https://doi.org/10.1007/978-3-031-69933-7_18
+
+[IEEE]
+G. F. Giudice, "Publisher Correction to: Unveiling the Mysteries of the Big Bang," Before the Big Bang, pp. C1-C2, 2024, doi:10.1007/978-3-031-69933-7_18.
+
+[BibTeX]
+@incollection{Francesco2024BeforetheBigBang,
+  author = {Giudice, Gian Francesco},
+  title = {Publisher Correction to: Unveiling the Mysteries of the Big Bang},
+  booktitle = {Before the Big Bang},
+  publisher = {Springer, Cham},
+  year = {2024},
+  pages = {C1-C2},
+  doi = {10.1007/978-3-031-69933-7_18},
+  url = {https://link.springer.com/chapter/10.1007/978-3-031-69933-7_18}
+}
+
+---
+
+# 9. https://link.springer.com/chapter/10.1007/978-3-319-67425-4_12
+
+[Vancouver]
+Dragoni N, Giallorenzo S, Lafuente AL, Mazzara M, Montesi F, Mustafin R, et al. Microservices: Yesterday, Today, and Tomorrow. Present and Ulterior Software Engineering. 2017:195-216. doi:10.1007/978-3-319-67425-4_12.
+
+[APA7]
+Dragoni, N., Giallorenzo, S., Lafuente, A. L., Mazzara, M., Montesi, F., Mustafin, R., Safina, L. (2017). Microservices: Yesterday, Today, and Tomorrow. Present and Ulterior Software Engineering, 195-216. https://doi.org/10.1007/978-3-319-67425-4_12
+
+[IEEE]
+N. Dragoni, S. Giallorenzo, A. L. Lafuente, M. Mazzara, F. Montesi, R. Mustafin, L. Safina, "Microservices: Yesterday, Today, and Tomorrow," Present and Ulterior Software Engineering, pp. 195-216, 2017, doi:10.1007/978-3-319-67425-4_12.
+
+[BibTeX]
+@incollection{Nicola2017PresentandUlteri,
+  author = {Dragoni, Nicola and Giallorenzo, Saverio and Lafuente, Alberto Lluch and Mazzara, Manuel and Montesi, Fabrizio and Mustafin, Ruslan and Safina, Larisa},
+  title = {Microservices: Yesterday, Today, and Tomorrow},
+  booktitle = {Present and Ulterior Software Engineering},
+  publisher = {Springer, Cham},
+  year = {2017},
+  pages = {195-216},
+  doi = {10.1007/978-3-319-67425-4_12},
+  url = {https://link.springer.com/chapter/10.1007/978-3-319-67425-4_12}
+}
+
+---
+
+# 10. https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2
+
+[Vancouver]
+James G, Witten D, Hastie T, Tibshirani R. Statistical Learning. An Introduction to Statistical Learning. 2021:15-57. doi:10.1007/978-1-0716-1418-1_2.
+
+[APA7]
+James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). Statistical Learning. An Introduction to Statistical Learning, 15-57. https://doi.org/10.1007/978-1-0716-1418-1_2
+
+[IEEE]
+G. James, D. Witten, T. Hastie, R. Tibshirani, "Statistical Learning," An Introduction to Statistical Learning, pp. 15-57, 2021, doi:10.1007/978-1-0716-1418-1_2.
+
+[BibTeX]
+@incollection{Gareth2021AnIntroductionto,
+  author = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},
+  title = {Statistical Learning},
+  booktitle = {An Introduction to Statistical Learning},
+  publisher = {Springer, New York, NY},
+  year = {2021},
+  pages = {15-57},
+  doi = {10.1007/978-1-0716-1418-1_2},
+  url = {https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2}
+}
+
+---
+

@@ -1,0 +1,23 @@
+# 10. https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2
+
+[Vancouver]
+James G, Witten D, Hastie T, Tibshirani R. Statistical Learning. An Introduction to Statistical Learning. 2021:15-57. doi:10.1007/978-1-0716-1418-1_2.
+
+[APA7]
+James, G., Witten, D., Hastie, T., Tibshirani, R. (2021). Statistical Learning. An Introduction to Statistical Learning, 15-57. https://doi.org/10.1007/978-1-0716-1418-1_2
+
+[IEEE]
+G. James, D. Witten, T. Hastie, R. Tibshirani, "Statistical Learning," An Introduction to Statistical Learning, pp. 15-57, 2021, doi:10.1007/978-1-0716-1418-1_2.
+
+[BibTeX]
+@incollection{Gareth2021AnIntroductionto,
+  author = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},
+  title = {Statistical Learning},
+  booktitle = {An Introduction to Statistical Learning},
+  publisher = {Springer, New York, NY},
+  year = {2021},
+  pages = {15-57},
+  doi = {10.1007/978-1-0716-1418-1_2},
+  url = {https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2}
+}
+

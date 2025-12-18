@@ -80,7 +80,12 @@
       hosts: ["www.nature.com", "nature.com"],
       // /articles/<id> or /en/articles/<id>
       isArticleUrl: (u) => /\/(?:[a-z]{2}\/)?articles\/[^\/]+\/?$/.test(u.pathname)
-    }
+    },
+    {
+      id: "springer",
+      hosts: ["link.springer.com"],
+      isArticleUrl: (u) => /^\/(article|chapter)\/.+/i.test(u.pathname)
+    } 
   ];
 
   function classifyByUrl(rawUrl) {

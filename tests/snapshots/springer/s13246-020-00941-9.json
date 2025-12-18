@@ -1,0 +1,6 @@
+{
+  "vancouver": "Caon M, Trapp J, Baldock C. Citations are a good way to determine the quality of research. Phys Eng Sci Med. 2020;43(4):1145-1148. doi:10.1007/s13246-020-00941-9.",
+  "apa7": "Caon, M., Trapp, J., Baldock, C. (2020). Citations are a good way to determine the quality of research. Physical and Engineering Sciences in Medicine, 43(4), 1145-1148. https://doi.org/10.1007/s13246-020-00941-9",
+  "ieee": "M. Caon, J. Trapp, C. Baldock, \"Citations are a good way to determine the quality of research,\" Phys Eng Sci Med, vol. 43, no. 4, pp. 1145-1148, 2020, doi:10.1007/s13246-020-00941-9.",
+  "bibtex": "@article{Martin2020PhysicalandEngin,\n  author = {Caon, Martin and Trapp, Jamie and Baldock, Clive},\n  title = {Citations are a good way to determine the quality of research},\n  journal = {Physical and Engineering Sciences in Medicine},\n  year = {2020},\n  volume = {43},\n  number = {4},\n  pages = {1145-1148},\n  doi = {10.1007/s13246-020-00941-9},\n  url = {https://link.springer.com/article/10.1007/s13246-020-00941-9}\n}"
+}

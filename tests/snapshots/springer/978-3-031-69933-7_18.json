@@ -1,0 +1,6 @@
+{
+  "vancouver": "Giudice GF. Publisher Correction to: Unveiling the Mysteries of the Big Bang. Before the Big Bang. 2024:C1-C2. doi:10.1007/978-3-031-69933-7_18.",
+  "apa7": "Giudice, G. F. (2024). Publisher Correction to: Unveiling the Mysteries of the Big Bang. Before the Big Bang, C1-C2. https://doi.org/10.1007/978-3-031-69933-7_18",
+  "ieee": "G. F. Giudice, \"Publisher Correction to: Unveiling the Mysteries of the Big Bang,\" Before the Big Bang, pp. C1-C2, 2024, doi:10.1007/978-3-031-69933-7_18.",
+  "bibtex": "@incollection{Francesco2024BeforetheBigBang,\n  author = {Giudice, Gian Francesco},\n  title = {Publisher Correction to: Unveiling the Mysteries of the Big Bang},\n  booktitle = {Before the Big Bang},\n  year = {2024},\n  pages = {C1-C2},\n  doi = {10.1007/978-3-031-69933-7_18},\n  url = {https://link.springer.com/chapter/10.1007/978-3-031-69933-7_18}\n}"
+}

@@ -1,0 +1,24 @@
+# 1. https://link.springer.com/article/10.1007/s11192-024-05163-4
+
+[Vancouver]
+Yang P, Shoaib A, West R, Colavizza G. Open access improves the dissemination of science: insights from Wikipedia. Scientometrics. 2024;129(11):7083-7106. doi:10.1007/s11192-024-05163-4.
+
+[APA7]
+Yang, P., Shoaib, A., West, R., Colavizza, G. (2024). Open access improves the dissemination of science: insights from Wikipedia. Scientometrics, 129(11), 7083-7106. https://doi.org/10.1007/s11192-024-05163-4
+
+[IEEE]
+P. Yang, A. Shoaib, R. West, G. Colavizza, "Open access improves the dissemination of science: insights from Wikipedia," Scientometrics, vol. 129, no. 11, pp. 7083-7106, 2024, doi:10.1007/s11192-024-05163-4.
+
+[BibTeX]
+@article{Puyu2024Scientometrics,
+  author = {Yang, Puyu and Shoaib, Ahad and West, Robert and Colavizza, Giovanni},
+  title = {Open access improves the dissemination of science: insights from Wikipedia},
+  journal = {Scientometrics},
+  year = {2024},
+  volume = {129},
+  number = {11},
+  pages = {7083-7106},
+  doi = {10.1007/s11192-024-05163-4},
+  url = {https://link.springer.com/article/10.1007/s11192-024-05163-4}
+}
+
