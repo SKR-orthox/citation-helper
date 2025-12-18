@@ -1,0 +1,18 @@
+[
+  {
+    "id": "doi:10.1007/978-1-0716-1418-1_2",
+    "type": "chapter",
+    "title": "Statistical Learning",
+    "author": [
+      { "family": "James", "given": "Gareth" },
+      { "family": "Witten", "given": "Daniela" },
+      { "family": "Hastie", "given": "Trevor" },
+      { "family": "Tibshirani", "given": "Robert" }
+    ],
+    "issued": { "date-parts": [[2021]] },
+    "DOI": "10.1007/978-1-0716-1418-1_2",
+    "URL": "https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2",
+    "page": "15-57",
+    "container-title": "An Introduction to Statistical Learning"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "pmid:10238015",
+    "type": "article-journal",
+    "title": "Group rounds",
+    "author": [
+      { "family": "Green", "given": "J C" },
+      { "family": "Gillespie", "given": "H G" }
+    ],
+    "issued": { "date-parts": [[1975]] },
+    "URL": "https://pubmed.ncbi.nlm.nih.gov/10238015/",
+    "volume": "7",
+    "issue": "1",
+    "page": "20-2",
+    "container-title": "Journal - National Association of Private Psychiatric Hospitals",
+    "PMID": "10238015"
+  }
+]

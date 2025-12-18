@@ -1,0 +1,16 @@
+[
+  {
+    "id": "doi:10.1038/d41586-024-04246-9",
+    "type": "article-journal",
+    "title": "Behind the scenes of Nature News & Views in 2024",
+    "author": [
+      { "family": "Baker", "given": "Noah" },
+      { "family": "Mitchinson", "given": "Andrew" },
+      { "family": "Klopper", "given": "Abigail" }
+    ],
+    "issued": { "date-parts": [[2024]] },
+    "DOI": "10.1038/d41586-024-04246-9",
+    "URL": "https://www.nature.com/articles/d41586-024-04246-9",
+    "container-title": "Nature"
+  }
+]
