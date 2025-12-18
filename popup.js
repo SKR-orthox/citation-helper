@@ -85,7 +85,7 @@
       id: "springer",
       hosts: ["link.springer.com"],
       isArticleUrl: (u) => /^\/(article|chapter)\/.+/i.test(u.pathname)
-    } 
+    }
   ];
 
   function classifyByUrl(rawUrl) {
@@ -114,7 +114,6 @@
       statusEl.textContent = t;
       return;
     }
-    // status 영역은 짧고 행동 유도형으로: 메시지 + [CODE]
     statusEl.textContent = t ? `${t}\n[${code}]` : `[${code}]`;
   }
 
@@ -128,6 +127,45 @@
       case "EXTENSION_NOT_ACTIVE": return m().errExtensionNotActive;
       default: return m().errUnknown;
     }
+  }
+
+  function copyToClipboard(text) {
+    const t = String(text ?? "");
+    if (!t) return Promise.reject(new Error("empty"));
+
+    const legacyCopy = () => {
+      const ta = document.createElement("textarea");
+      ta.value = t;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      ta.style.top = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      if (!ok) throw new Error("copy failed");
+    };
+
+    if (navigator?.clipboard?.writeText) {
+      return navigator.clipboard.writeText(t).catch((e) => {
+        try {
+          legacyCopy();
+          return;
+        } catch {
+          throw e;
+        }
+      });
+    }
+
+    return new Promise((resolve, reject) => {
+      try {
+        legacyCopy();
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   function render() {
@@ -153,12 +191,12 @@
     const text = errorTextByCode(code);
     currentData = null;
     setCitation(text, false);
-    // status에는 “원인”이 명확히 보이게
     setStatus(code, text);
   }
 
   function requestCitation() {
     setStatus("", "");
+
     api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs && tabs[0];
       if (!tab) return;
@@ -181,27 +219,37 @@
 
         if (resp && resp.ok && resp.data) {
           currentData = resp.data;
+
           if (debugMode) {
             try {
               api.storage.local.set({
                 lastCitationData: JSON.parse(JSON.stringify(currentData)),
                 lastCitationUrl: tab.url || "",
                 lastCitationAt: Date.now()
-             });
-          } catch (e) {
-            console.warn("[PCH debug] failed to store lastCitationData", e);
+              });
+            } catch (e) {
+              console.warn("[PCH debug] failed to store lastCitationData", e);
+            }
           }
-        }
+
           render();
-          setStatus("", "OK");
+
+          const style = styleSelect.value || "vancouver";
+          if (style === "csljson" && canCopy && currentCitation) {
+            copyToClipboard(currentCitation)
+              .then(() => setStatus("", m().statusCopied))
+              .catch(() => setStatus("", m().statusCopyFailed));
+          } else {
+            setStatus("", "");
+          }
+
           return;
         }
 
         if (debugMode) {
           window.PCH = window.PCH || {};
-          // deep clone: 혹시 모를 참조 문제 방지
-          window.PCH.lastCitationData = JSON.parse(JSON.stringify(currentData));
-          console.log("[PCH debug] lastCitationData ready");
+          window.PCH.lastPopupResponse = resp ? JSON.parse(JSON.stringify(resp)) : null;
+          console.log("[PCH debug] lastPopupResponse ready");
         }
 
         const code = resp && resp.errorCode ? String(resp.errorCode) : "NO_ARTICLE";
@@ -214,17 +262,18 @@
 
   copyBtn.addEventListener("click", () => {
     if (!canCopy || !currentCitation) return;
-    navigator.clipboard.writeText(currentCitation)
+    copyToClipboard(currentCitation)
       .then(() => setStatus("", m().statusCopied))
       .catch(() => setStatus("", m().statusCopyFailed));
   });
 
-  styleSelect.addEventListener("change", () => { if (currentData) render(); });
+  styleSelect.addEventListener("change", () => {
+    if (currentData) render();
+  });
 
   langSelect.addEventListener("change", () => {
     api.storage.local.set({ uiLanguage: langSelect.value });
     applyLang();
-    // status도 선택 언어로 다시 렌더
     if (currentData) render();
     else setStatus("", "");
   });

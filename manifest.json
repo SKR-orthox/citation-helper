@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Citation Helper",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Generate citations from PubMed and Nature.",
   "browser_action": {
     "default_title": "Citation Helper",
