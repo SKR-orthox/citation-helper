@@ -231,18 +231,7 @@
               console.warn("[PCH debug] failed to store lastCitationData", e);
             }
           }
-
           render();
-
-          const style = styleSelect.value || "vancouver";
-          if (style === "csljson" && canCopy && currentCitation) {
-            copyToClipboard(currentCitation)
-              .then(() => setStatus("", m().statusCopied))
-              .catch(() => setStatus("", m().statusCopyFailed));
-          } else {
-            setStatus("", "");
-          }
-
           return;
         }
 

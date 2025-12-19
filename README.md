@@ -6,39 +6,46 @@
 
 Citation Helper is a Firefox extension that extracts citation metadata from supported article pages and generates formatted references you can copy.
 
+Current version
+- v0.8.2
+
 Supported sites
 - PubMed (pubmed.ncbi.nlm.nih.gov)
 - Nature (nature.com)
-- SpringerLink (link.springer.com) including /article/ and /chapter/
+- SpringerLink (link.springer.com)
+  - /article/
+  - /chapter/
 
 Supported formats
 - Vancouver
 - APA 7th
 - IEEE
 - BibTeX
-  - SpringerLink chapters are exported as @incollection with booktitle.
+  - SpringerLink chapters export as @incollection with booktitle.
+- CSL-JSON (export)
+  - Mapping notes: CSL-JSON_MAPPING.md
+- RIS (export)
 
 How to use
 - Open a supported article page
 - Click the extension icon
 - Click Fetch citation
-- Choose a style and click Copy
+- Select a style
+- Click Copy to copy the result to the clipboard
 
 Local processing
-- The extension extracts metadata from the current page (meta tags etc.) and formats it locally.
+- The extension extracts metadata from the current page (meta tags, JSON-LD when available) and formats it locally.
 
 Development setup
 - Node.js is required for formatter snapshot tests.
-- Install dependencies:
+- Install:
   - npm install
 
 Run tests
 - npm test
 
 Update snapshots (when formatter output changes intentionally)
-- node ./run-formatters.cjs --update
-  - Tip: add this to package.json scripts:
-    - "test:update": "node ./run-formatters.cjs --update"
+- npm run test:update
 
 Debugging (save last extracted CitationData)
 - Enable debug mode in an extension DevTools console:

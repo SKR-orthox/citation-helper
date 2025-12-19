@@ -1,55 +1,65 @@
 # README.ja.md (日本語)
 
-Citation Helper は、対応している論文/章ページからメタデータを抽出し、参考文献形式に整形してコピーできる Firefox 拡張機能です。
+[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
+
+# Citation Helper
+
+Citation Helperは、対応する論文/チャプターのページから引用メタデータを抽出し、複数形式の参考文献文字列を生成してコピーできるFirefox拡張です。
+
+現在のバージョン
+- v0.8.2
 
 対応サイト
 - PubMed (pubmed.ncbi.nlm.nih.gov)
 - Nature (nature.com)
 - SpringerLink (link.springer.com)
-  - /article/ と /chapter/ に対応
+  - /article/
+  - /chapter/
 
 対応フォーマット
 - Vancouver
-- APA 第7版
+- APA第7版
 - IEEE
 - BibTeX
-  - SpringerLink の chapter は @incollection と booktitle で出力されます。
+  - SpringerLinkのチャプターは@incollectionとして出力し、booktitleを含みます。
+- CSL-JSON (エクスポート)
+  - マッピングメモ: CSL-JSON_MAPPING.md
+- RIS (エクスポート)
 
 使い方
-- 対応している論文ページを開きます
-- 拡張機能アイコンを押します
-- Fetch citation を押します
-- 形式を選び、Copy でコピーします
+- 対応ページを開きます
+- 拡張アイコンをクリックします
+- Fetch citationをクリックします
+- スタイルを選びます
+- Copyをクリックしてクリップボードにコピーします
 
 ローカル処理
-- 現在ページの meta タグ等から抽出し、整形処理はローカルで行います。
+- 現在のページのメタタグやJSON-LDなどを読み取り、ローカルで整形します。
 
-開発/テスト
-- Node.js が必要です。
-- 依存関係のインストール:
+開発環境
+- formatterのスナップショットテストにはNode.jsが必要です。
+- インストール:
   - npm install
 
 テスト
 - npm test
 
-スナップショット更新(出力変更が意図的な場合)
-- node ./run-formatters.cjs --update
-  - package.json scripts に追加すると便利です
-    - "test:update": "node ./run-formatters.cjs --update"
+スナップショット更新(出力が意図的に変わった場合)
+- npm run test:update
 
-デバッグ lastCitationData の保存
-- 拡張の DevTools コンソールで debugMode を有効化します
+デバッグ(直近のCitationDataを保存)
+- 拡張のDevToolsコンソールでデバッグを有効化します:
   - about:debugging#/runtime/this-firefox
-  - 拡張機能の Inspect をクリック
+  - 拡張を選びInspectをクリック
   - 実行:
     - browser.storage.local.set({ debugMode: true })
-- 対応ページで Fetch citation を実行後、以下で確認できます
+- 対応ページでFetch citation実行後、直近データを確認します:
   - browser.storage.local.get(["lastCitationUrl","lastCitationAt","lastCitationData"]).then(console.log)
 
 バージョン方針
-- v0.8.x: 機能追加と export 拡張(ストアベータと分離)
-- v0.9.0-beta: ストアベータ、パッケージング、ストアQA安定化
-- v1.0.0: 最初の正式版
+- v0.8.x: 機能追加とエクスポート改善(ストアベータとは分離)
+- v0.9.0-beta: ストアベータテスト / パッケージング / QA安定化
+- v1.0.0: 最初の安定版リリース
 
 ライセンス
-- 後で決定
+- TBD

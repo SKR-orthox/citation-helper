@@ -2,5 +2,7 @@
   "vancouver": "Manuel Mercier. Beyond grey. Brain : a journal of neurology. 2025. doi:10.1093/brain/awaf461. PMID: 41384361.",
   "apa7": "Manuel Mercier. (2025). Beyond grey. Brain : a journal of neurology. https://doi.org/10.1093/brain/awaf461",
   "ieee": "Manuel Mercier, \"Beyond grey,\" Brain : a journal of neurology, 2025, doi:10.1093/brain/awaf461.",
-  "bibtex": "@article{Mercier2025Brainajournalofn,\n  author = {Manuel Mercier},\n  title = {Beyond grey},\n  journal = {Brain : a journal of neurology},\n  year = {2025},\n  doi = {10.1093/brain/awaf461},\n  url = {https://pubmed.ncbi.nlm.nih.gov/41384361/},\n  note = {PMID: 41384361}\n}"
+  "bibtex": "@article{Mercier2025Brainajournalofn,\n  author = {Manuel Mercier},\n  title = {Beyond grey},\n  journal = {Brain : a journal of neurology},\n  year = {2025},\n  doi = {10.1093/brain/awaf461},\n  url = {https://pubmed.ncbi.nlm.nih.gov/41384361/},\n  note = {PMID: 41384361}\n}",
+  "csljson": "[\n  {\n    \"id\": \"doi:10.1093/brain/awaf461\",\n    \"type\": \"article-journal\",\n    \"title\": \"Beyond grey\",\n    \"author\": [\n      {\n        \"family\": \"Mercier\",\n        \"given\": \"Manuel\"\n      }\n    ],\n    \"issued\": {\n      \"date-parts\": [\n        [\n          2025\n        ]\n      ]\n    },\n    \"DOI\": \"10.1093/brain/awaf461\",\n    \"URL\": \"https://pubmed.ncbi.nlm.nih.gov/41384361/\",\n    \"container-title\": \"Brain : a journal of neurology\",\n    \"PMID\": \"41384361\"\n  }\n]",
+  "ris": "TY  - JOUR\nTI  - Beyond grey\nAU  - Manuel Mercier\nJO  - Brain : a journal of neurology\nPY  - 2025\nDO  - 10.1093/brain/awaf461\nAN  - 41384361\nUR  - https://pubmed.ncbi.nlm.nih.gov/41384361/\nER  -"
 }

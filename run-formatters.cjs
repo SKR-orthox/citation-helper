@@ -16,7 +16,12 @@ const TESTS_DIR = path.join(ROOT, "tests");
 const FIXTURES_DIR = path.join(TESTS_DIR, "fixtures");
 const SNAPSHOTS_DIR = path.join(TESTS_DIR, "snapshots");
 
-const FORMATTER_NAMES = ["vancouver", "apa7", "ieee", "bibtex"];
+const FORMATTER_NAMES = ["vancouver", "apa7", "ieee", "bibtex", "csljson", "ris"];
+
+function formattersForFixture(id) {
+  if (id.startsWith("_policy/")) return ["ris"];
+  return FORMATTER_NAMES;
+}
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
@@ -60,6 +65,8 @@ function resolveFormatterPaths() {
       apa7: path.join(base, "apa7.js"),
       ieee: path.join(base, "ieee.js"),
       bibtex: path.join(base, "bibtex.js"),
+      csljson: path.join(base, "csljson.js"),
+      ris: path.join(base, "ris.js"),
     };
 
     const ok = Object.values(files).every(p => fs.existsSync(p));
@@ -68,8 +75,8 @@ function resolveFormatterPaths() {
 
   throw new Error(
     "Formatter files not found. Expected either:\n" +
-    " - formatters/common.js, vancouver.js, apa7.js, ieee.js, bibtex.js\n" +
-    " - or in repo root: common.js, vancouver.js, apa7.js, ieee.js, bibtex.js"
+    " - formatters/common.js, vancouver.js, apa7.js, ieee.js, bibtex.js, csljson.js, ris.js\n" +
+    " - or in repo root: common.js, vancouver.js, apa7.js, ieee.js, bibtex.js, csljson.js, ris.js"
   );
 }
 
@@ -90,6 +97,8 @@ function loadFormattersIntoSandbox(formatterPaths) {
     formatterPaths.apa7,
     formatterPaths.ieee,
     formatterPaths.bibtex,
+    formatterPaths.csljson,
+    formatterPaths.ris,
   ];
 
   for (const p of order) {
@@ -135,18 +144,18 @@ function snapshotPathForId(id) {
   return path.join(SNAPSHOTS_DIR, `${id}.json`);
 }
 
-function runOne(windowObj, citationData) {
+function runOne(windowObj, citationData, names = FORMATTER_NAMES) {
   const out = {};
-  for (const name of FORMATTER_NAMES) {
+  for (const name of names) {
     const s = windowObj.PCH.formatters[name](citationData);
     out[name] = normalizeNewlines(s);
   }
   return out;
 }
 
-function shallowDiff(expected, actual) {
+function shallowDiff(expected, actual, names = FORMATTER_NAMES) {
   const diffs = [];
-  for (const k of FORMATTER_NAMES) {
+  for (const k of names) {
     const e = normalizeNewlines(expected?.[k] ?? "");
     const a = normalizeNewlines(actual?.[k] ?? "");
     if (e !== a) diffs.push(k);
@@ -171,10 +180,11 @@ function main() {
 
   for (const f of fixtureFiles) {
     const id = fixtureIdFromPath(f);
+    const names = formattersForFixture(id);
     const snapPath = snapshotPathForId(id);
 
     const data = loadFixture(f);
-    const actual = runOne(windowObj, data);
+    const actual = runOne(windowObj, data, names);
 
     if (!fs.existsSync(snapPath)) {
       if (UPDATE) {
@@ -190,8 +200,8 @@ function main() {
       }
     }
 
-    const expected = JSON.parse(readUtf8(snapPath));
-    const diffs = shallowDiff(expected, actual);
+    const expected = JSON.parse(fs.readFileSync(snapPath, "utf8"));
+    const diffs = shallowDiff(expected, actual, names);
 
     if (diffs.length === 0) {
       console.log(`✓ ${id}`);
