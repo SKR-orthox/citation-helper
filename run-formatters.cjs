@@ -182,7 +182,6 @@ function main() {
     const id = fixtureIdFromPath(f);
     const names = formattersForFixture(id);
     const snapPath = snapshotPathForId(id);
-
     const data = loadFixture(f);
     const actual = runOne(windowObj, data, names);
 
