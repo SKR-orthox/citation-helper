@@ -16,8 +16,11 @@
     const cleaned = authors.map(a => U.safeText(a)).filter(Boolean);
 
     // 20명 이하면 전원 표기
+    const sep = (typeof U.authorJoiner === "function")
+    ? U.authorJoiner(cleaned)
+    : (cleaned.some(a => a.includes(",")) ? "; " : ", ");
     if (cleaned.length <= 20) {
-      return cleaned.join(", ");
+      return cleaned.join(sep);
     }
 
     // 21명 이상: 앞 19명 + … + 마지막 저자

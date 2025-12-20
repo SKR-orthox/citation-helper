@@ -133,36 +133,48 @@
   api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (!msg || msg.type !== "GET_CITATION_DATA") return;
 
+    const R = globalThis.PCH?.REASONS || {
+      UNSUPPORTED_SITE: "UNSUPPORTED_SITE",
+      NO_ARTICLE: "NO_ARTICLE",
+      SITE_CHANGED: "SITE_CHANGED",
+      PARSE_FAILED: "PARSE_FAILED",
+      UNKNOWN: "UNKNOWN"
+    };
+
     try {
-      if (!/pubmed\.ncbi\.nlm\.nih\.gov$/.test(location.hostname)) {
-        sendResponse({ ok: false, errorCode: "UNSUPPORTED_SITE" });
-        return;
+      // 1) 도메인 체크
+      if (!/pubmed\.ncbi\.nlm\.nih\.gov$/i.test(location.hostname)) {
+        sendResponse({ ok: false, errorCode: R.UNSUPPORTED_SITE });
+        return true;
       }
 
-      // URL-based hint: PubMed article detail is usually /<PMID>/
-      const urlLooksLikeArticle = /^\/\d+\/?$/.test(location.pathname);
+      // 2) ✅ 논문 상세 URL 강제
+      // PubMed 논문 상세는 /<PMID>/ 형태
+      const isArticlePath = /^\/\d+\/?$/.test(location.pathname);
+      if (!isArticlePath) {
+        sendResponse({ ok: false, errorCode: R.NO_ARTICLE });
+        return true;
+      }
 
+      // 3) 추출
       const data = extract();
 
-      // 최소 필수: title 또는 authors가 있어야 "논문 페이지"로 간주
+      // 4) 구조 변경/파싱 실패 분기
       const hasCore = !!data.title || (Array.isArray(data.authors) && data.authors.length > 0);
       if (!hasCore) {
-        // PubMed 내이긴 한데, 논문 상세가 아닌 경우(검색/목록/기타 페이지)
-        // 단, URL이 논문 상세처럼 보이면 구조 변경 가능성으로 분류
-        sendResponse({ ok: false, errorCode: urlLooksLikeArticle ? "SITE_CHANGED" : "NO_ARTICLE" });
-        return;
+        sendResponse({ ok: false, errorCode: R.SITE_CHANGED });
+        return true;
       }
 
-      // title이 비어있으면 인용 생성이 어렵다
       if (!data.title) {
-        sendResponse({ ok: false, errorCode: "PARSE_FAILED" });
-        return;
+        sendResponse({ ok: false, errorCode: R.PARSE_FAILED });
+        return true;
       }
 
       sendResponse({ ok: true, data });
     } catch (e) {
-      console.error("[PCH content] error:", e);
-      sendResponse({ ok: false, errorCode: "UNKNOWN" });
+      console.error("[PCH content pubmed] error:", e);
+      sendResponse({ ok: false, errorCode: R.UNKNOWN });
     }
 
     return true;

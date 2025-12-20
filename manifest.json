@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Citation Helper",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Create clean citations from PubMed, Nature, and SpringerLink pages (Vancouver/APA7/IEEE/BibTeX/CSL-JSON/RIS).",
   "browser_action": {
     "default_title": "Citation Helper",
@@ -15,16 +15,12 @@
   "permissions": [
     "activeTab",
     "storage",
-    "clipboardWrite",
-    "*://pubmed.ncbi.nlm.nih.gov/*",
-    "*://www.nature.com/*",
-    "*://nature.com/*",
-    "*://link.springer.com/*"
+    "clipboardWrite"
   ],
   "content_scripts": [
     {
       "matches": ["*://pubmed.ncbi.nlm.nih.gov/*"],
-      "js": ["content/content-pubmed.js"],
+      "js": ["content/reasons.js", "content/content-pubmed.js"],
       "run_at": "document_end"
     },
     {
@@ -34,7 +30,7 @@
         "*://nature.com/articles/*",
         "*://nature.com/*/articles/*"
       ],
-      "js": ["content/content-nature.js"],
+      "js": ["content/reasons.js", "content/content-nature.js"],
       "run_at": "document_end"
     },
     {
@@ -42,7 +38,7 @@
         "*://link.springer.com/article/*",
         "*://link.springer.com/chapter/*"
       ],
-      "js": ["content/content-springer.js"],
+      "js": ["content/reasons.js", "content/content-springer.js"],
       "run_at": "document_end"
     }
   ]

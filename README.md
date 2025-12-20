@@ -1,65 +1,78 @@
-# README.md (English)
+# Citation Helper (Firefox)
 
-[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
+Languages: English | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-# Citation Helper
+Version: v0.8.4
 
-Citation Helper is a Firefox extension that extracts citation metadata from supported article pages and generates formatted references you can copy.
+Citation Helper generates citations from supported article pages and lets you copy them in one click.
 
-Current version
-- v0.8.3
+Privacy: see [PRIVACY.md](PRIVACY.md)
 
-Supported sites
+## Supported sites
+
 - PubMed (pubmed.ncbi.nlm.nih.gov)
 - Nature (nature.com)
 - SpringerLink (link.springer.com)
-  - /article/
-  - /chapter/
 
-Supported formats
+## Output formats
+
+Citation styles
 - Vancouver
-- APA 7th
+- APA 7
 - IEEE
+
+Exports
 - BibTeX
-  - SpringerLink chapters export as @incollection with booktitle.
-- CSL-JSON (export)
-  - Mapping notes: CSL-JSON_MAPPING.md
-- RIS (export)
+- CSL-JSON
+- RIS
 
-How to use
-- Open a supported article page
-- Click the extension icon
-- Click Fetch citation
-- Select a style
-- Click Copy to copy the result to the clipboard
+## Author presets
 
-Local processing
-- The extension extracts metadata from the current page (meta tags, JSON-LD when available) and formats it locally.
+- Default: use the author format provided by the site (or best available)
+- Auto initials: generate initials-based author lists when possible
+- Raw: keep the raw author strings as-is
 
-Development setup
-- Node.js is required for formatter snapshot tests.
-- Install:
-  - npm install
+Note: Export formats (BibTeX / CSL-JSON / RIS) use Default author preset.
 
-Run tests
-- npm test
+## How to use
 
-Update snapshots (when formatter output changes intentionally)
-- npm run test:update
+1. Open a supported article page.
+2. Click the extension icon.
+3. Click **Fetch citation**.
+4. Click **Copy**.
 
-Debugging (save last extracted CitationData)
-- Enable debug mode in an extension DevTools console:
-  - about:debugging#/runtime/this-firefox
-  - Find the extension, click Inspect
-  - Run:
-    - browser.storage.local.set({ debugMode: true })
-- After running Fetch citation on a supported page, read the latest data:
-  - browser.storage.local.get(["lastCitationUrl","lastCitationAt","lastCitationData"]).then(console.log)
+## Permissions
 
-Project versioning policy
-- v0.8.x: add features and improve exports while keeping store beta separate
-- v0.9.0-beta: store beta testing / packaging / store QA stabilization
-- v1.0.0: first stable release
+This extension aims to keep permissions minimal.
 
-License
-- TBD
+- activeTab: read the current tab only when you use the extension
+- storage: save preferences locally (uiLanguage, citationStyle, authorPreset, debugMode, settingsVersion)
+- clipboardWrite: copy output to clipboard
+
+Host access is limited to supported sites via content scripts.
+
+## Development
+
+Install dependencies
+```bash
+npm install
+```
+
+Update formatter snapshots
+```bash
+npm run test:update
+```
+
+Run tests (if available in your setup)
+```bash
+npm test
+```
+
+## Notes
+
+- All settings are stored locally.
+- No external network requests are made by the extension.
+
+## License
+
+See the repository license file (if present).

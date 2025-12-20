@@ -2,7 +2,6 @@
   const U = window.PCH && window.PCH.util;
   if (!U) return;
 
-  // ✅ 옵션: Vancouver 저자 6명 초과 시 et al.
   const VANCOUVER_MAX_AUTHORS = 6;
 
   function stripDoiPrefix(doi) {
@@ -18,16 +17,20 @@
 
     if (cleaned.length === 0) return "";
 
-    // 7명 이상이면 6명까지만 + et al.
-    if (cleaned.length > VANCOUVER_MAX_AUTHORS) {
-      return cleaned.slice(0, VANCOUVER_MAX_AUTHORS).join(", ") + ", et al";
-    }
+    const sep = (typeof U.authorJoiner === "function")
+      ? U.authorJoiner(cleaned)
+      : (cleaned.some(a => a.includes(",")) ? "; " : ", ");
 
-    return cleaned.join(", ");
+    if (cleaned.length > VANCOUVER_MAX_AUTHORS) {
+      const suffix = (sep.trim() === ";") ? "; et al" : ", et al";
+      return cleaned.slice(0, VANCOUVER_MAX_AUTHORS).join(sep) + suffix;
+}
+
+return cleaned.join(sep);
   }
 
   window.PCH.formatters.vancouver = (data) => {
-    const authors = vancouverAuthors(data.authorsVancouver || data.authors);;
+    const authors = vancouverAuthors(data.authorsVancouver || data.authors);
     const title = U.safeText(data.title);
     const journal = U.safeText(data.journalAbbrev || data.journalFull || "");
     const year = U.safeText(data.year || U.yearOf(data));

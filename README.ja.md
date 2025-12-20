@@ -1,65 +1,78 @@
-# README.ja.md (日本語)
+# Citation Helper (Firefox)
 
-[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
+言語: [English](README.md) | [한국어](README.ko.md) | 日本語
 
-# Citation Helper
+バージョン: v0.8.4
 
-Citation Helperは、対応する論文/チャプターのページから引用メタデータを抽出し、複数形式の参考文献文字列を生成してコピーできるFirefox拡張です。
+Citation Helper は、対応している論文ページから引用情報を生成し、ワンクリックでコピーできる Firefox 拡張機能です。
 
-現在のバージョン
-- v0.8.3
+プライバシー: [PRIVACY.md](PRIVACY.md)
 
-対応サイト
+## 対応サイト
+
 - PubMed (pubmed.ncbi.nlm.nih.gov)
 - Nature (nature.com)
 - SpringerLink (link.springer.com)
-  - /article/
-  - /chapter/
 
-対応フォーマット
+## 出力形式
+
+引用スタイル
 - Vancouver
-- APA第7版
+- APA 7
 - IEEE
+
+Export
 - BibTeX
-  - SpringerLinkのチャプターは@incollectionとして出力し、booktitleを含みます。
-- CSL-JSON (エクスポート)
-  - マッピングメモ: CSL-JSON_MAPPING.md
-- RIS (エクスポート)
+- CSL-JSON
+- RIS
 
-使い方
-- 対応ページを開きます
-- 拡張アイコンをクリックします
-- Fetch citationをクリックします
-- スタイルを選びます
-- Copyをクリックしてクリップボードにコピーします
+## 著者プリセット
 
-ローカル処理
-- 現在のページのメタタグやJSON-LDなどを読み取り、ローカルで整形します。
+- Default: サイトが提供する著者表記（または可能な範囲で最適な表記）を使用
+- Auto initials: 可能な場合、イニシャル形式の著者リストを自動生成
+- Raw: 著者文字列をそのまま保持
 
-開発環境
-- formatterのスナップショットテストにはNode.jsが必要です。
-- インストール:
-  - npm install
+注: BibTeX / CSL-JSON / RIS は Default プリセットを使用します。
 
-テスト
-- npm test
+## 使い方
 
-スナップショット更新(出力が意図的に変わった場合)
-- npm run test:update
+1. 対応している論文の詳細ページを開きます。
+2. 拡張機能アイコンをクリックします。
+3. **Fetch citation** をクリックします。
+4. **Copy** をクリックします。
 
-デバッグ(直近のCitationDataを保存)
-- 拡張のDevToolsコンソールでデバッグを有効化します:
-  - about:debugging#/runtime/this-firefox
-  - 拡張を選びInspectをクリック
-  - 実行:
-    - browser.storage.local.set({ debugMode: true })
-- 対応ページでFetch citation実行後、直近データを確認します:
-  - browser.storage.local.get(["lastCitationUrl","lastCitationAt","lastCitationData"]).then(console.log)
+## 権限
 
-バージョン方針
-- v0.8.x: 機能追加とエクスポート改善(ストアベータとは分離)
-- v0.9.0-beta: ストアベータテスト / パッケージング / QA安定化
-- v1.0.0: 最初の安定版リリース
+権限は最小限にしています。
 
-ライセンス
-- TBD
+- activeTab: 使用時に現在のタブのみへアクセス
+- storage: 設定をローカルに保存（uiLanguage, citationStyle, authorPreset, debugMode, settingsVersion）
+- clipboardWrite: クリップボードへコピー
+
+ホストアクセスは content script の matches により、対応サイトのみに制限されています。
+
+## 開発
+
+依存関係のインストール
+```bash
+npm install
+```
+
+formatter スナップショットの更新
+```bash
+npm run test:update
+```
+
+テスト実行（環境により）
+```bash
+npm test
+```
+
+## メモ
+
+- 設定はローカルにのみ保存されます。
+- 外部ネットワークへのリクエストは行いません。
+
+## ライセンス
+
+リポジトリにライセンスファイルがある場合は、それを参照してください。

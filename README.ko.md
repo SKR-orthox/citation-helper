@@ -1,65 +1,78 @@
-# README.ko.md (한국어)
+# Citation Helper (Firefox)
 
-[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md)
+언어: [English](README.md) | 한국어 | [日本語](README.ja.md)
 
-# Citation Helper
+버전: v0.8.4
 
-Citation Helper는 지원되는 논문/챕터 페이지에서 인용 메타데이터를 추출하고, 여러 형식의 참고문헌 문자열을 생성해서 복사할 수 있게 해주는 Firefox 확장 프로그램입니다.
+Citation Helper는 지원되는 논문 페이지에서 참고문헌 인용을 생성하고, 한 번에 복사할 수 있게 해주는 Firefox 확장 프로그램입니다.
 
-현재 버전
-- v0.8.3
+개인정보/정책: [PRIVACY.md](PRIVACY.md)
 
-지원 사이트
+## 지원 사이트
+
 - PubMed (pubmed.ncbi.nlm.nih.gov)
 - Nature (nature.com)
 - SpringerLink (link.springer.com)
-  - /article/
-  - /chapter/
 
-지원 형식
+## 출력 형식
+
+인용 스타일
 - Vancouver
-- APA 7판
+- APA 7
 - IEEE
+
+Export
 - BibTeX
-  - SpringerLink 챕터는 @incollection 형태로 내보내며 booktitle을 포함합니다.
-- CSL-JSON (내보내기)
-  - 매핑 메모: CSL-JSON_MAPPING.md
-- RIS (내보내기)
+- CSL-JSON
+- RIS
 
-사용 방법
-- 지원되는 논문/챕터 페이지를 엽니다
-- 확장 아이콘을 클릭합니다
-- Fetch citation을 클릭합니다
-- 스타일을 선택합니다
-- Copy를 클릭해서 클립보드로 복사합니다
+## 저자 프리셋
 
-로컬 처리
-- 현재 탭의 페이지에서 메타 태그, JSON-LD 등의 정보를 읽어 로컬에서 포맷팅합니다.
+- Default: 사이트가 제공하는 저자 표기(또는 가능한 최선의 표기)를 사용
+- Auto initials: 가능한 경우 이니셜 기반 저자 목록을 자동 생성
+- Raw: 저자 문자열을 그대로 유지
 
-개발 환경
-- formatter 스냅샷 테스트를 위해 Node.js가 필요합니다.
-- 설치:
-  - npm install
+참고: BibTeX / CSL-JSON / RIS는 Default 프리셋을 사용합니다.
 
-테스트 실행
-- npm test
+## 사용 방법
 
-스냅샷 업데이트(출력이 의도적으로 바뀐 경우)
-- npm run test:update
+1. 지원되는 논문 상세 페이지를 엽니다.
+2. 확장 아이콘을 클릭합니다.
+3. **Fetch citation**을 클릭합니다.
+4. **Copy**를 클릭합니다.
 
-디버깅(마지막 CitationData 저장)
-- 확장 DevTools 콘솔에서 디버그 모드를 켭니다:
-  - about:debugging#/runtime/this-firefox
-  - 확장 선택 후 Inspect 클릭
-  - 실행:
-    - browser.storage.local.set({ debugMode: true })
-- 지원 페이지에서 Fetch citation 실행 후, 마지막 데이터를 확인합니다:
-  - browser.storage.local.get(["lastCitationUrl","lastCitationAt","lastCitationData"]).then(console.log)
+## 권한
 
-버전 정책
-- v0.8.x: 기능 추가 및 export 개선, 스토어 베타와는 분리
-- v0.9.0-beta: 스토어 베타 테스트 / 패키징 / QA 안정화
-- v1.0.0: 첫 정식 릴리즈
+권한을 최소화하는 방향으로 구성되어 있습니다.
 
-라이선스
-- TBD
+- activeTab: 사용자가 확장을 사용할 때 현재 탭만 접근
+- storage: 설정을 로컬에 저장(uiLanguage, citationStyle, authorPreset, debugMode, settingsVersion)
+- clipboardWrite: 결과를 클립보드에 복사
+
+호스트 접근은 content script의 matches로 지원 사이트에만 제한됩니다.
+
+## 개발
+
+의존성 설치
+```bash
+npm install
+```
+
+formatter 스냅샷 업데이트
+```bash
+npm run test:update
+```
+
+테스트 실행(환경에 따라)
+```bash
+npm test
+```
+
+## 참고
+
+- 모든 설정은 로컬에만 저장됩니다.
+- 확장 프로그램은 외부 네트워크 요청을 하지 않습니다.
+
+## 라이선스
+
+레포지토리에 라이선스 파일이 있다면 해당 파일을 참고하세요.

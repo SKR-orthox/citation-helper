@@ -7,10 +7,20 @@
       if (!v) return "";
       return String(v).replace(/\s+/g, " ").trim();
     },
-    joinAuthors(authors) {
-      if (!Array.isArray(authors)) return "";
-      return authors.map(a => this.safeText(a)).filter(Boolean).join(", ");
+    authorJoiner(authors) {
+      if (!Array.isArray(authors)) return ", ";
+      // 저자 문자열 내부에 콤마가 있으면, 저자 구분 콤마와 섞이니까 세미콜론로 분리
+      return authors.some(a => String(a ?? "").includes(",")) ? "; " : ", ";
     },
+
+    joinAuthors(authors, joiner) {
+      if (!Array.isArray(authors)) return "";
+      const cleaned = authors.map(a => this.safeText(a)).filter(Boolean);
+      if (cleaned.length === 0) return "";
+      const sep = joiner || this.authorJoiner(cleaned);
+      return cleaned.join(sep);
+    },
+    
     yearOf(data) {
       const candidates = [
         this.safeText(data.year || ""),

@@ -231,6 +231,20 @@
         sendResponse({ ok: false, errorCode: "UNSUPPORTED_SITE" });
         return;
       }
+      
+      const R = globalThis.PCH?.REASONS || {
+      UNSUPPORTED_SITE: "UNSUPPORTED_SITE",
+      NO_ARTICLE: "NO_ARTICLE",
+      SITE_CHANGED: "SITE_CHANGED",
+      PARSE_FAILED: "PARSE_FAILED",
+      UNKNOWN: "UNKNOWN"
+      };
+
+      const isArticlePath = /^\/(article|chapter)\//i.test(location.pathname);
+      if (!isArticlePath) {
+        sendResponse({ ok: false, errorCode: R.NO_ARTICLE });
+        return;
+      }
 
       const urlLooksLikeArticle = /^\/(article|chapter)\/.+/i.test(location.pathname);
 
