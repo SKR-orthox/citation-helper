@@ -7,7 +7,7 @@
 Citation Helperは、対応する論文/チャプターのページから引用メタデータを抽出し、複数形式の参考文献文字列を生成してコピーできるFirefox拡張です。
 
 現在のバージョン
-- v0.8.2
+- v0.8.3
 
 対応サイト
 - PubMed (pubmed.ncbi.nlm.nih.gov)

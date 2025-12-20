@@ -8,13 +8,17 @@
   const statusEl = document.getElementById("status");
   const styleSelect = document.getElementById("styleSelect");
   const langSelect = document.getElementById("langSelect");
+  const presetSelect = document.getElementById("presetSelect");
   const styleLabel = document.getElementById("styleLabel");
   const langLabel = document.getElementById("langLabel");
+  const presetLabel = document.getElementById("presetLabel");
 
+  let rawData = null;
   let currentData = null;
   let currentCitation = "";
   let canCopy = false;
   let debugMode = true;
+  let savedAuthorPreset = "default";
 
   const messages = {
     en: {
@@ -22,6 +26,7 @@
       btnCopy: "Copy",
       labelStyle: "Style:",
       labelLang: "Language:",
+      labelPreset: "Authors:",
       placeholder: "Citation will be shown here.",
       statusCopied: "Copied to clipboard.",
       statusCopyFailed: "Copy failed.",
@@ -37,6 +42,7 @@
       btnCopy: "복사하기",
       labelStyle: "형식:",
       labelLang: "언어:",
+      labelPreset: "저자:",
       placeholder: "이곳에 참고문헌 형식으로 표시됩니다",
       statusCopied: "클립보드에 복사했습니다.",
       statusCopyFailed: "복사에 실패했습니다.",
@@ -52,6 +58,7 @@
       btnCopy: "コピー",
       labelStyle: "形式:",
       labelLang: "言語:",
+      labelPreset: "著者:",
       placeholder: "ここに表示されます",
       statusCopied: "クリップボードにコピーしました。",
       statusCopyFailed: "コピーに失敗しました。",
@@ -68,7 +75,6 @@
     return messages[langSelect.value] || messages.en;
   }
 
-  // --- Supported sites registry (popup-side precheck) ---
   const SITE_SPECS = [
     {
       id: "pubmed",
@@ -78,7 +84,6 @@
     {
       id: "nature",
       hosts: ["www.nature.com", "nature.com"],
-      // /articles/<id> or /en/articles/<id>
       isArticleUrl: (u) => /\/(?:[a-z]{2}\/)?articles\/[^\/]+\/?$/.test(u.pathname)
     },
     {
@@ -168,13 +173,119 @@
     });
   }
 
+  function splitName(name) {
+    const s = String(name || "").trim().replace(/\s+/g, " ");
+    if (!s) return null;
+
+    if (s.includes(",")) {
+      const [familyRaw, givenRaw] = s.split(",", 2);
+      const family = (familyRaw || "").trim();
+      const given = (givenRaw || "").trim();
+      return { family, given };
+    }
+
+    const parts = s.split(" ").filter(Boolean);
+    if (parts.length === 1) return { family: parts[0], given: "" };
+    const family = parts[parts.length - 1];
+    const given = parts.slice(0, -1).join(" ");
+    return { family, given };
+  }
+
+  function initialsFromGiven(given, withDots) {
+    const g = String(given || "").trim();
+    if (!g) return "";
+
+    const tokens = g
+      .replace(/\./g, " ")
+      .replace(/-/g, " ")
+      .split(/\s+/)
+      .filter(Boolean);
+
+    const letters = tokens.map(t => t[0]).filter(Boolean);
+    if (letters.length === 0) return "";
+
+    if (withDots) return letters.map(ch => `${ch}.`).join(" ");
+    return letters.join("");
+  }
+
+  function buildDerivedAuthors(authors) {
+    const list = Array.isArray(authors) ? authors : [];
+    const parsed = list.map(splitName).filter(Boolean);
+
+    const authorsVancouver = parsed.map(p => {
+      const ini = initialsFromGiven(p.given, false);
+      const family = (p.family || "").trim();
+      return [family, ini].filter(Boolean).join(" ").trim();
+    }).filter(Boolean);
+
+    const authorsAPA = parsed.map(p => {
+      const ini = initialsFromGiven(p.given, true);
+      const family = (p.family || "").trim();
+      if (!family) return "";
+      return ini ? `${family}, ${ini}` : family;
+    }).filter(Boolean);
+
+    const authorsIEEE = parsed.map(p => {
+      const ini = initialsFromGiven(p.given, true);
+      const family = (p.family || "").trim();
+      if (!family) return "";
+      return ini ? `${ini} ${family}` : family;
+    }).filter(Boolean);
+
+    return { authorsVancouver, authorsAPA, authorsIEEE };
+  }
+
+  function applyAuthorPreset(data, presetId) {
+    if (!data || typeof data !== "object") return data;
+
+    if (presetId !== "autoInitials") return data;
+
+    const hasAnyDerived =
+      Array.isArray(data.authorsVancouver) ||
+      Array.isArray(data.authorsAPA) ||
+      Array.isArray(data.authorsIEEE);
+
+    if (hasAnyDerived) return data;
+    if (!Array.isArray(data.authors) || data.authors.length === 0) return data;
+
+    const derived = buildDerivedAuthors(data.authors);
+    return { ...data, ...derived };
+  }
+
+  function effectiveData() {
+    const style = styleSelect?.value || "vancouver";
+    const presetId = activePresetIdForStyle(style);
+    return applyAuthorPreset(rawData, presetId);
+  }
+
+const EXPORT_STYLES = new Set(["bibtex", "csljson", "ris"]);
+
+function isExportStyle(style) {
+  return EXPORT_STYLES.has(String(style || "").toLowerCase());
+}
+
+function updatePresetUIForStyle(style) {
+  const exportMode = isExportStyle(style);
+  if (presetSelect) {
+    presetSelect.disabled = exportMode;
+    presetSelect.value = exportMode ? "default" : (savedAuthorPreset || "default");
+  }
+}
+
+function activePresetIdForStyle(style) {
+  if (isExportStyle(style)) return "default";
+  return presetSelect?.value || savedAuthorPreset || "default";
+}
+
+
   function render() {
-    if (!currentData) {
+    if (!rawData) {
       setCitation(m().placeholder, false);
       return;
     }
     const style = styleSelect.value || "vancouver";
     const f = window.PCH?.formatters?.[style] || window.PCH?.formatters?.vancouver;
+    currentData = effectiveData();
     const out = f ? f(currentData) : "";
     setCitation(out || m().errUnknown, !!out);
   }
@@ -184,7 +295,8 @@
     copyBtn.textContent = m().btnCopy;
     styleLabel.textContent = m().labelStyle;
     langLabel.textContent = m().labelLang;
-    if (!currentData) citationBox.textContent = m().placeholder;
+    if (presetLabel) presetLabel.textContent = m().labelPreset;
+    if (!rawData) citationBox.textContent = m().placeholder;
   }
 
   function showFailure(code) {
@@ -200,15 +312,12 @@
     api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs && tabs[0];
       if (!tab) return;
-
-      // 1) Popup-side precheck (URL only)
       const pre = classifyByUrl(tab.url || "");
       if (!pre.ok) {
         showFailure(pre.errorCode || "UNKNOWN");
         return;
       }
 
-      // 2) Ask content script
       api.tabs.sendMessage(tab.id, { type: "GET_CITATION_DATA" }, (resp) => {
         const err = api.runtime && api.runtime.lastError;
         if (err) {
@@ -218,7 +327,8 @@
         }
 
         if (resp && resp.ok && resp.data) {
-          currentData = resp.data;
+          rawData = resp.data;
+          currentData = effectiveData();
 
           if (debugMode) {
             try {
@@ -257,22 +367,44 @@
   });
 
   styleSelect.addEventListener("change", () => {
-    if (currentData) render();
+    api.storage.local.set({ citationStyle: styleSelect.value });
+    updatePresetUIForStyle(styleSelect.value);
+    if (rawData) render();
+  });
+
+  presetSelect?.addEventListener("change", () => {
+    const style = styleSelect?.value || "vancouver";
+    if (isExportStyle(style)) {
+      presetSelect.value = "default";
+      return;
+    }
+
+    savedAuthorPreset = presetSelect.value || "default";
+    api.storage.local.set({ authorPreset: savedAuthorPreset });
+
+    if (rawData) render();
+    else setStatus("", "");
   });
 
   langSelect.addEventListener("change", () => {
     api.storage.local.set({ uiLanguage: langSelect.value });
     applyLang();
-    if (currentData) render();
+    if (rawData) render();
     else setStatus("", "");
   });
 
   document.addEventListener("DOMContentLoaded", () => {
-    api.storage.local.get(["uiLanguage", "debugMode"], (d) => {
+    api.storage.local.get(["uiLanguage", "debugMode", "authorPreset", "citationStyle"], (d) => {
       debugMode = !!d.debugMode;
       const saved = d.uiLanguage || "en";
       langSelect.value = saved;
+      styleSelect.value = d.citationStyle || styleSelect.value || "vancouver";
+      savedAuthorPreset = d.authorPreset || "default";
+      if (presetSelect) {
+        presetSelect.value = savedAuthorPreset;
+      }
       applyLang();
+      updatePresetUIForStyle(styleSelect.value);
       requestCitation();
     });
   });

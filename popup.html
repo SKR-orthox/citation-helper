@@ -1,16 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Citation Helper</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
       padding: 12px;
       width: 380px;
@@ -39,7 +36,7 @@
         0 4px 10px rgba(15, 23, 42, 0.06);
     }
 
-    /* 상단 헤더 */
+    /* Header */
     #header {
       display: flex;
       align-items: center;
@@ -65,7 +62,7 @@
       color: #6b7280;
     }
 
-    /* 상단 옵션 영역 */
+    /* Top controls */
     #topRow {
       display: flex;
       flex-direction: column;
@@ -73,69 +70,58 @@
       margin-bottom: 4px;
     }
 
-    #styleRow {
+    /* Common: label + select in one line */
+    .opt-group {
       display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .style-group {
-      flex: 1;
-      min-width: 0;
-      gap: 4px;
-    }
-
-    .style-option {
-      display: inline-flex;
       align-items: center;
-      gap: 3px;
-      cursor: pointer;
-      padding: 2px 5px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: background 0.15s ease, border-color 0.15s ease;
+      gap: 8px;
+      min-width: 0;
     }
 
-    .style-option input[type="radio"] {
-      margin: 0;
-    }
-
-    .style-option:hover {
-      background: #f3f4ff;
-      border-color: #d0d4ff;
-    }
-
-    .lang-group {
-      flex: 0 0 auto;
-      align-self: flex-start;
-      margin-left: 8px;
-    }
-
-    #styleLabel,
-    #langLabel {
+    .opt-group > span {
+      min-width: 74px;
       font-weight: 500;
       color: #374151;
+      white-space: nowrap;
     }
 
-    #langSelect {
+    /* Row 1: Style (full width) */
+    #styleRow {
+      display: flex;
+      width: 100%;
+    }
+
+    /* Row 2: Language + Authors (two columns) */
+    #secondRow {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    #secondRow .opt-group {
+      flex: 1;
+    }
+
+    /* Selects */
+    #styleSelect,
+    #langSelect,
+    #presetSelect {
+      flex: 1;
+      min-width: 0;
       font-size: 12px;
-      padding: 2px 4px;
+      padding: 2px 6px;
       border-radius: 6px;
       border: 1px solid #d1d5db;
       background: #ffffff;
     }
 
+    /* Make sure Style has enough room to show "BibTeX / CSL-JSON" etc. */
     #styleSelect {
-      font-size: 12px;
-      padding: 2px 4px;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
+      width: 100%;
+      min-width: 240px;
     }
 
-    /* 버튼 공통 */
+    /* Buttons */
     #generateBtn,
     #copyBtn {
       width: 100%;
@@ -186,7 +172,7 @@
       transform: translateY(1px);
     }
 
-    /* 인용 박스 */
+    /* Citation box */
     #citationBox {
       border-radius: 8px;
       border: 1px solid #e5e7eb;
@@ -201,7 +187,7 @@
       word-break: break-word;
     }
 
-    /* 상태 메시지 */
+    /* Status */
     #status {
       font-size: 11px;
       color: #6b7280;
@@ -211,10 +197,11 @@
     }
   </style>
 </head>
+
 <body>
   <div id="container">
     <div id="header">
-      <img src="icons/icon32.png" alt="Citation Helper Icon">
+      <img src="icons/icon32.png" alt="Citation Helper Icon" />
       <div>
         <div id="header-title">Citation Helper</div>
         <div id="header-subtitle">Generate citations from supported article pages</div>
@@ -222,9 +209,10 @@
     </div>
 
     <div id="topRow">
+      <!-- Row 1: Style full width -->
       <div id="styleRow">
-        <div class="style-group">
-          <span id="styleLabel">형식:</span>
+        <div class="opt-group" style="width: 100%;">
+          <span id="styleLabel">Style:</span>
           <select id="styleSelect">
             <option value="vancouver" selected>Vancouver</option>
             <option value="apa7">APA 7th</option>
@@ -234,13 +222,25 @@
             <option value="ris">RIS</option>
           </select>
         </div>
+      </div>
 
-        <div class="lang-group">
-          <span id="langLabel">언어:</span>
+      <!-- Row 2: Language + Authors -->
+      <div id="secondRow">
+        <div class="opt-group">
+          <span id="langLabel">Language:</span>
           <select id="langSelect">
             <option value="en" selected>English</option>
             <option value="ko">한국어</option>
             <option value="ja">日本語</option>
+          </select>
+        </div>
+
+        <!-- keep id="presetRow" for popup.js compatibility -->
+        <div id="presetRow" class="opt-group">
+          <span id="presetLabel">Authors:</span>
+          <select id="presetSelect">
+            <option value="default" selected>Default</option>
+            <option value="autoInitials">Auto initials</option>
           </select>
         </div>
       </div>

@@ -7,7 +7,7 @@
 Citation Helper is a Firefox extension that extracts citation metadata from supported article pages and generates formatted references you can copy.
 
 Current version
-- v0.8.2
+- v0.8.3
 
 Supported sites
 - PubMed (pubmed.ncbi.nlm.nih.gov)

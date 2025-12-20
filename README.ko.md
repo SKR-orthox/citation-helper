@@ -7,7 +7,7 @@
 Citation Helper는 지원되는 논문/챕터 페이지에서 인용 메타데이터를 추출하고, 여러 형식의 참고문헌 문자열을 생성해서 복사할 수 있게 해주는 Firefox 확장 프로그램입니다.
 
 현재 버전
-- v0.8.2
+- v0.8.3
 
 지원 사이트
 - PubMed (pubmed.ncbi.nlm.nih.gov)
