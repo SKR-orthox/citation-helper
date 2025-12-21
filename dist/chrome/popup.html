@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Citation Helper</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 12px;
+      width: 380px;
+      max-width: 380px;
+      min-width: 380px;
+      height: 550px;
+      max-height: 550px;
+      min-height: 550px;
+      background: #f5f5f7;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    #container {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #e0e0e5;
+      padding: 10px 12px 12px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 100%;
+      min-height: 0;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.06),
+        0 4px 10px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Header */
+    #header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #ececf1;
+      margin-bottom: 4px;
+    }
+
+    #header img {
+      width: 24px;
+      height: 24px;
+    }
+
+    #header-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    #header-subtitle {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    /* Top controls */
+    #topRow {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    /* Common: label + select in one line */
+    .opt-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .opt-group > span {
+      min-width: 74px;
+      font-weight: 500;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    /* Row 1: Style (full width) */
+    #styleRow {
+      display: flex;
+      width: 100%;
+    }
+
+    /* Row 2: Language + Authors (two columns) */
+    #secondRow {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    #secondRow .opt-group {
+      flex: 1;
+    }
+
+    /* Selects */
+    #styleSelect,
+    #langSelect,
+    #presetSelect {
+      flex: 1;
+      min-width: 0;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+    }
+
+    /* Make sure Style has enough room to show "BibTeX / CSL-JSON" etc. */
+    #styleSelect {
+      width: 100%;
+      min-width: 240px;
+    }
+
+    /* Buttons */
+    #generateBtn,
+    #copyBtn {
+      width: 100%;
+      padding: 7px 0;
+      margin: 0;
+      cursor: pointer;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      font-size: 13px;
+      font-weight: 500;
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.05s ease;
+    }
+
+    #generateBtn {
+      background: #4f46e5;
+      color: #ffffff;
+      border-color: #4f46e5;
+      box-shadow: 0 1px 4px rgba(79, 70, 229, 0.35);
+    }
+
+    #generateBtn:hover {
+      background: #4338ca;
+      border-color: #4338ca;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.4);
+    }
+
+    #generateBtn:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 3px rgba(79, 70, 229, 0.45);
+    }
+
+    #copyBtn {
+      background: #f3f4f6;
+      color: #111827;
+      border-color: #d1d5db;
+    }
+
+    #copyBtn:hover {
+      background: #e5e7eb;
+      border-color: #9ca3af;
+    }
+
+    #copyBtn:active {
+      transform: translateY(1px);
+    }
+
+    /* Citation box */
+    #citationBox {
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 8px;
+      font-size: 12px;
+      white-space: pre-wrap;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-break: break-word;
+    }
+
+    /* Status */
+    #status {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 2px;
+      min-height: 14px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div id="header">
+      <img src="icons/icon32.png" alt="Citation Helper Icon" />
+      <div>
+        <div id="header-title">Citation Helper</div>
+        <div id="header-subtitle">Generate citations from supported article pages</div>
+      </div>
+    </div>
+
+    <div id="topRow">
+      <!-- Row 1: Style full width -->
+      <div id="styleRow">
+        <div class="opt-group" style="width: 100%;">
+          <span id="styleLabel">Style:</span>
+          <select id="styleSelect">
+            <option value="vancouver" selected>Vancouver</option>
+            <option value="apa7">APA 7th</option>
+            <option value="ieee">IEEE</option>
+            <option value="bibtex">BibTeX</option>
+            <option value="csljson">CSL-JSON</option>
+            <option value="ris">RIS</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 2: Language + Authors -->
+      <div id="secondRow">
+        <div class="opt-group">
+          <span id="langLabel">Language:</span>
+          <select id="langSelect">
+            <option value="en" selected>English</option>
+            <option value="ko">한국어</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
+
+        <!-- keep id="presetRow" for popup.js compatibility -->
+        <div id="presetRow" class="opt-group">
+          <span id="presetLabel">Authors:</span>
+          <select id="presetSelect">
+            <option value="default" selected>Default</option>
+            <option value="autoInitials">Auto initials</option>
+            <option value="raw">Raw authors</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="generateBtn">Fetch citation</button>
+    </div>
+
+    <div id="citationBox">Citation will be shown here.</div>
+    <div id="status"></div>
+    <button id="copyBtn">Copy</button>
+  </div>
+
+  <script src="formatters/common.js"></script>
+  <script src="formatters/vancouver.js"></script>
+  <script src="formatters/apa7.js"></script>
+  <script src="formatters/ieee.js"></script>
+  <script src="formatters/bibtex.js"></script>
+  <script src="formatters/csljson.js"></script>
+  <script src="formatters/ris.js"></script>
+  <script src="content/reasons.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

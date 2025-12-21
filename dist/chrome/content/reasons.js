@@ -1,0 +1,14 @@
+(() => {
+  const REASONS = Object.freeze({
+    UNSUPPORTED_SITE: "UNSUPPORTED_SITE",
+    NO_ARTICLE: "NO_ARTICLE",
+    SITE_CHANGED: "SITE_CHANGED",
+    PARSE_FAILED: "PARSE_FAILED",
+    EXTENSION_NOT_ACTIVE: "EXTENSION_NOT_ACTIVE",
+    MISSING_FIELDS: "MISSING_FIELDS",
+    UNKNOWN: "UNKNOWN"
+  });
+
+  globalThis.PCH = globalThis.PCH || {};
+  globalThis.PCH.REASONS = REASONS;
+})();

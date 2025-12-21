@@ -1,17 +1,17 @@
-# Citation Helper (Firefox)
+# Citation Helper
 
 言語: [English](README.md) | [한국어](README.ko.md) | 日本語
 
-Version: v0.9.0 (0.9.0-beta)
+**バージョン:** v0.9.0-beta
 
-Citation Helper は、対応している論文ページからメタデータを抽出し、参考文献を生成してワンクリックでコピー/エクスポートできる Firefox 拡張です。
+対応している論文/記事ページからメタデータを抽出し、参考文献を生成してワンクリックでコピー/エクスポートできる拡張機能です。
 
-プライバシー: [PRIVACY.md](PRIVACY.md)
+**プライバシー:** [PRIVACY.md](PRIVACY.md)
 
-## ベータ配布 (AMO Unlisted)
+## 対応ブラウザ
 
-このバージョンは AMO Unlisted（自己配布）で署名済み XPI を取得して配布するベータ運用を想定しています。
-署名済み `.xpi` を受け取った場合は、以下の手順でインストールしてください。
+- **Firefox**: 署名済み XPI（AMO Unlisted / 自己配布ベータ）
+- **Chrome**: Chrome Web Store（公開登録、現在審査中）
 
 ## 対応サイト
 
@@ -19,102 +19,68 @@ Citation Helper は、対応している論文ページからメタデータを�
 - Nature (nature.com)
 - SpringerLink (link.springer.com)
 
-## 例 URL
-
-- PubMed: https://pubmed.ncbi.nlm.nih.gov/10238015/
-- Nature: https://www.nature.com/articles/d41586-024-04246-9
-- SpringerLink (article): https://link.springer.com/article/10.1007/s11192-024-05163-4
-- SpringerLink (chapter): https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2
-
-テストセット（fixtures + policy case）: [0.8.5-cases.md](0.8.5-cases.md)
-
 ## 出力形式
 
-引用スタイル
 - Vancouver
-- APA 7
+- APA 7th
 - IEEE
-
-エクスポート
 - BibTeX
 - CSL-JSON
 - RIS
 
-## 著者プリセット
+## インストール
 
-- Default: サイトが提供する形式を優先（可能な範囲で最適）
-- Auto initials: 可能な場合はイニシャル形式で著者表記を生成
-- Raw: 著者文字列をそのまま保持
+### Firefox（署名済み XPI）
 
-注: BibTeX / CSL-JSON / RIS は Default プリセットを使用します。
+署名済み `.xpi` がある場合:
+
+- `about:addons` を開く
+- 歯車アイコンをクリック
+- **ファイルからアドオンをインストール...** を選択
+- `.xpi` を選ぶ
+
+### Chrome
+
+Chrome Web Store の審査が通ったら、ストアからインストールできます。
+
+ローカルテスト（デベロッパーモード）:
+
+- `chrome://extensions` を開く
+- **デベロッパーモード** を有効化
+- **パッケージ化されていない拡張機能を読み込む** をクリック
+- `manifest.json` があるフォルダを選択
 
 ## 使い方
 
-- 対応している論文ページを開きます。
-- 拡張アイコンをクリックします。
-- **Fetch citation** をクリックします。
-- **Copy** をクリックします。
+- 対応している論文/記事ページを開く
+- ツールバーの **Citation Helper** アイコンをクリック
+- **Style / Language / Authors** を選ぶ
+- **Fetch citation** をクリック
+- **Copy** をクリック（または任意の形式でエクスポート）
 
-## インストール（署名済み XPI）
+## フィードバック / バグ報告
 
-- Firefox のアドオン管理画面を開く（`about:addons`）
-- 歯車メニューをクリック
-- **ファイルからアドオンをインストール…** を選択
-- 署名済み `.xpi` を選択
+GitHub Issues からお願いします。
 
-## 制限 / 注意点
+バグ報告の際は、以下を含めてください。
 
-- v0.9.0 では上記サイトのみ対応です。
-- メタデータはページの meta タグ / JSON-LD から抽出します。ページに存在しない項目は出力にも含まれません。
-- 現在のタブのみ対象です。PDF をダウンロード/解析しません。
-- すべてローカルで処理し、サーバーへ送信しません。
-
-## 権限 (Permissions)
-
-最小限の権限を目指しています。
-
-- `activeTab`: 使用時のみ現在のタブにアクセス
-- `storage`: 設定(uiLanguage, citationStyle, authorPreset, debugMode, settingsVersion)をローカル保存
-- `clipboardWrite`: クリップボードへコピー
-
-ホストアクセスは content script の matches により対応サイトに限定されます。
+- URL
+- 期待する結果 / 実際の結果
+- 使用した形式（Style）と Authors プリセット
+- （任意）ページの引用/メタデータ部分のスクリーンショット
 
 ## 開発
 
-依存関係のインストール
-```bash
-npm install
-```
+必要: Node.js（formatter のテスト/スクリプト用）
 
-formatter スナップショット更新
-```bash
-npm run test:update
-```
+- テスト: `npm test`
+- スナップショット更新: `npm run test:update`
 
-テスト実行
-```bash
-npm test
-```
+パッケージング:
 
-Firefox で実行（仮インストール）
-```bash
-npx web-ext run
-```
-
-AMO アップロード用 zip をビルド
-```bash
-npx web-ext build --overwrite-dest
-```
-
-## フィードバック / 不具合報告
-
-不具合報告の際は、できれば以下を含めてください。
-
-- URL
-- 期待する結果と実際の結果
-- 使用した出力形式と著者プリセット
-- （任意）メタデータ/引用情報付近のスクリーンショット
+- **Firefox**: `npx web-ext build`（AMO 署名用 ZIP を生成）
+- **Chrome**: `manifest.json` が ZIP のルートに来るように圧縮（フォルダの二重化は不可）
 
 ## ライセンス
 
-リポジトリ内のライセンスファイル（存在する場合）を参照してください。
+リポジトリのライセンスファイル（例: `LICENSE`）を参照してください。

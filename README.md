@@ -1,17 +1,17 @@
-# Citation Helper (Firefox)
+# Citation Helper
 
 Languages: English | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-Version: v0.9.0 (0.9.0-beta)
+**Version:** v0.9.0-beta
 
-Citation Helper generates citations from supported academic article pages and lets you copy or export them in one click.
+Generate clean citations from supported academic article pages, then copy or export them in one click.
 
-Privacy: see [PRIVACY.md](PRIVACY.md)
+**Privacy:** see [PRIVACY.md](PRIVACY.md)
 
-## Beta distribution (AMO Unlisted)
+## Supported browsers
 
-This version is distributed as a signed XPI via AMO Unlisted (self-distributed beta).
-If you received a signed `.xpi` file, install it via Firefox’s Add-ons Manager.
+- **Firefox**: signed XPI (AMO Unlisted / self-distributed beta)
+- **Chrome**: Chrome Web Store (public listing, currently in review)
 
 ## Supported sites
 
@@ -19,94 +19,48 @@ If you received a signed `.xpi` file, install it via Firefox’s Add-ons Manager
 - Nature (nature.com)
 - SpringerLink (link.springer.com)
 
-## Example URLs
-
-- PubMed: https://pubmed.ncbi.nlm.nih.gov/10238015/
-- Nature: https://www.nature.com/articles/d41586-024-04246-9
-- SpringerLink (article): https://link.springer.com/article/10.1007/s11192-024-05163-4
-- SpringerLink (chapter): https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2
-
-Test set (fixtures + policy case): [0.8.5-cases.md](0.8.5-cases.md)
-
 ## Output formats
 
-Citation styles
 - Vancouver
-- APA 7
+- APA 7th
 - IEEE
-
-Exports
 - BibTeX
 - CSL-JSON
 - RIS
 
-## Author presets
+## Install
 
-- Default: use the author format provided by the site (or best available)
-- Auto initials: generate initials-based author lists when possible
-- Raw: keep the raw author strings as-is
+### Firefox (signed XPI)
 
-Note: Export formats (BibTeX / CSL-JSON / RIS) use the Default author preset.
+If you have a signed `.xpi` file:
+
+- Open `about:addons`
+- Click the gear icon
+- Select **Install Add-on From File...**
+- Choose the `.xpi`
+
+### Chrome
+
+Once the Chrome Web Store listing is approved, install from the store.
+
+For local testing (developer mode):
+
+- Open `chrome://extensions`
+- Enable **Developer mode**
+- Click **Load unpacked**
+- Select the extension folder (the folder that contains `manifest.json`)
 
 ## How to use
 
-- Open a supported article page.
-- Click the extension icon.
-- Click **Fetch citation**.
-- Click **Copy**.
-
-## Installation (signed XPI)
-
-- Open Firefox Add-ons Manager (`about:addons`)
-- Click the gear icon
-- Select **Install Add-on From File...**
-- Choose the signed `.xpi`
-
-## Limitations / Notes
-
-- Only the sites above are supported in v0.9.0.
-- Metadata is extracted from the current page (meta tags / JSON-LD when available). If the page omits fields (authors, issue, pages), the output will also omit them.
-- Works on the current tab only. It does not download or parse PDFs.
-- Everything is processed locally in the extension (no server-side processing).
-
-## Permissions
-
-This extension aims to keep permissions minimal.
-
-- `activeTab`: read the current tab only when you use the extension
-- `storage`: save preferences locally (uiLanguage, citationStyle, authorPreset, debugMode, settingsVersion)
-- `clipboardWrite`: copy output to clipboard
-
-Host access is limited to supported sites via content scripts.
-
-## Development
-
-Install dependencies
-```bash
-npm install
-```
-
-Update formatter snapshots
-```bash
-npm run test:update
-```
-
-Run tests
-```bash
-npm test
-```
-
-Run in Firefox (temporary add-on)
-```bash
-npx web-ext run
-```
-
-Build a zip for AMO upload
-```bash
-npx web-ext build --overwrite-dest
-```
+- Open a supported article page
+- Click the **Citation Helper** toolbar icon
+- Choose **Style / Language / Authors**
+- Click **Fetch citation**
+- Click **Copy** (or use an export format)
 
 ## Feedback / bug reports
+
+Please use GitHub Issues.
 
 When reporting a bug, include:
 
@@ -115,6 +69,18 @@ When reporting a bug, include:
 - which format and author preset you used
 - (optional) a screenshot of the page’s citation area / metadata section
 
+## Development
+
+Prerequisites: Node.js (for formatter tests/scripts)
+
+- Run tests: `npm test`
+- Update snapshots: `npm run test:update`
+
+Packaging:
+
+- **Firefox**: `npx web-ext build` (produces a ZIP that AMO can sign)
+- **Chrome**: create a ZIP with `manifest.json` at the root (no nested folder)
+
 ## License
 
-See the repository license file (if present).
+See the repository license file (e.g., `LICENSE`).
