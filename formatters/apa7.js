@@ -12,18 +12,10 @@
   // ✅ APA 7 저자 포맷 (21명 이상 처리)
   function apaAuthors(authors) {
     if (!Array.isArray(authors) || authors.length === 0) return "";
-
     const cleaned = authors.map(a => U.safeText(a)).filter(Boolean);
-
-    // 20명 이하면 전원 표기
-    const sep = (typeof U.authorJoiner === "function")
-    ? U.authorJoiner(cleaned)
-    : (cleaned.some(a => a.includes(",")) ? "; " : ", ");
     if (cleaned.length <= 20) {
-      return cleaned.join(sep);
+      return cleaned.join(", ");
     }
-
-    // 21명 이상: 앞 19명 + … + 마지막 저자
     const first19 = cleaned.slice(0, 19);
     const last = cleaned[cleaned.length - 1];
     return `${first19.join(", ")}, … ${last}`;

@@ -2,7 +2,7 @@
 
 Languages: English | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-Version: v0.8.4
+Version: v0.8.5
 
 Citation Helper generates citations from supported article pages and lets you copy them in one click.
 
@@ -13,6 +13,24 @@ Privacy: see [PRIVACY.md](PRIVACY.md)
 - PubMed (pubmed.ncbi.nlm.nih.gov)
 - Nature (nature.com)
 - SpringerLink (link.springer.com)
+
+## Example URLs
+
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/10238015/
+- Nature: https://www.nature.com/articles/d41586-024-04246-9
+- SpringerLink (article): https://link.springer.com/article/10.1007/s11192-024-05163-4
+- SpringerLink (chapter): https://link.springer.com/chapter/10.1007/978-1-0716-1418-1_2
+
+Full test set (30 fixtures + policy case): see tests/0.8.5-cases.md
+
+## Limitations / Notes
+
+- Only the sites above are supported in v0.8.5.
+- Metadata is extracted from the current page (meta tags / JSON-LD when available). If the page omits fields (authors, issue, pages), the output will also omit them.
+- Some Nature “news” style pages may have missing volume/issue/pages.
+- Group/consortium author handling depends on what the page provides (may not always match the journal’s preferred display).
+- Works on the current tab only. It does not download or parse PDFs.
+- Everything is processed locally in the extension (no server-side processing).
 
 ## Output formats
 
