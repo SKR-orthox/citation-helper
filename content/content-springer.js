@@ -102,11 +102,14 @@
 
   function doiFromUrl() {
     // SpringerLink: /article/10.1007/sxxxx... 또는 /chapter/10.1007/....
-    const m = location.pathname.match(/^\/(?:article|chapter)\/(10\.\d{4,9}\/[^\/?#]+)\/?$/i);
+    const m = location.pathname.match(/^\/(?:article|chapter|protocol)\/(10\.\d{4,9}\/[^\/?#]+)\/?$/i);
     return m ? safeText(m[1]) : "";
   }
 
   function extract() {
+    const path = (location.pathname || "");
+    const isChapterLike = /^\/(chapter|protocol)\//i.test(path);
+
     // Authors
     let authors = getMetasAny([
       "citation_author",
@@ -114,6 +117,13 @@
       "DC.creator",
       "dc.Creator",
       "DC.Creator"
+    ]);
+
+    // Editors (book chapter / protocol에서 있을 때만 유용)
+    const editors = getMetasAny([
+      "citation_editor",
+      "dc.contributor",
+      "DC.contributor"
     ]);
 
     // Title
@@ -124,22 +134,51 @@
     ]) || safeText(document.querySelector("h1")?.textContent);
 
     // Journal / Container
-    const journalFull = getMetaAny([
-      "citation_journal_title",
-      "citation_book_title",
-      "citation_inbook_title",
-      "citation_publication_title",
-      "citation_series_title",
-      "citation_conference_title",
-      "prism.publicationName",
-      "dc.source",
-      "DC.source"
-    ]);
+    // chapter/protocol이면 book title을 우선
+    const journalFull = isChapterLike
+      ? getMetaAny([
+          "citation_book_title",
+          "citation_inbook_title",
+          "citation_series_title",
+          "citation_publication_title",
+          "citation_journal_title",
+          "prism.publicationName",
+          "dc.source",
+          "DC.source"
+        ])
+      : getMetaAny([
+          "citation_journal_title",
+          "citation_book_title",
+          "citation_inbook_title",
+          "citation_publication_title",
+          "citation_series_title",
+          "citation_conference_title",
+          "prism.publicationName",
+          "dc.source",
+          "DC.source"
+        ]);
 
     const journalAbbrev = getMetaAny([
       "citation_journal_abbrev",
       "prism.abbreviation"
-    ]); 
+    ]);
+
+    // Publisher (chapter/protocol export 품질 향상용)
+    const publisher =
+      getMetaAny([
+        "citation_publisher",
+        "dc.publisher",
+        "DC.publisher"
+      ]) || "Springer";
+
+    // ISBN (있으면 export 품질 향상)
+    // 너무 공격적으로 dc.identifier를 파지 않고, 스프링거에서 자주 나오는 키만 우선
+    const isbn = getMetaAny([
+      "citation_isbn",
+      "citation_eisbn",
+      "prism.isbn",
+      "prism.eisbn"
+    ]);
 
     // DOI
     let doi = getMetaAny([
@@ -150,8 +189,11 @@
     ]);
 
     if (doi && /^10\./.test(doi) === false) {
-      // dc.identifier에 "doi:10..." 형태가 섞일 수 있음
-      doi = doi.replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").replace(/^doi:\s*/i, "").trim();
+      // dc.identifier에 "doi:10..." 또는 doi URL이 섞일 수 있음
+      doi = doi
+        .replace(/^https?:\/\/(dx\.)?doi\.org\//i, "")
+        .replace(/^doi:\s*/i, "")
+        .trim();
     }
     if (!doi) doi = doiFromUrl();
 
@@ -168,7 +210,7 @@
       "DC.date.issued"
     ]));
 
-    // Volume/Issue
+    // Volume/Issue (book chapter는 보통 비어있음)
     const volume = getMeta("citation_volume");
     const issue = getMeta("citation_issue");
 
@@ -184,7 +226,7 @@
     else if (first) pages = first;
     else if (eloc) pages = eloc;
 
-    // Style-ready authors (formatters 안정 유지용)
+    // Style-ready authors
     const authorParts = authors.map(parseAuthor).filter(Boolean);
 
     const authorsVancouver = authorParts.map(p => {
@@ -203,10 +245,18 @@
     }).filter(Boolean);
 
     return {
+      // 핵심: /protocol도 chapter로 태깅
+      type: isChapterLike ? "chapter" : "article",
+
       authors,
       authorsVancouver,
       authorsAPA,
       authorsIEEE,
+
+      // book 계열 품질 보강(있는 것만 쓰게 formatters가 safeText 처리)
+      editors,
+      publisher,
+      isbn,
 
       title,
       journalFull,
@@ -224,46 +274,49 @@
   api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (!msg || msg.type !== "GET_CITATION_DATA") return;
 
-    try {
-      const host = (location.hostname || "").toLowerCase();
-      const isSpringer = (host === "link.springer.com");
-      if (!isSpringer) {
-        sendResponse({ ok: false, errorCode: "UNSUPPORTED_SITE" });
-        return;
-      }
-      
-      const R = globalThis.PCH?.REASONS || {
+    // R은 무조건 먼저 잡아두기 (catch에서도 써야 함)
+    const R = globalThis.PCH?.REASONS || {
       UNSUPPORTED_SITE: "UNSUPPORTED_SITE",
       NO_ARTICLE: "NO_ARTICLE",
       SITE_CHANGED: "SITE_CHANGED",
       PARSE_FAILED: "PARSE_FAILED",
       UNKNOWN: "UNKNOWN"
-      };
+    };
 
-      const isArticlePath = /^\/(article|chapter)\//i.test(location.pathname);
+    try {
+      const host = (location.hostname || "").toLowerCase();
+      if (host !== "link.springer.com") {
+        sendResponse({ ok: false, errorCode: R.UNSUPPORTED_SITE });
+        return;
+      }
+
+      const isArticlePath = /^\/(article|chapter|protocol)\//i.test(location.pathname);
       if (!isArticlePath) {
         sendResponse({ ok: false, errorCode: R.NO_ARTICLE });
         return;
       }
 
-      const urlLooksLikeArticle = /^\/(article|chapter)\/.+/i.test(location.pathname);
-
       const data = extract();
 
-      const hasCore = !!data.title || (Array.isArray(data.authors) && data.authors.length > 0);
+      const hasCore =
+        !!data.title || (Array.isArray(data.authors) && data.authors.length > 0);
+
+      // 여기까지 왔는데 core가 없으면 "페이지 구조 변경/추출 실패"로 보는 게 자연스러움
       if (!hasCore) {
-        sendResponse({ ok: false, errorCode: urlLooksLikeArticle ? "SITE_CHANGED" : "NO_ARTICLE" });
+        sendResponse({ ok: false, errorCode: R.SITE_CHANGED });
         return;
       }
+
+      // 저자는 있는데 title이 없으면 파싱 실패로 분리
       if (!data.title) {
-        sendResponse({ ok: false, errorCode: "PARSE_FAILED" });
+        sendResponse({ ok: false, errorCode: R.PARSE_FAILED });
         return;
       }
 
       sendResponse({ ok: true, data });
     } catch (e) {
       console.error("[PCH content springer] error:", e);
-      sendResponse({ ok: false, errorCode: "UNKNOWN" });
+      sendResponse({ ok: false, errorCode: R.UNKNOWN });
     }
 
     return true;

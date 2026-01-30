@@ -114,7 +114,7 @@
     {
       id: "springer",
       hosts: ["link.springer.com"],
-      isArticleUrl: (u) => /^\/(article|chapter)\/.+/i.test(u.pathname)
+      isArticleUrl: (u) => /^\/(article|chapter|protocol)\/.+/i.test(u.pathname)
     }
   ];
 
@@ -158,19 +158,19 @@
       en: {
         pubmed: "Open a PubMed article page like /<PMID>/ and try again.",
         nature: "Open a Nature article page under /articles/ and try again.",
-        springer: "Open a SpringerLink /article/ or /chapter/ page and try again.",
+        springer: "Open a SpringerLink /article/, /chapter/, or /protocol/ page and try again.",
         default: "Open an article detail page and try again."
       },
       ko: {
         pubmed: "PubMed 논문 상세 페이지(/<PMID>/)에서 다시 시도해 주세요.",
         nature: "Nature 논문 페이지(/articles/...)에서 다시 시도해 주세요.",
-        springer: "SpringerLink 논문 페이지(/article/ 또는 /chapter/)에서 다시 시도해 주세요.",
+        springer: "SpringerLink 논문 페이지(/article/, /chapter/ 또는 /protocol/)에서 다시 시도해 주세요.",
         default: "논문 상세 페이지에서 다시 시도해 주세요."
       },
       ja: {
         pubmed: "PubMedの論文詳細ページ（/<PMID>/）で再度お試しください。",
         nature: "Natureの論文ページ（/articles/...）で再度お試しください。",
-        springer: "SpringerLinkの論文ページ（/article/ または /chapter/）で再度お試しください。",
+        springer: "SpringerLinkの論文ページ（/article/, /chapter/ または /protocol/）で再度お試しください。",
         default: "論文の詳細ページで再度お試しください。"
       }
     };
