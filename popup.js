@@ -27,6 +27,20 @@
     return;
   }
 
+  const INJECT_FILES_BY_SITE = {
+    pubmed:   ["content/reasons.js", "content/content-pubmed.js"],
+    nature:   ["content/reasons.js", "content/content-nature.js"],
+    springer: ["content/reasons.js", "content/content-springer.js"],
+  };
+
+  async function tryInjectForSite(tabId, siteId) {
+    const files = INJECT_FILES_BY_SITE[siteId];
+    if (!files) throw new Error("unknown siteId");
+    for (const file of files) {
+      await tabsExecuteScript(tabId, { file });
+    }
+  }
+
   // -------------------------
   // State
   // -------------------------
@@ -109,7 +123,7 @@
     {
       id: "nature",
       hosts: ["www.nature.com", "nature.com"],
-      isArticleUrl: (u) => /\/(?:[a-z]{2}\/)?articles\/[^\/]+\/?$/.test(u.pathname)
+      isArticleUrl: (u) => /^\/(?:[a-z]{2}\/)?(?:[^\/]+\/)?articles\/[^\/]+\/?$/.test(u.pathname)
     },
     {
       id: "springer",
@@ -582,9 +596,15 @@
       resp = await tabsSendMessage(tab.id, { type: "GET_CITATION_DATA" });
     } catch (e) {
       console.warn("[PCH popup] sendMessage error:", e);
-      // For supported + article url, sendMessage failing = extension not active on that tab (reload needed)
-      showFailure(R.EXTENSION_NOT_ACTIVE, { siteId: pre.siteId, url });
-      return;
+
+      try {
+        await tryInjectForSite(tab.id, pre.siteId);
+        resp = await tabsSendMessage(tab.id, { type: "GET_CITATION_DATA" });
+      } catch (e2) {
+        console.warn("[PCH popup] inject+retry failed:", e2);
+        showFailure(R.EXTENSION_NOT_ACTIVE, { siteId: pre.siteId, url });
+        return;
+      }
     }
 
     if (resp && resp.ok && resp.data) {
