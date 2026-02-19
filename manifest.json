@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Citation Helper",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Create clean citations from PubMed, Nature, and SpringerLink pages (Vancouver/APA7/IEEE/BibTeX/CSL-JSON/RIS).",
 
   "browser_action": {

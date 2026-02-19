@@ -2,7 +2,7 @@
 
 Languages: English | [한국어](README.ko.md) | [日本語](README.ja.md)
 
-**Version:** v0.9.1
+**Version:** v0.9.2
 
 Generate clean citations from supported academic article pages, then copy or export them in one click.
 
